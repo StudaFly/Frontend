@@ -35,4 +35,4 @@ pnpm dev
 
 ## Code Owner
 
-@PSEUDO_DEV_FRONT
+@NoahKrummenacker
