@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy } from "react";
 import { AppLayout } from "./layouts/AppLayout";
 import { AuthLayout } from "./layouts/AuthLayout";
+import { withSuspense } from "./utils";
 
 // Lazy-loaded pages
 const HomePage = lazy(() => import("@/features/home/pages/HomePage"));
@@ -10,14 +11,6 @@ const RegisterPage = lazy(() => import("@/features/auth/pages/RegisterPage"));
 const ProfilePage = lazy(() => import("@/features/profile/pages/ProfilePage"));
 const DestinationsPage = lazy(() => import("@/features/destinations/pages/DestinationsPage"));
 const AboutPage = lazy(() => import("@/features/about/pages/AboutPage"));
-
-function PageLoader() {
-    return <div className="min-h-screen bg-background-light" aria-hidden="true" />;
-}
-
-function withSuspense(element: React.ReactNode) {
-    return <Suspense fallback={<PageLoader />}>{element}</Suspense>;
-}
 
 export const router = createBrowserRouter([
     {
