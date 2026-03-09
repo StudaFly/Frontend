@@ -3,43 +3,39 @@ import { lazy, Suspense } from "react";
 import { AppLayout } from "./layouts/AppLayout";
 import { AuthLayout } from "./layouts/AuthLayout";
 
+// Lazy-loaded pages
+const HomePage = lazy(() => import("@/features/home/pages/HomePage"));
 const LoginPage = lazy(() => import("@/features/auth/pages/LoginPage"));
 const RegisterPage = lazy(() => import("@/features/auth/pages/RegisterPage"));
 const ProfilePage = lazy(() => import("@/features/profile/pages/ProfilePage"));
+const DestinationsPage = lazy(() => import("@/features/destinations/pages/DestinationsPage"));
+const AboutPage = lazy(() => import("@/features/about/pages/AboutPage"));
 
-const SuspenseWrapper = ({ children }: { children: React.ReactNode }) => (
-    <Suspense fallback={<div className="min-h-screen bg-white" />}>{children}</Suspense>
-);
+function PageLoader() {
+    return <div className="min-h-screen bg-background-light" aria-hidden="true" />;
+}
 
-// Composant inline temporaire pour la HomePage
-function HomePage() {
-    return (
-        <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-            <div className="text-center">
-                <h1 className="text-4xl font-bold text-primary-600 mb-4">
-                    StudaFly
-                </h1>
-                <p className="text-gray-600">
-                    Prépare ton départ à l'étranger, sereinement.
-                </p>
-            </div>
-        </div>
-    );
+function withSuspense(element: React.ReactNode) {
+    return <Suspense fallback={<PageLoader />}>{element}</Suspense>;
 }
 
 export const router = createBrowserRouter([
     {
+        // Public routes (login, register)
         element: <AuthLayout />,
         children: [
-            { path: "/login", element: <SuspenseWrapper><LoginPage /></SuspenseWrapper> },
-            { path: "/register", element: <SuspenseWrapper><RegisterPage /></SuspenseWrapper> },
+            { path: "/login", element: withSuspense(<LoginPage />) },
+            { path: "/register", element: withSuspense(<RegisterPage />) },
         ],
     },
     {
+        // App routes (authenticated)
         element: <AppLayout />,
         children: [
-            { path: "/", element: <HomePage /> },
-            { path: "/profile", element: <SuspenseWrapper><ProfilePage /></SuspenseWrapper> },
+            { path: "/", element: withSuspense(<HomePage />) },
+            { path: "/destinations", element: withSuspense(<DestinationsPage />) },
+            { path: "/about", element: withSuspense(<AboutPage />) },
+            { path: "/profile", element: withSuspense(<ProfilePage />) },
         ],
     },
 ]);

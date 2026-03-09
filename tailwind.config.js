@@ -5,11 +5,24 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: "#eff6ff",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
+          light: "#33518A",
+          DEFAULT: "#213458",
+          dark: "#213458", // as requested
         },
+        secondary: {
+          DEFAULT: "#FFCB5C",
+        },
+        background: {
+          light: "#F9FAFB",
+          DEFAULT: "#F9FAFB",
+        },
+        success: "#22C55E",
+        danger: "#EF4444",
+        warning: "#F59E0B",
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+        heading: ["Montserrat", "sans-serif"],
       },
     },
   },
