@@ -1,0 +1,9 @@
+{
+    "navbar": {
+        "destinations": "Destinations",
+        "home": "Accueil",
+        "about": "À propos",
+        "login": "Connexion",
+        "signup": "S'inscrire"
+    }
+}
