@@ -1,9 +1,72 @@
 {
     "navbar": {
-        "destinations": "Destinations",
         "home": "Home",
+        "destinations": "Destinations",
         "about": "About",
         "login": "Login",
         "signup": "Sign Up"
+    },
+    "home": {
+        "hero": {
+            "title_before": "Prepare your",
+            "title_highlight": "international mobility",
+            "title_after": "with complete peace of mind",
+            "subtitle": "StudaFly transforms your study abroad preparation into a structured and personalised journey. No more stress, just organisation!",
+            "cta_primary": "Start for free",
+            "cta_secondary": "Learn more",
+            "stat_students_value": "+400,000",
+            "stat_students_label": "Students/year",
+            "stat_countries_value": "30+ Countries",
+            "stat_countries_label": "Destinations",
+            "hero_image_alt": "Student travelling internationally"
+        },
+        "features": {
+            "title": "All the features you need",
+            "subtitle": "A complete tool to turn your preparation into a smooth, stress-free experience",
+            "timeline_title": "Personalised Timeline",
+            "timeline_desc": "Automatic deadlines tailored to your destination and departure date. Never miss an important step again.",
+            "checklist_title": "Smart Checklist",
+            "checklist_desc": "A personalised task list adapted to your destination country and mobility type (Erasmus, internship, etc.).",
+            "budget_title": "Budget Simulator",
+            "budget_desc": "Estimate your budget accurately using feedback from former students at your destination.",
+            "guide_title": "Destination Guide",
+            "guide_desc": "Local transport, tips, accommodation... All the practical info to get your stay off to a great start.",
+            "documents_title": "Document Space",
+            "documents_desc": "Store all your important documents securely, accessible even offline.",
+            "notifications_title": "Smart Notifications",
+            "notifications_desc": "Receive reminders for all critical deadlines. Always stay on track."
+        },
+        "how_it_works": {
+            "title": "How does it work?",
+            "subtitle": "Three simple steps to start your adventure",
+            "step1_title": "Create your profile",
+            "step1_desc": "Enter your destination, departure date and mobility type in just a few clicks.",
+            "step2_title": "Follow your timeline",
+            "step2_desc": "Receive your personalised action plan with all the key steps of your preparation.",
+            "step3_title": "Leave with peace of mind",
+            "step3_desc": "Enjoy your experience abroad with complete peace of mind — everything is under control!"
+        },
+        "destinations": {
+            "title": "Popular Destinations",
+            "subtitle": "Over 30 countries covered with detailed information",
+            "students_per_year": "students/year",
+            "see_all": "See all destinations"
+        },
+        "cta": {
+            "title": "Ready for takeoff?",
+            "subtitle": "Join thousands of students who have simplified their preparation with StudaFly. Start for free today!",
+            "button": "Create my free account",
+            "no_card": "No credit card required • Set up in 2 minutes"
+        },
+        "stats": {
+            "students_value": "400K+",
+            "students_label": "European students",
+            "countries_value": "30+",
+            "countries_label": "Countries covered",
+            "satisfaction_value": "95%",
+            "satisfaction_label": "Satisfaction rate",
+            "support_value": "24/7",
+            "support_label": "Support available"
+        }
     }
 }

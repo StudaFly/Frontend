@@ -1,9 +1,72 @@
 {
     "navbar": {
-        "destinations": "Destinations",
         "home": "Accueil",
+        "destinations": "Destinations",
         "about": "À propos",
         "login": "Connexion",
         "signup": "S'inscrire"
+    },
+    "home": {
+        "hero": {
+            "title_before": "Préparez votre",
+            "title_highlight": "mobilité",
+            "title_after": "internationale en toute sérénité",
+            "subtitle": "StudaFly transforme la préparation de votre départ à l'étranger en un parcours structuré et personnalisé. Fini le stress, place à l'organisation !",
+            "cta_primary": "Commencer gratuitement",
+            "cta_secondary": "En savoir plus",
+            "stat_students_value": "+400 000",
+            "stat_students_label": "Étudiants/an",
+            "stat_countries_value": "30+ Pays",
+            "stat_countries_label": "Destinations",
+            "hero_image_alt": "Étudiant voyageant à l'international"
+        },
+        "features": {
+            "title": "Toutes les fonctionnalités dont vous avez besoin",
+            "subtitle": "Un outil complet pour transformer votre préparation en une expérience fluide et sans stress",
+            "timeline_title": "Timeline personnalisée",
+            "timeline_desc": "Des deadlines automatiques adaptées à votre destination et date de départ. Ne ratez plus aucune étape importante.",
+            "checklist_title": "Checklist intelligente",
+            "checklist_desc": "Une liste de tâches personnalisée selon votre pays de destination et votre type de mobilité (Erasmus, stage, etc.).",
+            "budget_title": "Simulateur de budget",
+            "budget_desc": "Estimez votre budget avec précision grâce aux retours d'expérience d'anciens étudiants dans votre destination.",
+            "guide_title": "Guide destination",
+            "guide_desc": "Transports locaux, bons plans, logements... Toutes les infos pratiques pour bien démarrer votre séjour.",
+            "documents_title": "Espace documents",
+            "documents_desc": "Stockez tous vos documents importants de manière sécurisée et accessible même hors ligne.",
+            "notifications_title": "Notifications intelligentes",
+            "notifications_desc": "Recevez des rappels pour toutes les deadlines critiques. Restez toujours dans les temps."
+        },
+        "how_it_works": {
+            "title": "Comment ça marche ?",
+            "subtitle": "Trois étapes simples pour commencer votre aventure",
+            "step1_title": "Créez votre profil",
+            "step1_desc": "Renseignez votre destination, date de départ et type de mobilité en quelques clics.",
+            "step2_title": "Suivez votre timeline",
+            "step2_desc": "Recevez votre plan d'action personnalisé avec toutes les étapes clés de votre préparation.",
+            "step3_title": "Partez sereinement",
+            "step3_desc": "Profitez de votre expérience à l'étranger l'esprit tranquille, tout est sous contrôle !"
+        },
+        "destinations": {
+            "title": "Destinations populaires",
+            "subtitle": "Plus de 30 pays couverts avec des informations détaillées",
+            "students_per_year": "étudiants/an",
+            "see_all": "Voir toutes les destinations"
+        },
+        "cta": {
+            "title": "Prêt à décoller ?",
+            "subtitle": "Rejoignez des milliers d'étudiants qui ont simplifié leur préparation avec StudaFly. Commencez gratuitement dès aujourd'hui !",
+            "button": "Créer mon compte gratuit",
+            "no_card": "Aucune carte bancaire requise • Configuration en 2 minutes"
+        },
+        "stats": {
+            "students_value": "400K+",
+            "students_label": "Étudiants européens",
+            "countries_value": "30+",
+            "countries_label": "Pays couverts",
+            "satisfaction_value": "95%",
+            "satisfaction_label": "Taux de satisfaction",
+            "support_value": "24/7",
+            "support_label": "Support disponible"
+        }
     }
 }
