@@ -10,6 +10,7 @@ const LoginPage = lazy(() => import("@/features/auth/pages/LoginPage"));
 const RegisterPage = lazy(() => import("@/features/auth/pages/RegisterPage"));
 const ProfilePage = lazy(() => import("@/features/profile/pages/ProfilePage"));
 const DestinationsPage = lazy(() => import("@/features/destinations/pages/DestinationsPage"));
+const DestinationDetailPage = lazy(() => import("@/features/destinations/pages/DestinationDetailPage"));
 const AboutPage = lazy(() => import("@/features/about/pages/AboutPage"));
 
 export const router = createBrowserRouter([
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
         children: [
             { path: "/", element: withSuspense(<HomePage />) },
             { path: "/destinations", element: withSuspense(<DestinationsPage />) },
+            { path: "/destinations/:slug", element: withSuspense(<DestinationDetailPage />) },
             { path: "/about", element: withSuspense(<AboutPage />) },
             { path: "/profile", element: withSuspense(<ProfilePage />) },
         ],
