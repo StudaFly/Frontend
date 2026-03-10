@@ -68,5 +68,86 @@
             "support_value": "24/7",
             "support_label": "Support available"
         }
+    },
+    "auth": {
+        "login": {
+            "success": "Login successful! Welcome.",
+            "title": "Welcome back!",
+            "subtitle": "Log in to continue your preparation",
+            "email_label": "Email",
+            "email_placeholder": "your.email@example.com",
+            "password_label": "Password",
+            "remember_me": "Remember me",
+            "forgot_password": "Forgot password?",
+            "button_loading": "Logging in...",
+            "button": "Log in",
+            "divider": "Or continue with",
+            "no_account": "Don't have an account yet?",
+            "create_account": "Create an account",
+            "side_title": "Pick up where you left off",
+            "side_subtitle": "Your personalized timeline is waiting for you",
+            "side_alt": "Happy student"
+        },
+        "register": {
+            "password_mismatch": "Passwords do not match.",
+            "creating_account": "Creating your account...",
+            "success": "Welcome {{name}}! Your account has been created.",
+            "error": "Error creating account",
+            "side_title": "Join 400,000+ European students",
+            "side_subtitle": "Transform your mobility preparation into a structured journey",
+            "side_alt": "Traveling students",
+            "title": "Create an account",
+            "subtitle": "Start your preparation in minutes",
+            "already_have_account": "Already have an account?",
+            "login_link": "Log in",
+            "step1": {
+                "confirm_password_label": "Confirm password",
+                "accept_terms_1": "I accept the",
+                "terms_link": "terms of use",
+                "accept_terms_2": "and",
+                "privacy_link": "privacy policy",
+                "continue_btn": "Continue →",
+                "divider": "Or sign up with"
+            },
+            "step2": {
+                "prompt": "What should we call you?",
+                "first_name_label": "First name",
+                "first_name_placeholder": "John",
+                "last_name_label": "Last name",
+                "last_name_placeholder": "Doe",
+                "back_btn": "← Back",
+                "continue_btn": "Continue →"
+            },
+            "step3": {
+                "prompt": "Add a profile picture or choose an emoji to personalize your space",
+                "avatar_alt": "Avatar",
+                "finish_btn": "Complete registration",
+                "skip_btn": "Skip this step"
+            }
+        }
+    },
+    "profile": {
+        "page": {
+            "student_status": "Student in preparation",
+            "save_btn": "Save",
+            "edit_btn": "Edit profile"
+        },
+        "personal_info": {
+            "title": "Personal Information",
+            "email": "Email",
+            "age": "Age",
+            "city": "Current city"
+        },
+        "mobility_project": {
+            "title": "Mobility Project",
+            "destinations": "Target destinations",
+            "destinations_placeholder": "Japan, Canada...",
+            "period": "Desired period",
+            "budget": "Estimated budget"
+        },
+        "cover": {
+            "alt": "Cover",
+            "change_btn": "Change cover"
+        }
     }
 }
