@@ -187,4 +187,19 @@ export const countries: CountryData[] = [
             { title: "Logement", description: "Candidater très tôt pour une place en HDB ou sur le campus.", timeline: "-3 mois" },
         ],
     },
+    {
+        slug: "marseille",
+        name: "Marseille",
+        city: "Marseille",
+        students: "70 000",
+        description: "Le soleil, les calanques, une ambiance unique au monde, et surtout : la rouille est à 3 euros chez mamie Ginette au marché du Prado. Que demander de plus ?",
+        image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1080&auto=format&fit=crop",
+        overview: { language: "Français", currency: "Euro (€)", climate: "Méditerranéen", visaRequired: false },
+        budget: { housing: "400 - 600 €", food: "200 - 300 €", transport: "30 - 50 €", leisure: "150 - 250 €", totalEstimate: "780 - 1200 €" },
+        steps: [
+            { title: "Logement", description: "Chercher du côté de la Plaine ou du Vieux-Port.", timeline: "-2 mois" },
+            { title: "Soleil", description: "Acheter de l'écran total et des lunettes de soleil.", timeline: "-1 mois" },
+            { title: "Pétanque", description: "Acheter un jeu de boules pour l'intégration.", timeline: "À l'arrivée" },
+        ],
+    },
 ];
