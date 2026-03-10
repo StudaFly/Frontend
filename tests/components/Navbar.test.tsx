@@ -75,7 +75,7 @@ describe("Navbar", () => {
     });
 
     it("toggles the mobile menu open and closed on hamburger click", async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         renderNavbar();
 
         const openButton = screen.getByRole("button", { name: /ouvrir le menu/i });

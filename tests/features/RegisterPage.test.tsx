@@ -27,7 +27,7 @@ describe("RegisterPage", () => {
     });
 
     it("advances to the second step when the first step is filled", async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         renderRegisterPage();
 
         // Fill out first step

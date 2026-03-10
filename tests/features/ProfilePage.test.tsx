@@ -5,21 +5,23 @@ import { describe, it, expect, vi } from "vitest";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 
 // Mock the AuthContext completely
+const mockUser = {
+    firstName: "Joffrey",
+    lastName: "Joffrey",
+    email: "joffrey@exemple.com",
+    age: "24",
+    city: "Montpellier",
+    destinations: ["Espagne", "Italie"],
+    period: "S1 2025",
+    budget: "800",
+    avatar: null,
+    avatarType: "emoji",
+    cover: null,
+};
+
 vi.mock("@/contexts/AuthContext", () => ({
     useAuth: () => ({
-        user: {
-            firstName: "Joffrey",
-            lastName: "Joffrey",
-            email: "joffrey@exemple.com",
-            age: "24",
-            city: "Montpellier",
-            destinations: ["Espagne", "Italie"],
-            period: "S1 2025",
-            budget: "800",
-            avatar: null,
-            avatarType: "emoji",
-            cover: null,
-        },
+        user: mockUser,
         updateUser: vi.fn(),
     })
 }));
@@ -44,7 +46,7 @@ describe("ProfilePage", () => {
     });
 
     it("enters edit mode when 'Modifier le profil' is clicked", async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         renderProfilePage();
 
         const editButton = screen.getByRole("button", { name: /modifier le profil/i });
@@ -58,7 +60,7 @@ describe("ProfilePage", () => {
     });
 
     it("can edit user age and city", async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         renderProfilePage();
 
         // Click edit

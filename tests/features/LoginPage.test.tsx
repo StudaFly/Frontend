@@ -26,7 +26,7 @@ describe("LoginPage", () => {
     });
 
     it("allows user to type into inputs", async () => {
-        const user = userEvent.setup();
+        const user = userEvent.setup({ delay: null });
         renderLoginPage();
 
         const emailInput = screen.getByPlaceholderText(/votre.email@exemple.com/i);
