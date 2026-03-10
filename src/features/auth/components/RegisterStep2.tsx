@@ -2,7 +2,7 @@ import { User } from "lucide-react";
 import { AuthFormField } from "./AuthFormField";
 
 interface RegisterStep2Props {
-    formData: any;
+    formData: Record<string, string | boolean>;
     updateForm: (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
     onBack: () => void;
     onSubmit: (e: React.FormEvent) => void;
@@ -16,7 +16,7 @@ export function RegisterStep2({ formData, updateForm, onBack, onSubmit }: Regist
             <AuthFormField
                 id="firstName"
                 label="Prénom"
-                value={formData.firstName}
+                value={formData.firstName as string}
                 onChange={updateForm("firstName")}
                 placeholder="Jean"
                 icon={User}
@@ -30,7 +30,7 @@ export function RegisterStep2({ formData, updateForm, onBack, onSubmit }: Regist
                 <input
                     type="text"
                     id="lastName"
-                    value={formData.lastName}
+                    value={formData.lastName as string}
                     onChange={updateForm("lastName")}
                     placeholder="Dupont"
                     required

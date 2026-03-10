@@ -1,13 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-
-export const NAV_ITEMS = ["home", "destinations", "checklist", "timeline", "about"] as const;
-export type NavItem = (typeof NAV_ITEMS)[number];
-
-export function getNavPath(item: NavItem): string {
-    return item === "home" ? "/" : `/${item}`;
-}
+import { NAV_ITEMS, getNavPath } from "./NavConstants";
 
 export function DesktopNavLinks() {
     const { t } = useTranslation();

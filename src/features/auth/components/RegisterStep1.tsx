@@ -5,7 +5,7 @@ import { AuthDivider } from "./AuthDivider";
 import { SocialAuthButtons } from "./SocialAuthButtons";
 
 interface RegisterStep1Props {
-    formData: any;
+    formData: Record<string, string | boolean>;
     updateForm: (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => void;
     onSubmit: (e: React.FormEvent) => void;
 }
@@ -17,7 +17,7 @@ export function RegisterStep1({ formData, updateForm, onSubmit }: RegisterStep1P
                 id="email"
                 label="Email"
                 type="email"
-                value={formData.email}
+                value={formData.email as string}
                 onChange={updateForm("email")}
                 placeholder="votre.email@exemple.com"
                 icon={Mail}
@@ -27,7 +27,7 @@ export function RegisterStep1({ formData, updateForm, onSubmit }: RegisterStep1P
             <PasswordField
                 id="password"
                 label="Mot de passe"
-                value={formData.password}
+                value={formData.password as string}
                 onChange={updateForm("password")}
                 required
             />
@@ -35,7 +35,7 @@ export function RegisterStep1({ formData, updateForm, onSubmit }: RegisterStep1P
             <PasswordField
                 id="confirmPassword"
                 label="Confirmer le mot de passe"
-                value={formData.confirmPassword}
+                value={formData.confirmPassword as string}
                 onChange={updateForm("confirmPassword")}
                 required
             />
@@ -45,7 +45,7 @@ export function RegisterStep1({ formData, updateForm, onSubmit }: RegisterStep1P
                 <input
                     type="checkbox"
                     id="terms"
-                    checked={formData.acceptTerms}
+                    checked={formData.acceptTerms as boolean}
                     onChange={updateForm("acceptTerms")}
                     className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-secondary focus:ring-secondary"
                     required

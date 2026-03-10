@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-import { getNavPath, NAV_ITEMS } from "./DesktopNavLinks";
+import { getNavPath, NAV_ITEMS } from "./NavConstants";
 
 interface MobileMenuProps {
     closeMobileMenu: () => void;

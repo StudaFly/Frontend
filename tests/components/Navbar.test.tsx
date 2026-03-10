@@ -4,12 +4,16 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect } from "vitest";
 import { Navbar } from "@/components/shared/Navbar";
 
+import { AuthProvider } from "@/contexts/AuthProvider";
+
 // Wrapper que tous les tests de ce fichier utilisent
 function renderNavbar() {
     return render(
-        <MemoryRouter>
-            <Navbar />
-        </MemoryRouter>
+        <AuthProvider>
+            <MemoryRouter>
+                <Navbar />
+            </MemoryRouter>
+        </AuthProvider>
     );
 }
 
