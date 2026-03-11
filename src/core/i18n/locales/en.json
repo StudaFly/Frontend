@@ -149,5 +149,116 @@
             "alt": "Cover",
             "change_btn": "Change cover"
         }
+    },
+    "checklist": {
+        "header": {
+            "title_before": "Your",
+            "title_highlight": "Checklist",
+            "subtitle": "{{completed}}/{{total}} tasks completed"
+        },
+        "categories": {
+            "all": "All",
+            "admin": "Admin",
+            "finance": "Finance",
+            "health": "Health",
+            "housing": "Housing",
+            "practical": "Practical"
+        },
+        "priority": {
+            "high": "High",
+            "medium": "Medium",
+            "low": "Low"
+        },
+        "task": {
+            "mark_complete": "Mark as completed",
+            "mark_incomplete": "Mark as incomplete"
+        },
+        "empty": {
+            "title": "No tasks in this category",
+            "subtitle": "Add a task with the + button"
+        },
+        "fab": {
+            "aria_label": "Add a task"
+        },
+        "modal": {
+            "title": "Add a task",
+            "title_label": "Title",
+            "title_placeholder": "E.g. Open a local bank account",
+            "category_label": "Category",
+            "priority_label": "Priority",
+            "deadline_label": "Deadline",
+            "optional": "(optional)",
+            "description_label": "Description",
+            "description_placeholder": "Details or notes...",
+            "cancel_btn": "Cancel",
+            "add_btn": "Add",
+            "close_aria": "Close"
+        },
+        "tasks": {
+            "t_1":  { "title": "Visa application",                      "description": "Submit the visa application to the relevant consulate." },
+            "t_2":  { "title": "University acceptance letter",           "description": "Obtain the official confirmation from the host university." },
+            "t_3":  { "title": "Valid passport (+6 months)",             "description": "Check the expiry date of your passport." },
+            "t_4":  { "title": "International bank card",                "description": "Apply for a no-fee card for abroad (e.g. Wise, Revolut)." },
+            "t_5":  { "title": "6-month budget plan",                    "description": "Set a monthly budget based on local cost of living." },
+            "t_6":  { "title": "EHIC (European Health Insurance Card)",  "description": "Apply for your European Health Insurance Card (EU only)." },
+            "t_7":  { "title": "Essential medication stock",             "description": "Build up a sufficient supply for the duration of your stay." },
+            "t_8":  { "title": "Signed housing contract",                "description": "Obtain a lease or university residence confirmation." },
+            "t_9":  { "title": "Housing inventory",                      "description": "Carry out a joint inventory on the day you move in." },
+            "t_10": { "title": "Local SIM or international plan",        "description": "Subscribe to a mobile plan suited to your destination." },
+            "t_11": { "title": "Electrical adapter",                     "description": "Check local electrical standards and buy the right adapter." }
+        }
+    },
+    "timeline": {
+        "header": {
+            "title_before": "Your",
+            "title_highlight": "Timeline",
+            "subtitle": "{{count}} steps to prepare your mobility with peace of mind"
+        },
+        "controls": {
+            "periods_open": "{{open}} / {{total}} periods open",
+            "expand_all": "Expand all",
+            "collapse_all": "Collapse all"
+        },
+        "period": {
+            "step_count_one": "{{count}} step",
+            "step_count_other": "{{count}} steps"
+        },
+        "categories": {
+            "admin": "Admin",
+            "finance": "Finance",
+            "health": "Health",
+            "housing": "Housing",
+            "practical": "Practical"
+        },
+        "event": {
+            "optional": "Optional"
+        },
+        "legend": {
+            "title": "Legend",
+            "optional_label": "Optional step"
+        },
+        "periods": {
+            "six-months-before":   { "label": "6 months before departure", "shortLabel": "D-6 months", "description": "Lay the administrative and financial foundations" },
+            "three-months-before": { "label": "3 months before departure", "shortLabel": "D-3 months", "description": "Finalise housing and health formalities" },
+            "one-month-before":    { "label": "1 month before departure",  "shortLabel": "D-1 month",  "description": "Wrap up practical preparations" },
+            "after-arrival":       { "label": "After arrival",             "shortLabel": "On arrival", "description": "You're there! First-month formalities" }
+        },
+        "events": {
+            "e1":  { "title": "Erasmus / grant application",              "description": "Submit your application to your home institution before the deadline." },
+            "e2":  { "title": "Housing search",                           "description": "Start searching (student residence, flat share, temporary Airbnb). Earlier is better." },
+            "e3":  { "title": "Overall budget planning",                  "description": "Estimate costs (housing, food, transport, leisure) for the entire stay." },
+            "e4":  { "title": "Visa application",                         "description": "Compile and submit the visa application to the consulate if required for your destination." },
+            "e5":  { "title": "Sign housing contract",                    "description": "Finalise and sign the lease or confirm your student residence booking." },
+            "e6":  { "title": "EHIC application",                         "description": "Apply for the European Health Insurance Card (processing time: 2 to 4 weeks)." },
+            "e7":  { "title": "Open international bank account",          "description": "Get a no-fee card for abroad (Wise, Revolut, N26) to avoid commissions." },
+            "e8":  { "title": "Book flight",                              "description": "Compare and book your outbound (and return if possible) flight in advance for better fares." },
+            "e9":  { "title": "Essential medication stock",               "description": "Prepare a travel pharmacy suited to your destination and stay length." },
+            "e10": { "title": "Travel insurance",                         "description": "Check and top up your insurance cover abroad if the EHIC is not sufficient." },
+            "e11": { "title": "Pack your bags",                           "description": "Make a list and pack without exceeding baggage weight limits." },
+            "e12": { "title": "Enrol at host university",                 "description": "Complete administrative registration and collect your student card and digital access." },
+            "e13": { "title": "Buy local SIM card",                       "description": "Subscribe to a local mobile plan to avoid roaming charges." },
+            "e14": { "title": "Housing inventory",                        "description": "Carry out a joint inventory check-in and photograph it to protect your deposit." },
+            "e15": { "title": "Explore the neighbourhood and campus",     "description": "Locate shops, transport links and key places for your daily life." }
+        }
     }
 }

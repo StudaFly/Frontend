@@ -149,5 +149,116 @@
             "alt": "Cover",
             "change_btn": "Changer la couverture"
         }
+    },
+    "checklist": {
+        "header": {
+            "title_before": "Votre",
+            "title_highlight": "Checklist",
+            "subtitle": "{{completed}}/{{total}} tâches complétées"
+        },
+        "categories": {
+            "all": "Toutes",
+            "admin": "Admin",
+            "finance": "Finance",
+            "health": "Santé",
+            "housing": "Logement",
+            "practical": "Pratique"
+        },
+        "priority": {
+            "high": "Haute",
+            "medium": "Moyenne",
+            "low": "Basse"
+        },
+        "task": {
+            "mark_complete": "Marquer comme complété",
+            "mark_incomplete": "Marquer comme non complété"
+        },
+        "empty": {
+            "title": "Aucune tâche dans cette catégorie",
+            "subtitle": "Ajoutez une tâche avec le bouton +"
+        },
+        "fab": {
+            "aria_label": "Ajouter une tâche"
+        },
+        "modal": {
+            "title": "Ajouter une tâche",
+            "title_label": "Titre",
+            "title_placeholder": "Ex : Ouvrir un compte bancaire local",
+            "category_label": "Catégorie",
+            "priority_label": "Priorité",
+            "deadline_label": "Échéance",
+            "optional": "(optionnel)",
+            "description_label": "Description",
+            "description_placeholder": "Précisions ou notes...",
+            "cancel_btn": "Annuler",
+            "add_btn": "Ajouter",
+            "close_aria": "Fermer"
+        },
+        "tasks": {
+            "t_1":  { "title": "Demande de visa",                      "description": "Déposer le dossier de visa auprès du consulat compétent." },
+            "t_2":  { "title": "Lettre d'acceptation université",       "description": "Obtenir la confirmation officielle de l'université d'accueil." },
+            "t_3":  { "title": "Passeport valide +6 mois",             "description": "Vérifier la date d'expiration de votre passeport." },
+            "t_4":  { "title": "Carte bancaire internationale",         "description": "Souscrire à une carte sans frais à l'étranger (ex. Wise, Revolut)." },
+            "t_5":  { "title": "Budget prévu sur 6 mois",              "description": "Établir un budget mensuel en tenant compte du coût de la vie local." },
+            "t_6":  { "title": "CEAM (Carte Euro Assurance Maladie)",  "description": "Demander votre Carte Européenne d'Assurance Maladie (UE uniquement)." },
+            "t_7":  { "title": "Stock médicaments essentiels",         "description": "Constituer une réserve suffisante pour la durée du séjour." },
+            "t_8":  { "title": "Contrat de logement signé",            "description": "Obtenir un contrat de bail ou confirmation de résidence universitaire." },
+            "t_9":  { "title": "Inventaire du logement",               "description": "Réaliser un inventaire contradictoire le jour de l'entrée dans le logement." },
+            "t_10": { "title": "SIM locale ou forfait international",  "description": "Souscrire à un forfait mobile adapté à la destination." },
+            "t_11": { "title": "Adaptateur électrique",                "description": "Vérifier les normes électriques locales et acheter l'adaptateur." }
+        }
+    },
+    "timeline": {
+        "header": {
+            "title_before": "Votre",
+            "title_highlight": "Timeline",
+            "subtitle": "{{count}} étapes pour préparer sereinement votre mobilité"
+        },
+        "controls": {
+            "periods_open": "{{open}} / {{total}} périodes ouvertes",
+            "expand_all": "Tout développer",
+            "collapse_all": "Tout réduire"
+        },
+        "period": {
+            "step_count_one": "{{count}} étape",
+            "step_count_other": "{{count}} étapes"
+        },
+        "categories": {
+            "admin": "Admin",
+            "finance": "Finance",
+            "health": "Santé",
+            "housing": "Logement",
+            "practical": "Pratique"
+        },
+        "event": {
+            "optional": "Optionnel"
+        },
+        "legend": {
+            "title": "Légende",
+            "optional_label": "Étape facultative"
+        },
+        "periods": {
+            "six-months-before":   { "label": "6 mois avant le départ",  "shortLabel": "J-6 mois",  "description": "Poser les bases administratives et financières" },
+            "three-months-before": { "label": "3 mois avant le départ",  "shortLabel": "J-3 mois",  "description": "Concrétiser le logement et les démarches santé" },
+            "one-month-before":    { "label": "1 mois avant le départ",  "shortLabel": "J-1 mois",  "description": "Finaliser les préparatifs pratiques" },
+            "after-arrival":       { "label": "Après l'arrivée",          "shortLabel": "À l'arrivée", "description": "Vous y êtes ! Les démarches du premier mois" }
+        },
+        "events": {
+            "e1":  { "title": "Dépôt du dossier Erasmus / bourse",       "description": "Soumettre votre candidature auprès de votre établissement d'origine avant la date limite." },
+            "e2":  { "title": "Recherche de logement",                    "description": "Commencer les recherches (résidence universitaire, colocation, Airbnb temporaire). Plus tôt c'est mieux." },
+            "e3":  { "title": "Planification du budget global",           "description": "Estimer les coûts (logement, nourriture, transports, loisirs) sur toute la durée du séjour." },
+            "e4":  { "title": "Demande de visa",                          "description": "Constituer et déposer le dossier de visa auprès du consulat si requis pour la destination." },
+            "e5":  { "title": "Signature du contrat de logement",         "description": "Finaliser et signer le bail ou confirmer la réservation en résidence universitaire." },
+            "e6":  { "title": "Demande CEAM",                             "description": "Demander la Carte Européenne d'Assurance Maladie (délai de traitement : 2 à 4 semaines)." },
+            "e7":  { "title": "Ouverture compte bancaire international",  "description": "Souscrire à une carte sans frais à l'étranger (Wise, Revolut, N26) pour éviter les commissions." },
+            "e8":  { "title": "Achat du billet d'avion",                  "description": "Comparer et réserver votre vol aller (et retour si possible) en avance pour de meilleurs tarifs." },
+            "e9":  { "title": "Stock de médicaments essentiels",          "description": "Préparer une pharmacie de voyage adaptée à la durée et à la destination." },
+            "e10": { "title": "Souscription assurance voyage",            "description": "Vérifier et compléter votre couverture assurance pour l'étranger si la CEAM ne suffit pas." },
+            "e11": { "title": "Préparation des valises",                  "description": "Faire une liste et préparer vos affaires sans dépasser les limites de poids bagage." },
+            "e12": { "title": "Inscription à l'université d'accueil",     "description": "Finaliser l'inscription administrative et récupérer votre carte étudiante et accès numériques." },
+            "e13": { "title": "Achat SIM locale",                         "description": "Souscrire à un forfait mobile local pour éviter les frais de roaming." },
+            "e14": { "title": "Inventaire du logement",                   "description": "Réaliser l'état des lieux contradictoire et le photographier pour protéger votre caution." },
+            "e15": { "title": "Découverte du quartier et du campus",      "description": "Repérer les commerces, transports et lieux clés de votre vie quotidienne." }
+        }
     }
 }
