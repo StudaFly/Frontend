@@ -1,0 +1,172 @@
+import type { TimelinePeriod, TimelineEvent } from '../types/event';
+
+export const TIMELINE_PERIODS: TimelinePeriod[] = [
+    {
+        id: 'six-months-before',
+        label: '6 mois avant le départ',
+        shortLabel: 'J-6 mois',
+        description: 'Poser les bases administratives et financières',
+        color: 'border-primary-dark',
+        bgColor: 'bg-primary-dark/5',
+        dotColor: 'bg-primary-dark',
+    },
+    {
+        id: 'three-months-before',
+        label: '3 mois avant le départ',
+        shortLabel: 'J-3 mois',
+        description: 'Concrétiser le logement et les démarches santé',
+        color: 'border-primary-light',
+        bgColor: 'bg-primary-light/5',
+        dotColor: 'bg-primary-light',
+    },
+    {
+        id: 'one-month-before',
+        label: '1 mois avant le départ',
+        shortLabel: 'J-1 mois',
+        description: 'Finaliser les préparatifs pratiques',
+        color: 'border-secondary',
+        bgColor: 'bg-secondary/10',
+        dotColor: 'bg-secondary',
+    },
+    {
+        id: 'after-arrival',
+        label: "Après l'arrivée",
+        shortLabel: "A l'arrivee",
+        description: 'Vous y êtes ! Les démarches du premier mois',
+        color: 'border-success',
+        bgColor: 'bg-success/5',
+        dotColor: 'bg-success',
+    },
+];
+
+export const TIMELINE_EVENTS: TimelineEvent[] = [
+    // 6 mois avant
+    {
+        id: 'e1',
+        periodId: 'six-months-before',
+        title: 'Dépôt du dossier Erasmus / bourse',
+        description: "Soumettre votre candidature auprès de votre établissement d'origine avant la date limite.",
+        category: 'admin',
+        icon: 'FileCheck',
+    },
+    {
+        id: 'e2',
+        periodId: 'six-months-before',
+        title: 'Recherche de logement',
+        description: "Commencer les recherches (résidence universitaire, colocation, Airbnb temporaire). Plus tôt c'est mieux.",
+        category: 'housing',
+        icon: 'Home',
+    },
+    {
+        id: 'e3',
+        periodId: 'six-months-before',
+        title: 'Planification du budget global',
+        description: "Estimer les coûts (logement, nourriture, transports, loisirs) sur toute la durée du séjour.",
+        category: 'finance',
+        icon: 'PiggyBank',
+    },
+
+    // 3 mois avant
+    {
+        id: 'e4',
+        periodId: 'three-months-before',
+        title: 'Demande de visa',
+        description: "Constituer et déposer le dossier de visa auprès du consulat si requis pour la destination.",
+        category: 'admin',
+        icon: 'Stamp',
+    },
+    {
+        id: 'e5',
+        periodId: 'three-months-before',
+        title: 'Signature du contrat de logement',
+        description: "Finaliser et signer le bail ou confirmer la réservation en résidence universitaire.",
+        category: 'housing',
+        icon: 'FileText',
+    },
+    {
+        id: 'e6',
+        periodId: 'three-months-before',
+        title: 'Demande CEAM',
+        description: "Demander la Carte Européenne d'Assurance Maladie (délai de traitement : 2 à 4 semaines).",
+        category: 'health',
+        icon: 'HeartPulse',
+    },
+    {
+        id: 'e7',
+        periodId: 'three-months-before',
+        title: 'Ouverture compte bancaire international',
+        description: "Souscrire à une carte sans frais à l'étranger (Wise, Revolut, N26) pour éviter les commissions.",
+        category: 'finance',
+        icon: 'CreditCard',
+    },
+
+    // 1 mois avant
+    {
+        id: 'e8',
+        periodId: 'one-month-before',
+        title: "Achat du billet d'avion",
+        description: "Comparer et réserver votre vol aller (et retour si possible) en avance pour de meilleurs tarifs.",
+        category: 'practical',
+        icon: 'Plane',
+    },
+    {
+        id: 'e9',
+        periodId: 'one-month-before',
+        title: 'Stock de médicaments essentiels',
+        description: "Préparer une pharmacie de voyage adaptée à la durée et à la destination.",
+        category: 'health',
+        icon: 'Pill',
+    },
+    {
+        id: 'e10',
+        periodId: 'one-month-before',
+        title: 'Souscription assurance voyage',
+        description: "Vérifier et compléter votre couverture assurance pour l'étranger si la CEAM ne suffit pas.",
+        category: 'health',
+        icon: 'ShieldCheck',
+        isOptional: true,
+    },
+    {
+        id: 'e11',
+        periodId: 'one-month-before',
+        title: 'Préparation des valises',
+        description: "Faire une liste et préparer vos affaires sans dépasser les limites de poids bagage.",
+        category: 'practical',
+        icon: 'Luggage',
+    },
+
+    // Après l'arrivée
+    {
+        id: 'e12',
+        periodId: 'after-arrival',
+        title: "Inscription à l'université d'accueil",
+        description: "Finaliser l'inscription administrative et récupérer votre carte étudiante et accès numériques.",
+        category: 'admin',
+        icon: 'GraduationCap',
+    },
+    {
+        id: 'e13',
+        periodId: 'after-arrival',
+        title: 'Achat SIM locale',
+        description: "Souscrire à un forfait mobile local pour éviter les frais de roaming.",
+        category: 'practical',
+        icon: 'Smartphone',
+    },
+    {
+        id: 'e14',
+        periodId: 'after-arrival',
+        title: 'Inventaire du logement',
+        description: "Réaliser l'état des lieux contradictoire et le photographier pour protéger votre caution.",
+        category: 'housing',
+        icon: 'ClipboardList',
+    },
+    {
+        id: 'e15',
+        periodId: 'after-arrival',
+        title: 'Découverte du quartier et du campus',
+        description: "Repérer les commerces, transports et lieux clés de votre vie quotidienne.",
+        category: 'practical',
+        icon: 'Map',
+        isOptional: true,
+    },
+];
