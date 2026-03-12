@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ClipboardCheck } from 'lucide-react';
+import { ChecklistProgressBar } from './ChecklistProgressBar';
 
 interface ChecklistHeaderProps {
     total: number;
@@ -29,12 +30,7 @@ export function ChecklistHeader({ total, completed }: ChecklistHeaderProps) {
                     <span className="ml-3 font-bold text-secondary">{percentage}%</span>
                 </p>
 
-                <div className="mx-auto mt-5 h-3 w-full max-w-md overflow-hidden rounded-full bg-white/20">
-                    <div
-                        className="h-full rounded-full bg-secondary transition-all duration-500"
-                        style={{ width: `${percentage}%` }}
-                    />
-                </div>
+                <ChecklistProgressBar percentage={percentage} />
             </div>
         </div>
     );

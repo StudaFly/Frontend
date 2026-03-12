@@ -1,26 +1,13 @@
-import { useState, useEffect } from 'react';
 import { useTimeline } from '../hooks/useTimeline';
 import { TimelineHeader } from '../components/TimelineHeader';
 import { TimelinePeriodSection } from '../components/TimelinePeriodSection';
 import { TimelineLegend } from '../components/TimelineLegend';
 import { ExpandControls } from '../components/ExpandControls';
-import { getMobilities, Mobility } from '@/core/api/mobilities';
+import { useMobility } from '@/core/hooks/useMobility';
+import { NoMobilityState } from '@/components/shared/NoMobilityState';
 
 export default function TimelinePage() {
-    const [mobility, setMobility] = useState<Mobility | undefined>();
-    const [mobilityError, setMobilityError] = useState(false);
-
-    useEffect(() => {
-        getMobilities()
-            .then(({ data }) => {
-                if (data.data.length > 0) {
-                    setMobility(data.data[0]);
-                } else {
-                    setMobilityError(true);
-                }
-            })
-            .catch(() => setMobilityError(true));
-    }, []);
+    const { mobility, mobilityError } = useMobility();
 
     const {
         periods,
@@ -36,13 +23,7 @@ export default function TimelinePage() {
 
     const allExpanded = openPeriods.size === periods.length;
 
-    if (mobilityError) {
-        return (
-            <div className="flex min-h-[calc(100vh-100px)] items-center justify-center bg-gray-50">
-                <p className="text-gray-500">Aucune mobilité configurée — utilise l'app mobile StudaFly pour commencer.</p>
-            </div>
-        );
-    }
+    if (mobilityError) return <NoMobilityState />;
 
     return (
         <div className="min-h-[calc(100vh-100px)] bg-gray-50">
@@ -79,7 +60,9 @@ export default function TimelinePage() {
                     </div>
                 )}
                 {!isLoading && !error && periods.length === 0 && mobility && (
-                    <p className="text-center text-gray-400">Aucune tâche dans la timeline pour le moment.</p>
+                    <p className="text-center text-gray-400">
+                        Aucune tâche dans la timeline pour le moment.
+                    </p>
                 )}
             </div>
         </div>

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Users, Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { HeroStat } from "./HeroStat";
 
 export function HeroSection() {
     const { t } = useTranslation();
@@ -38,20 +39,16 @@ export function HeroSection() {
                             </a>
                         </div>
                         <div className="flex flex-wrap gap-8 pt-4">
-                            <div className="flex items-center gap-3">
-                                <Users className="text-secondary" size={24} />
-                                <div>
-                                    <p className="font-bold">{t("home.hero.stat_students_value")}</p>
-                                    <p className="text-sm text-gray-300">{t("home.hero.stat_students_label")}</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <Globe className="text-secondary" size={24} />
-                                <div>
-                                    <p className="font-bold">{t("home.hero.stat_countries_value")}</p>
-                                    <p className="text-sm text-gray-300">{t("home.hero.stat_countries_label")}</p>
-                                </div>
-                            </div>
+                            <HeroStat
+                                icon={Users}
+                                value={t("home.hero.stat_students_value")}
+                                label={t("home.hero.stat_students_label")}
+                            />
+                            <HeroStat
+                                icon={Globe}
+                                value={t("home.hero.stat_countries_value")}
+                                label={t("home.hero.stat_countries_label")}
+                            />
                         </div>
                     </div>
 

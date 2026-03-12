@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useChecklist } from '../hooks/useChecklist';
 import { CATEGORY_META } from '../data/tasks';
 import { ChecklistHeader } from '../components/ChecklistHeader';
@@ -6,23 +5,11 @@ import { CategoryTabs } from '../components/CategoryTabs';
 import { TaskList } from '../components/TaskList';
 import { AddTaskFab } from '../components/AddTaskFab';
 import { AddTaskModal } from '../components/AddTaskModal';
-import { getMobilities } from '@/core/api/mobilities';
+import { useMobility } from '@/core/hooks/useMobility';
+import { NoMobilityState } from '@/components/shared/NoMobilityState';
 
 export default function ChecklistPage() {
-    const [mobilityId, setMobilityId] = useState<string | undefined>();
-    const [mobilityError, setMobilityError] = useState(false);
-
-    useEffect(() => {
-        getMobilities()
-            .then(({ data }) => {
-                if (data.data.length > 0) {
-                    setMobilityId(data.data[0].id);
-                } else {
-                    setMobilityError(true);
-                }
-            })
-            .catch(() => setMobilityError(true));
-    }, []);
+    const { mobility, mobilityError } = useMobility();
 
     const {
         tasks,
@@ -38,15 +25,9 @@ export default function ChecklistPage() {
         openModal,
         closeModal,
         addTask,
-    } = useChecklist(mobilityId);
+    } = useChecklist(mobility?.id);
 
-    if (mobilityError) {
-        return (
-            <div className="flex min-h-[calc(100vh-100px)] items-center justify-center bg-gray-50">
-                <p className="text-gray-500">Aucune mobilité configurée — utilise l'app mobile StudaFly pour commencer.</p>
-            </div>
-        );
-    }
+    if (mobilityError) return <NoMobilityState />;
 
     return (
         <div className="min-h-[calc(100vh-100px)] bg-gray-50">

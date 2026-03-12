@@ -1,50 +1,22 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Mail } from "lucide-react";
-import { toast } from "sonner";
-import { useAuth } from "@/contexts/AuthContext";
-import { login as apiLogin } from "@/core/api/auth";
+import { useLogin } from "../hooks/useLogin";
 import { AuthSidePanel } from "../components/AuthSidePanel";
 import { AuthDivider } from "../components/AuthDivider";
 import { SocialAuthButtons } from "../components/SocialAuthButtons";
 import { AuthPageHeader } from "../components/AuthPageHeader";
 import { AuthFormField } from "../components/AuthFormField";
 import { PasswordField } from "../components/PasswordField";
+import { RememberMeRow } from "../components/RememberMeRow";
 
 const SIDE_PANEL_IMAGE =
     "https://images.unsplash.com/photo-1752650143236-b028e8778b0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080";
 
 export default function LoginPage() {
-    const navigate = useNavigate();
-    const { login } = useAuth();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [remember, setRemember] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        try {
-            const { data } = await apiLogin({ email, password });
-            localStorage.setItem("accessToken", data.data.accessToken);
-            if (remember) localStorage.setItem("refreshToken", data.data.refreshToken);
-            const { name, email: userEmail } = data.data.user;
-            const [firstName, ...rest] = name.split(" ");
-            login({ firstName, lastName: rest.join(" "), email: userEmail, avatar: null, avatarType: "emoji" });
-            toast.success("Connexion réussie ! Bienvenue.");
-            navigate("/");
-        } catch (err: unknown) {
-            const message = (err as { response?: { data?: { message?: string } } })?.response?.data?.message ?? "Une erreur est survenue";
-            toast.error(message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const { email, setEmail, password, setPassword, remember, setRemember, isLoading, handleSubmit } = useLogin();
 
     return (
         <div className="flex min-h-screen bg-background-light">
-            {/* Form column */}
             <div className="flex w-full items-center justify-center p-6 lg:w-1/2 lg:p-12">
                 <div className="w-full max-w-md">
                     <AuthPageHeader
@@ -72,26 +44,12 @@ export default function LoginPage() {
                             required
                         />
 
-                        {/* Remember & Forgot */}
-                        <div className="flex items-center justify-between">
-                            <label className="flex cursor-pointer items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    checked={remember}
-                                    onChange={(e) => setRemember(e.target.checked)}
-                                    className="h-4 w-4 rounded border-gray-300 text-secondary focus:ring-secondary"
-                                />
-                                <span className="text-sm text-gray-600">Se souvenir de moi</span>
-                            </label>
-                            <a href="#" className="text-sm text-secondary transition-colors hover:text-secondary/80">
-                                Mot de passe oublié ?
-                            </a>
-                        </div>
+                        <RememberMeRow remember={remember} onRememberChange={setRemember} />
 
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full rounded-lg bg-secondary py-3 font-bold text-primary-dark transition-colors hover:bg-secondary/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full rounded-lg bg-secondary py-3 font-bold text-primary-dark transition-colors hover:bg-secondary/80 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {isLoading ? "Connexion..." : "Se connecter"}
                         </button>
@@ -109,7 +67,6 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            {/* Decorative column */}
             <AuthSidePanel
                 title="Reprenez votre parcours là où vous l'aviez laissé"
                 subtitle="Votre timeline personnalisée vous attend"

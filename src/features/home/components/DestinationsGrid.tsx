@@ -10,7 +10,7 @@ export function DestinationsGrid() {
     const [destinations, setDestinations] = useState<Destination[]>([]);
 
     useEffect(() => {
-        getDestinations().then(({ data }) => setDestinations(data.data)).catch(() => {});
+        getDestinations().then(({ data }) => setDestinations(data.data ?? [])).catch(() => {});
     }, []);
 
     return (
