@@ -1,7 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import HomePage from "@/features/home/pages/HomePage";
+
+vi.mock("@/core/api/destinations", () => ({
+    getDestinations: vi.fn(),
+    getDestination: vi.fn(),
+    getDestinationBudget: vi.fn(),
+    getDestinationGuide: vi.fn(),
+}));
+
+import { getDestinations } from "@/core/api/destinations";
+
+const MOCK_DESTINATIONS = [
+    { id: "espagne", name: "Espagne", country: "Espagne", city: "Madrid", description: "Desc" },
+    { id: "allemagne", name: "Allemagne", country: "Allemagne", city: "Berlin", description: "Desc" },
+    { id: "royaume-uni", name: "Royaume-Uni", country: "Royaume-Uni", city: "Londres", description: "Desc" },
+    { id: "italie", name: "Italie", country: "Italie", city: "Rome", description: "Desc" },
+    { id: "portugal", name: "Portugal", country: "Portugal", city: "Lisbonne", description: "Desc" },
+    { id: "pays-bas", name: "Pays-Bas", country: "Pays-Bas", city: "Amsterdam", description: "Desc" },
+];
+
+beforeEach(() => {
+    vi.mocked(getDestinations).mockResolvedValue({
+        data: { data: MOCK_DESTINATIONS, message: "ok" },
+    } as any);
+});
 
 function renderHomePage() {
     return render(
@@ -43,16 +68,16 @@ describe("HomePage", () => {
         expect(screen.getByText("Partez sereinement")).toBeInTheDocument();
     });
 
-    it("renders 6 destination cards", () => {
+    it("renders 6 destination cards", async () => {
         renderHomePage();
-        expect(screen.getByText("Espagne")).toBeInTheDocument();
-        expect(screen.getByText("Allemagne")).toBeInTheDocument();
-        expect(screen.getByText("Royaume-Uni")).toBeInTheDocument();
+        expect(await screen.findByText("Espagne")).toBeInTheDocument();
+        expect(await screen.findByText("Allemagne")).toBeInTheDocument();
+        expect(await screen.findByText("Royaume-Uni")).toBeInTheDocument();
     });
 
-    it("destination cards are links pointing to /destinations/:slug", () => {
+    it("destination cards are links pointing to /destinations/:slug", async () => {
         renderHomePage();
-        const spainLink = screen.getByText("Espagne").closest("a");
+        const spainLink = (await screen.findByText("Espagne")).closest("a");
         expect(spainLink).toHaveAttribute("href", "/destinations/espagne");
 
         const germanyLink = screen.getByText("Allemagne").closest("a");

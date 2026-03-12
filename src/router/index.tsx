@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
             // Public app routes
             { path: "/", element: withSuspense(<HomePage />) },
             { path: "/destinations", element: withSuspense(<DestinationsPage />) },
-            { path: "/destinations/:slug", element: withSuspense(<DestinationDetailPage />) },
+            { path: "/destinations/:id", element: withSuspense(<DestinationDetailPage />) },
             { path: "/about", element: withSuspense(<AboutPage />) },
 
             // Protected app routes

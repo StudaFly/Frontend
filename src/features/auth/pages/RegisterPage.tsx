@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
+import { register as apiRegister } from "@/core/api/auth";
 import { AuthSidePanel } from "../components/AuthSidePanel";
 import { AuthPageHeader } from "../components/AuthPageHeader";
 import { RegisterStepProgress } from "../components/RegisterStepProgress";
@@ -60,24 +61,30 @@ export default function RegisterPage() {
         const finalAvatar = avatarType === "emoji" ? selectedEmoji : avatar;
 
         toast.promise(
-            new Promise((resolve) => setTimeout(resolve, 1500)),
+            apiRegister({
+                name: `${formData.firstName} ${formData.lastName}`.trim(),
+                email: formData.email,
+                password: formData.password,
+            }).then(({ data }) => {
+                localStorage.setItem("accessToken", data.data.accessToken);
+                localStorage.setItem("refreshToken", data.data.refreshToken);
+                login({
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    email: formData.email,
+                    avatar: finalAvatar,
+                    avatarType: avatarType,
+                });
+                navigate("/");
+            }),
             {
                 loading: "Création de votre compte...",
-                success: () => {
-                    login({
-                        firstName: formData.firstName,
-                        lastName: formData.lastName,
-                        email: formData.email,
-                        avatar: finalAvatar,
-                        avatarType: avatarType,
-                    });
-                    navigate("/");
-                    return `Bienvenue ${formData.firstName} ! Votre compte a été créé.`;
-                },
-                error: "Erreur lors de la création du compte",
+                success: `Bienvenue ${formData.firstName} ! Votre compte a été créé.`,
+                error: (err: unknown) =>
+                    (err as { response?: { data?: { message?: string } } })?.response?.data?.message ??
+                    "Erreur lors de la création du compte",
             }
         );
-        console.log("Registering user:", { ...formData, avatar: finalAvatar, avatarType });
     };
 
     const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

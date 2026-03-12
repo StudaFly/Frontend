@@ -14,6 +14,7 @@ export interface TimelineEvent {
     category: TimelineEventCategory;
     icon: string; // clé dans ICON_MAP
     isOptional?: boolean;
+    isCompleted?: boolean;
 }
 
 export interface TimelinePeriod {

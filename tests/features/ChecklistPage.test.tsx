@@ -1,8 +1,67 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ChecklistPage from '@/features/checklist/pages/ChecklistPage';
+import { TASKS } from '@/features/checklist/data/tasks';
+
+vi.mock('@/core/api/mobilities', () => ({
+    getMobilities: vi.fn(),
+    getMobility: vi.fn(),
+    updateMobility: vi.fn(),
+    deleteMobility: vi.fn(),
+}));
+
+vi.mock('@/core/api/checklist', () => ({
+    getTasks: vi.fn(),
+    createTask: vi.fn(),
+    completeTask: vi.fn(),
+    updateTask: vi.fn(),
+    deleteTask: vi.fn(),
+}));
+
+import { getMobilities } from '@/core/api/mobilities';
+import { getTasks, createTask, completeTask } from '@/core/api/checklist';
+
+const MOCK_MOBILITY = {
+    id: 'test-mobility-id',
+    userId: 'u1',
+    destinationId: 'd1',
+    type: 'erasmus' as const,
+    departureDate: '2025-09-01',
+    status: 'preparing' as const,
+    createdAt: '2024-01-01',
+};
+
+beforeEach(() => {
+    vi.mocked(getMobilities).mockResolvedValue({
+        data: { data: [MOCK_MOBILITY], message: 'ok' },
+    } as any);
+    vi.mocked(getTasks).mockResolvedValue({
+        data: { data: TASKS.map((t) => ({ ...t })), message: 'ok' },
+    } as any);
+    vi.mocked(completeTask).mockResolvedValue({
+        data: { data: TASKS[0], message: 'ok' },
+    } as any);
+    vi.mocked(createTask).mockImplementation((_mobilityId, data) =>
+        Promise.resolve({
+            data: {
+                data: {
+                    id: `new-${Date.now()}`,
+                    title: data.title,
+                    description: data.description,
+                    category: data.category,
+                    deadline: data.deadline || undefined,
+                    priority: data.priority,
+                    isCompleted: false,
+                    isCustom: true,
+                },
+                message: 'ok',
+            },
+        } as any),
+    );
+});
 
 function renderChecklistPage() {
     return render(
@@ -14,33 +73,31 @@ function renderChecklistPage() {
 
 describe('ChecklistPage', () => {
     describe('rendu initial', () => {
-        it('affiche le titre "Checklist"', () => {
+        it('affiche le titre "Checklist"', async () => {
             renderChecklistPage();
-            expect(screen.getByText('Checklist')).toBeInTheDocument();
+            expect(await screen.findByText('Checklist')).toBeInTheDocument();
         });
 
-        it('affiche le compteur 0/11 tâches complétées', () => {
+        it('affiche le compteur 0/11 tâches complétées', async () => {
             renderChecklistPage();
-            expect(screen.getByText(/0\/11 tâches complétées/)).toBeInTheDocument();
+            expect(await screen.findByText(/0\/11 tâches complétées/)).toBeInTheDocument();
         });
 
-        it('affiche toutes les tâches des 5 catégories', () => {
+        it('affiche toutes les tâches des 5 catégories', async () => {
             renderChecklistPage();
-            // Admin
-            expect(screen.getByText('Demande de visa')).toBeInTheDocument();
+            expect(await screen.findByText('Demande de visa')).toBeInTheDocument();
             expect(screen.getByText("Lettre d'acceptation université")).toBeInTheDocument();
             expect(screen.getByText('Passeport valide +6 mois')).toBeInTheDocument();
-            // Finance
             expect(screen.getByText('Carte bancaire internationale')).toBeInTheDocument();
             expect(screen.getByText('Budget prévu sur 6 mois')).toBeInTheDocument();
-            // Health
             expect(screen.getByText('CEAM (Carte Euro Assurance Maladie)')).toBeInTheDocument();
-            // Practical
             expect(screen.getByText('Adaptateur électrique')).toBeInTheDocument();
         });
 
-        it('affiche les onglets de catégorie', () => {
+        it('affiche les onglets de catégorie', async () => {
             renderChecklistPage();
+            // Wait for full data load before checking tabs (page enters loading state between getMobilities and getTasks)
+            await screen.findByText(/0\/11 tâches complétées/);
             expect(screen.getByText('Toutes')).toBeInTheDocument();
             expect(screen.getByText('Admin')).toBeInTheDocument();
             expect(screen.getByText('Finance')).toBeInTheDocument();
@@ -49,8 +106,9 @@ describe('ChecklistPage', () => {
             expect(screen.getByText('Pratique')).toBeInTheDocument();
         });
 
-        it('affiche les badges de priorité', () => {
+        it('affiche les badges de priorité', async () => {
             renderChecklistPage();
+            await screen.findByText(/0\/11 tâches complétées/);
             expect(screen.getAllByText('Haute').length).toBeGreaterThanOrEqual(1);
             expect(screen.getAllByText('Moyenne').length).toBeGreaterThanOrEqual(1);
             expect(screen.getAllByText('Basse').length).toBeGreaterThanOrEqual(1);
@@ -62,6 +120,7 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
+            await screen.findByText(/0\/11 tâches complétées/);
             await user.click(screen.getByText('Admin').closest('button')!);
 
             expect(screen.getByText('Demande de visa')).toBeInTheDocument();
@@ -74,6 +133,7 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
+            await screen.findByText(/0\/11 tâches complétées/);
             await user.click(screen.getByText('Finance').closest('button')!);
 
             expect(screen.getByText('Carte bancaire internationale')).toBeInTheDocument();
@@ -85,6 +145,7 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
+            await screen.findByText(/0\/11 tâches complétées/);
             await user.click(screen.getByText('Admin').closest('button')!);
             await user.click(screen.getByText('Toutes').closest('button')!);
 
@@ -93,10 +154,7 @@ describe('ChecklistPage', () => {
         });
 
         it('affiche un message quand la catégorie est vide', async () => {
-            // Pas de tâches dans une catégorie vide — on force en filtrant sur une catégorie sans résultat
-            // On simule en filtrant Finance puis en supprimant toutes les tâches (pas possible directement)
-            // À la place, on vérifie le texte de l'état vide en passant une liste vide via un composant isolé
-            // Ce cas est couvert par le composant TaskList isolément
+            // Cas couvert par le composant TaskList isolément
         });
     });
 
@@ -105,6 +163,7 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
+            await screen.findByText(/0\/11 tâches complétées/);
             const checkboxes = screen.getAllByRole('button', { name: /marquer comme complété/i });
             await user.click(checkboxes[0]);
 
@@ -115,6 +174,7 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
+            await screen.findByText(/0\/11 tâches complétées/);
             const checkboxes = screen.getAllByRole('button', { name: /marquer comme complété/i });
             await user.click(checkboxes[0]);
             await user.click(screen.getByRole('button', { name: /marquer comme non complété/i }));
@@ -126,6 +186,7 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
+            await screen.findByText('Demande de visa');
             await user.click(screen.getByText('Demande de visa'));
 
             expect(
@@ -137,6 +198,7 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
+            await screen.findByText('Demande de visa');
             await user.click(screen.getByText('Demande de visa'));
             await user.click(screen.getByText('Demande de visa'));
 
@@ -149,13 +211,12 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
-            // Initialement 0%
+            await screen.findByText(/0\/11 tâches complétées/);
             expect(screen.getByText('0%')).toBeInTheDocument();
 
             const checkboxes = screen.getAllByRole('button', { name: /marquer comme complété/i });
             await user.click(checkboxes[0]);
 
-            // 1/11 = 9%
             expect(screen.getByText('9%')).toBeInTheDocument();
         });
     });
@@ -207,7 +268,7 @@ describe('ChecklistPage', () => {
             );
             await user.click(screen.getByRole('button', { name: /^ajouter$/i }));
 
-            expect(screen.getByText('Ma tâche personnalisée')).toBeInTheDocument();
+            expect(await screen.findByText('Ma tâche personnalisée')).toBeInTheDocument();
             expect(
                 screen.queryByRole('heading', { name: /ajouter une tâche/i }),
             ).not.toBeInTheDocument();
@@ -217,14 +278,13 @@ describe('ChecklistPage', () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
+            await screen.findByText(/0\/11 tâches complétées/);
             await user.click(screen.getByRole('button', { name: /ajouter une tâche/i }));
             await user.click(screen.getByRole('button', { name: /^ajouter$/i }));
 
-            // La modale reste ouverte (form validation)
             expect(
                 screen.getByRole('heading', { name: /ajouter une tâche/i }),
             ).toBeInTheDocument();
-            // Le totalCount reste 11
             expect(screen.getByText(/0\/11 tâches complétées/)).toBeInTheDocument();
         });
     });
