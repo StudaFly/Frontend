@@ -31,7 +31,7 @@ interface ApiResponse<T> {
 }
 
 export const getDestinations = (query?: string) =>
-    apiClient.get<ApiResponse<Destination[]>>('/destinations/', { params: query ? { query } : undefined });
+    apiClient.get<ApiResponse<Destination[]>>('/destinations', { params: query ? { query } : undefined });
 
 export const getDestination = (id: string) =>
     apiClient.get<ApiResponse<Destination>>(`/destinations/${id}`);

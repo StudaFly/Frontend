@@ -18,7 +18,7 @@ interface ApiResponse<T> {
 }
 
 export const getMobilities = () =>
-    apiClient.get<ApiResponse<Mobility[]>>('/mobilities/');
+    apiClient.get<ApiResponse<Mobility[]>>('/mobilities');
 
 export const getMobility = (id: string) =>
     apiClient.get<ApiResponse<Mobility>>(`/mobilities/${id}`);
