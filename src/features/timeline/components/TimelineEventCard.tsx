@@ -16,6 +16,7 @@ import {
     ClipboardList,
     Map,
     CircleDot,
+    Check,
     type LucideIcon,
 } from 'lucide-react';
 import { EventCategoryBadge } from './EventCategoryBadge';
@@ -60,16 +61,16 @@ export function TimelineEventCard({ event, isLast, dotColor }: TimelineEventCard
             {/* Connector column */}
             <div className="flex flex-col items-center">
                 <div
-                    className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full ${dotColor} text-white shadow-sm`}
+                    className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full ${event.isCompleted ? 'bg-green-500' : dotColor} text-white shadow-sm`}
                 >
-                    <Icon size={18} />
+                    {event.isCompleted ? <Check size={18} strokeWidth={3} /> : <Icon size={18} />}
                 </div>
                 {!isLast && <div className="mt-2 w-0.5 flex-1 bg-gray-200" />}
             </div>
 
             {/* Content */}
             <div className="flex-1 pb-6">
-                <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
+                <div className={`rounded-2xl p-4 shadow-sm ring-1 ring-slate-100 transition-all ${event.isCompleted ? 'bg-gray-50 opacity-60' : 'bg-white'}`}>
                     <div className="mb-2 flex flex-wrap items-center gap-2">
                         <h3 className="font-semibold text-primary-dark">{title}</h3>
                         <EventCategoryBadge category={event.category} />

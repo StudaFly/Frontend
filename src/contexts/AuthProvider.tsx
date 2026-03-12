@@ -1,5 +1,6 @@
 import { useState, ReactNode } from "react";
 import { AuthContext, type User } from "./AuthContext";
+import { logout as apiLogout } from "@/core/api/auth";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const AUTH_STORAGE_KEY = "studafly_auth_user";
@@ -22,8 +23,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     const logout = () => {
+        const token = localStorage.getItem("accessToken");
         setUser(null);
         localStorage.removeItem(AUTH_STORAGE_KEY);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        if (token) {
+            void apiLogout(token);
+        }
     };
 
     const updateUser = (userData: Partial<User>) => {

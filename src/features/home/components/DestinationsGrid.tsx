@@ -1,11 +1,17 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { countries } from "@/features/destinations/data/countries";
+import { getDestinations, Destination } from "@/core/api/destinations";
 import { DestinationCard } from "@/features/destinations/components/list/DestinationCard";
 
 export function DestinationsGrid() {
     const { t } = useTranslation();
+    const [destinations, setDestinations] = useState<Destination[]>([]);
+
+    useEffect(() => {
+        getDestinations().then(({ data }) => setDestinations(data.data)).catch(() => {});
+    }, []);
 
     return (
         <section id="destinations" className="relative z-10 bg-background-light py-24 md:py-32">
@@ -20,20 +26,22 @@ export function DestinationsGrid() {
                 </div>
 
                 <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    {countries.slice(0, 6).map((destination) => (
-                        <DestinationCard key={destination.slug} destination={destination} />
+                    {destinations.slice(0, 6).map((destination) => (
+                        <DestinationCard key={destination.id} destination={destination} />
                     ))}
                 </div>
 
-                <div className="mt-12 text-center">
-                    <Link
-                        to="/destinations"
-                        className="inline-flex items-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-8 py-4 font-semibold text-primary-dark shadow-sm transition-all hover:-translate-y-1 hover:border-secondary hover:shadow-md"
-                    >
-                        {t("home.destinations.see_all")} ({countries.length})
-                        <ArrowRight size={20} />
-                    </Link>
-                </div>
+                {destinations.length > 0 && (
+                    <div className="mt-12 text-center">
+                        <Link
+                            to="/destinations"
+                            className="inline-flex items-center gap-2 rounded-xl border-2 border-slate-200 bg-white px-8 py-4 font-semibold text-primary-dark shadow-sm transition-all hover:-translate-y-1 hover:border-secondary hover:shadow-md"
+                        >
+                            {t("home.destinations.see_all")} ({destinations.length})
+                            <ArrowRight size={20} />
+                        </Link>
+                    </div>
+                )}
             </div>
         </section>
     );
