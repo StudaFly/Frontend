@@ -12,8 +12,11 @@ export function DestinationCard({ destination }: DestinationCardProps) {
             to={`/destinations/${destination.id}`}
             className="group relative block overflow-hidden rounded-2xl shadow-lg transition-shadow hover:shadow-xl"
         >
-            <div className="relative h-64 w-full bg-gradient-to-br from-primary-dark to-primary-dark/70">
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-dark via-primary-dark/50 to-transparent">
+            <div
+                className="relative h-64 w-full bg-gradient-to-br from-primary-dark to-primary-dark/70 bg-cover bg-center"
+                style={destination.imageUrl ? { backgroundImage: `url(${destination.imageUrl})` } : undefined}
+            >
+                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(15,25,60,0.85)] via-[rgba(15,25,60,0.35)] to-transparent">
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                         <div className="mb-1 flex items-center gap-1 text-secondary">
                             <MapPin size={14} />

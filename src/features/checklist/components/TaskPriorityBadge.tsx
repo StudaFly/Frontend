@@ -8,7 +8,7 @@ interface TaskPriorityBadgeProps {
 
 export function TaskPriorityBadge({ priority }: TaskPriorityBadgeProps) {
     const { t } = useTranslation();
-    const config = PRIORITY_CONFIG[priority];
+    const config = PRIORITY_CONFIG[priority] ?? PRIORITY_CONFIG[1];
 
     return (
         <span

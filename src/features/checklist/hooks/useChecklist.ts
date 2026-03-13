@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { CATEGORY_META } from '../data/tasks';
-import { getTasks, createTask, completeTask } from '@/core/api/checklist';
+import { getTasks, createTask, completeTask, deleteTask } from '@/core/api/checklist';
 import type { Task, TaskCategory, NewTaskFormData } from '../types/task';
 
 interface UseChecklistReturn {
@@ -14,6 +14,7 @@ interface UseChecklistReturn {
     isLoading: boolean;
     error: string | null;
     toggleTask: (id: string) => void;
+    removeTask: (id: string) => void;
     setActiveCategory: (cat: TaskCategory | 'all') => void;
     openModal: () => void;
     closeModal: () => void;
@@ -96,6 +97,16 @@ export function useChecklist(mobilityId?: string): UseChecklistReturn {
         }
     };
 
+    const removeTask = (id: string) => {
+        setAllTasks((prev) => prev.filter((t) => t.id !== id));
+        if (mobilityId) {
+            deleteTask(id).catch(() => {
+                // rollback si erreur réseau
+                getTasks(mobilityId).then(({ data }) => setAllTasks(data.data)).catch(() => {});
+            });
+        }
+    };
+
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
@@ -110,6 +121,7 @@ export function useChecklist(mobilityId?: string): UseChecklistReturn {
         isLoading,
         error,
         toggleTask,
+        removeTask,
         setActiveCategory,
         openModal,
         closeModal,

@@ -13,6 +13,9 @@ export function DestinationAboutCard({ destination }: DestinationAboutCardProps)
                 <Globe size={20} className="text-secondary" />
                 <span>{destination.city}, {destination.country}</span>
             </div>
+            {destination.guideContent?.overview && (
+                <p className="mt-4 leading-relaxed text-gray-600">{destination.guideContent.overview}</p>
+            )}
         </div>
     );
 }

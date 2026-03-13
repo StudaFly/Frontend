@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Trash2 } from 'lucide-react';
 import { CATEGORY_ICON_MAP } from '../constants';
 import { TaskCheckbox } from './TaskCheckbox';
 import { TaskPriorityBadge } from './TaskPriorityBadge';
@@ -11,9 +11,10 @@ import type { Task } from '../types/task';
 interface TaskItemProps {
     task: Task;
     onToggle: (id: string) => void;
+    onDelete: (id: string) => void;
 }
 
-export function TaskItem({ task, onToggle }: TaskItemProps) {
+export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
     const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
 
@@ -32,7 +33,7 @@ export function TaskItem({ task, onToggle }: TaskItemProps) {
 
     return (
         <div
-            className={`rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 transition-opacity ${borderClass} ${task.isCompleted ? 'opacity-70' : ''}`}
+            className={`group rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 transition-opacity ${borderClass} ${task.isCompleted ? 'opacity-70' : ''}`}
         >
             {/* Main row */}
             <div
@@ -67,6 +68,14 @@ export function TaskItem({ task, onToggle }: TaskItemProps) {
                 )}
 
                 <TaskPriorityBadge priority={task.priority} />
+
+                <button
+                    onClick={(e) => { e.stopPropagation(); onDelete(task.id); }}
+                    className="ml-1 flex-shrink-0 rounded-lg p-1 text-gray-300 opacity-0 transition-opacity hover:bg-red-50 hover:text-red-500 group-hover:opacity-100"
+                    aria-label="Supprimer la tâche"
+                >
+                    <Trash2 size={15} />
+                </button>
 
                 {hasDescription && (
                     <ChevronDown

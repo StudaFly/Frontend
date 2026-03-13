@@ -21,6 +21,7 @@ export default function ChecklistPage() {
         isLoading,
         error,
         toggleTask,
+        removeTask,
         setActiveCategory,
         openModal,
         closeModal,
@@ -48,7 +49,7 @@ export default function ChecklistPage() {
                             taskCountByCategory={taskCountByCategory}
                             onSelect={setActiveCategory}
                         />
-                        <TaskList tasks={tasks} onToggle={toggleTask} />
+                        <TaskList tasks={tasks} onToggle={toggleTask} onDelete={removeTask} />
                     </div>
                 )}
             </div>

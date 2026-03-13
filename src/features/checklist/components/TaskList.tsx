@@ -6,9 +6,10 @@ import type { Task } from '../types/task';
 interface TaskListProps {
     tasks: Task[];
     onToggle: (id: string) => void;
+    onDelete: (id: string) => void;
 }
 
-export function TaskList({ tasks, onToggle }: TaskListProps) {
+export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
     const { t } = useTranslation();
 
     if (tasks.length === 0) {
@@ -24,7 +25,7 @@ export function TaskList({ tasks, onToggle }: TaskListProps) {
     return (
         <div className="flex flex-col gap-3">
             {tasks.map((task) => (
-                <TaskItem key={task.id} task={task} onToggle={onToggle} />
+                <TaskItem key={task.id} task={task} onToggle={onToggle} onDelete={onDelete} />
             ))}
         </div>
     );
