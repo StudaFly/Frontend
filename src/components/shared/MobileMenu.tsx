@@ -16,7 +16,7 @@ export function MobileMenu({ closeMobileMenu, handleLogout }: MobileMenuProps) {
         <div className="border-t border-slate-100 bg-white md:hidden">
             <div className="space-y-1 px-4 pb-4 pt-2">
                 {NAV_ITEMS.filter((item) => {
-                    if (!isAuthenticated && (item === "checklist" || item === "timeline")) return false;
+                    if (!isAuthenticated && (item === "checklist" || item === "timeline" || item === "budget")) return false;
                     return true;
                 }).map((item) => (
                     <Link

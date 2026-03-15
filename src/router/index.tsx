@@ -15,6 +15,7 @@ const TimelinePage = lazy(() => import("@/features/timeline/pages/TimelinePage")
 const DestinationsPage = lazy(() => import("@/features/destinations/pages/DestinationsPage"));
 const DestinationDetailPage = lazy(() => import("@/features/destinations/pages/DestinationDetailPage"));
 const AboutPage = lazy(() => import("@/features/about/pages/AboutPage"));
+const BudgetSimulatorPage = lazy(() => import("@/features/budget/pages/BudgetSimulatorPage"));
 
 export const router = createBrowserRouter([
     {
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
                     { path: "/checklist", element: withSuspense(<ChecklistPage />) },
                     { path: "/timeline", element: withSuspense(<TimelinePage />) },
                     { path: "/profile", element: withSuspense(<ProfilePage />) },
+                    { path: "/budget", element: withSuspense(<BudgetSimulatorPage />) },
                 ],
             },
         ],
