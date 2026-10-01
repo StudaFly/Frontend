@@ -1,20 +1,14 @@
 import apiClient from './client';
+import type { ApiResponse } from './types';
+import type { ApiUser } from './users';
 
-export interface AuthResponse {
-    data: {
-        user: {
-            id: string;
-            email: string;
-            name: string;
-            role: 'student' | 'admin' | 'superadmin';
-            isPremium: boolean;
-            createdAt: string;
-        };
-        accessToken: string;
-        refreshToken: string;
-    };
-    message: string;
+export interface AuthPayload {
+    user: ApiUser;
+    accessToken: string;
+    refreshToken: string;
 }
+
+export type AuthResponse = ApiResponse<AuthPayload>;
 
 export const login = (payload: { email: string; password: string }) =>
     apiClient.post<AuthResponse>('/auth/login', payload);
@@ -27,6 +21,7 @@ export const logout = (explicitToken?: string) =>
         ? apiClient.post('/auth/logout', undefined, { headers: { Authorization: `Bearer ${explicitToken}` } })
         : apiClient.post('/auth/logout');
 
+// Not implemented by the backend yet (501): kept for the upcoming screens.
 export const forgotPassword = (payload: { email: string }) =>
     apiClient.post('/auth/forgot-password', payload);
 

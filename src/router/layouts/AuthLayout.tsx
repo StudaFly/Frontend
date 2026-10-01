@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { ApiStatusBanner } from "@/components/shared/ApiStatusBanner";
 
 export function AuthLayout() {
     return (
         <div className="relative min-h-screen">
+            <ApiStatusBanner />
             {/* Back to home arrow */}
             <Link
                 to="/"

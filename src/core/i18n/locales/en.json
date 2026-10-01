@@ -1,5 +1,10 @@
 {
     "navbar": {
+        "dashboard": "Dashboard",
+        "timeline": "Timeline",
+        "checklist": "Checklist",
+        "budget": "Budget",
+        "guide": "Guide",
         "home": "Home",
         "destinations": "Destinations",
         "about": "About",
@@ -7,17 +12,21 @@
         "signup": "Sign Up"
     },
     "home": {
+        "stats": {
+            "countries_label": "Countries covered",
+            "destinations_label": "Destination cities",
+            "preparation_steps_label": "Preparation steps",
+            "students_label": "Registered students"
+        },
         "hero": {
+            "stat_destinations_label": "Cities",
+            "stat_countries_label": "Countries",
             "title_before": "Prepare your",
             "title_highlight": "international mobility",
             "title_after": "with complete peace of mind",
             "subtitle": "StudaFly transforms your study abroad preparation into a structured and personalised journey. No more stress, just organisation!",
             "cta_primary": "Start for free",
             "cta_secondary": "Learn more",
-            "stat_students_value": "+400,000",
-            "stat_students_label": "Students/year",
-            "stat_countries_value": "30+ Countries",
-            "stat_countries_label": "Destinations",
             "hero_image_alt": "Student travelling internationally"
         },
         "features": {
@@ -48,7 +57,7 @@
         },
         "destinations": {
             "title": "Popular Destinations",
-            "subtitle": "Over 30 countries covered with detailed information",
+            "subtitle": "{{countries}} countries and {{destinations}} cities covered with detailed information",
             "students_per_year": "students/year",
             "see_all": "See all destinations"
         },
@@ -57,16 +66,6 @@
             "subtitle": "Join thousands of students who have simplified their preparation with StudaFly. Start for free today!",
             "button": "Create my free account",
             "no_card": "No credit card required • Set up in 2 minutes"
-        },
-        "stats": {
-            "students_value": "400K+",
-            "students_label": "European students",
-            "countries_value": "30+",
-            "countries_label": "Countries covered",
-            "satisfaction_value": "95%",
-            "satisfaction_label": "Satisfaction rate",
-            "support_value": "24/7",
-            "support_label": "Support available"
         }
     },
     "auth": {
@@ -93,7 +92,7 @@
             "creating_account": "Creating your account...",
             "success": "Welcome {{name}}! Your account has been created.",
             "error": "Error creating account",
-            "side_title": "Join 400,000+ European students",
+            "side_title": "Every year, over 400,000 European students go abroad",
             "side_subtitle": "Transform your mobility preparation into a structured journey",
             "side_alt": "Traveling students",
             "title": "Create an account",
@@ -156,19 +155,6 @@
             "title_highlight": "Checklist",
             "subtitle": "{{completed}}/{{total}} tasks completed"
         },
-        "categories": {
-            "all": "All",
-            "admin": "Admin",
-            "finance": "Finance",
-            "health": "Health",
-            "housing": "Housing",
-            "practical": "Practical"
-        },
-        "priority": {
-            "high": "High",
-            "medium": "Medium",
-            "low": "Low"
-        },
         "task": {
             "mark_complete": "Mark as completed",
             "mark_incomplete": "Mark as incomplete"
@@ -193,19 +179,6 @@
             "cancel_btn": "Cancel",
             "add_btn": "Add",
             "close_aria": "Close"
-        },
-        "tasks": {
-            "t_1":  { "title": "Visa application",                      "description": "Submit the visa application to the relevant consulate." },
-            "t_2":  { "title": "University acceptance letter",           "description": "Obtain the official confirmation from the host university." },
-            "t_3":  { "title": "Valid passport (+6 months)",             "description": "Check the expiry date of your passport." },
-            "t_4":  { "title": "International bank card",                "description": "Apply for a no-fee card for abroad (e.g. Wise, Revolut)." },
-            "t_5":  { "title": "6-month budget plan",                    "description": "Set a monthly budget based on local cost of living." },
-            "t_6":  { "title": "EHIC (European Health Insurance Card)",  "description": "Apply for your European Health Insurance Card (EU only)." },
-            "t_7":  { "title": "Essential medication stock",             "description": "Build up a sufficient supply for the duration of your stay." },
-            "t_8":  { "title": "Signed housing contract",                "description": "Obtain a lease or university residence confirmation." },
-            "t_9":  { "title": "Housing inventory",                      "description": "Carry out a joint inventory on the day you move in." },
-            "t_10": { "title": "Local SIM or international plan",        "description": "Subscribe to a mobile plan suited to your destination." },
-            "t_11": { "title": "Electrical adapter",                     "description": "Check local electrical standards and buy the right adapter." }
         }
     },
     "timeline": {
@@ -223,13 +196,6 @@
             "step_count_one": "{{count}} step",
             "step_count_other": "{{count}} steps"
         },
-        "categories": {
-            "admin": "Admin",
-            "finance": "Finance",
-            "health": "Health",
-            "housing": "Housing",
-            "practical": "Practical"
-        },
         "event": {
             "optional": "Optional"
         },
@@ -242,23 +208,6 @@
             "three-months-before": { "label": "3 months before departure", "shortLabel": "D-3 months", "description": "Finalise housing and health formalities" },
             "one-month-before":    { "label": "1 month before departure",  "shortLabel": "D-1 month",  "description": "Wrap up practical preparations" },
             "after-arrival":       { "label": "After arrival",             "shortLabel": "On arrival", "description": "You're there! First-month formalities" }
-        },
-        "events": {
-            "e1":  { "title": "Erasmus / grant application",              "description": "Submit your application to your home institution before the deadline." },
-            "e2":  { "title": "Housing search",                           "description": "Start searching (student residence, flat share, temporary Airbnb). Earlier is better." },
-            "e3":  { "title": "Overall budget planning",                  "description": "Estimate costs (housing, food, transport, leisure) for the entire stay." },
-            "e4":  { "title": "Visa application",                         "description": "Compile and submit the visa application to the consulate if required for your destination." },
-            "e5":  { "title": "Sign housing contract",                    "description": "Finalise and sign the lease or confirm your student residence booking." },
-            "e6":  { "title": "EHIC application",                         "description": "Apply for the European Health Insurance Card (processing time: 2 to 4 weeks)." },
-            "e7":  { "title": "Open international bank account",          "description": "Get a no-fee card for abroad (Wise, Revolut, N26) to avoid commissions." },
-            "e8":  { "title": "Book flight",                              "description": "Compare and book your outbound (and return if possible) flight in advance for better fares." },
-            "e9":  { "title": "Essential medication stock",               "description": "Prepare a travel pharmacy suited to your destination and stay length." },
-            "e10": { "title": "Travel insurance",                         "description": "Check and top up your insurance cover abroad if the EHIC is not sufficient." },
-            "e11": { "title": "Pack your bags",                           "description": "Make a list and pack without exceeding baggage weight limits." },
-            "e12": { "title": "Enrol at host university",                 "description": "Complete administrative registration and collect your student card and digital access." },
-            "e13": { "title": "Buy local SIM card",                       "description": "Subscribe to a local mobile plan to avoid roaming charges." },
-            "e14": { "title": "Housing inventory",                        "description": "Carry out a joint inventory check-in and photograph it to protect your deposit." },
-            "e15": { "title": "Explore the neighbourhood and campus",     "description": "Locate shops, transport links and key places for your daily life." }
         }
     }
 }
