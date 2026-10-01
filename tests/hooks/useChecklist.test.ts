@@ -2,7 +2,7 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useChecklist } from '@/features/checklist/hooks/useChecklist';
-import { TASKS } from '@/features/checklist/data/tasks';
+import { TASKS } from '../fixtures/tasks';
 
 vi.mock('@/core/api/checklist', () => ({
     getTasks: vi.fn(),
@@ -41,30 +41,30 @@ beforeEach(() => {
 });
 
 describe('useChecklist', () => {
-    describe('état initial', () => {
-        it('retourne 11 tâches au total', async () => {
+    describe('initial state', () => {
+        it('returns 11 tasks in total', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             expect(result.current.allTasks).toHaveLength(11);
         });
 
-        it('démarre avec 0 tâche complétée', async () => {
+        it('starts with 0 completed tasks', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             expect(result.current.completedCount).toBe(0);
         });
 
-        it('démarre sur la catégorie "all"', () => {
+        it('starts on the "all" category', () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             expect(result.current.activeCategory).toBe('all');
         });
 
-        it('la modale est fermée par défaut', () => {
+        it('the modal is closed by default', () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             expect(result.current.isModalOpen).toBe(false);
         });
 
-        it('retourne les compteurs par catégorie corrects', async () => {
+        it('returns the right per-category counters', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             const counts = result.current.taskCountByCategory;
@@ -78,7 +78,7 @@ describe('useChecklist', () => {
     });
 
     describe('toggleTask', () => {
-        it('marque une tâche comme complétée', async () => {
+        it('marks a task as completed', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             act(() => {
@@ -88,7 +88,7 @@ describe('useChecklist', () => {
             expect(result.current.allTasks.find((t) => t.id === '1')?.isCompleted).toBe(true);
         });
 
-        it('re-marque une tâche comme non complétée au second appel', async () => {
+        it('marks the task as not completed again on the second call', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             act(() => {
@@ -99,7 +99,7 @@ describe('useChecklist', () => {
             expect(result.current.allTasks.find((t) => t.id === '1')?.isCompleted).toBe(false);
         });
 
-        it("n'affecte pas les autres tâches", async () => {
+        it('does not affect the other tasks', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             act(() => {
@@ -111,7 +111,7 @@ describe('useChecklist', () => {
     });
 
     describe('setActiveCategory', () => {
-        it('filtre les tâches par catégorie admin', async () => {
+        it('filters tasks by the admin category', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             act(() => {
@@ -121,7 +121,7 @@ describe('useChecklist', () => {
             expect(result.current.tasks.every((t) => t.category === 'admin')).toBe(true);
         });
 
-        it('filtre les tâches par catégorie finance', async () => {
+        it('filters tasks by the finance category', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             act(() => {
@@ -131,7 +131,7 @@ describe('useChecklist', () => {
             expect(result.current.tasks.every((t) => t.category === 'finance')).toBe(true);
         });
 
-        it('revient à toutes les tâches quand on sélectionne "all"', async () => {
+        it('goes back to every task when "all" is selected', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             act(() => {
@@ -141,7 +141,7 @@ describe('useChecklist', () => {
             expect(result.current.tasks).toHaveLength(11);
         });
 
-        it("ne modifie pas le totalCount (compte sur toutes les tâches)", async () => {
+        it('does not change totalCount (counts every task)', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             act(() => {
@@ -152,7 +152,7 @@ describe('useChecklist', () => {
     });
 
     describe('addTask', () => {
-        it('ajoute une nouvelle tâche', async () => {
+        it('adds a new task', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             await act(async () => {
@@ -167,7 +167,7 @@ describe('useChecklist', () => {
             expect(result.current.totalCount).toBe(12);
         });
 
-        it('la nouvelle tâche a les bonnes propriétés', async () => {
+        it('the new task has the right properties', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             await act(async () => {
@@ -182,12 +182,11 @@ describe('useChecklist', () => {
             const newTask = result.current.allTasks.find((t) => t.title === 'Ouvrir un compte');
             expect(newTask).toBeDefined();
             expect(newTask?.isCompleted).toBe(false);
-            expect(newTask?.isCustom).toBe(true);
             expect(newTask?.category).toBe('finance');
             expect(newTask?.priority).toBe(1);
         });
 
-        it('la nouvelle tâche apparaît dans le filtre de sa catégorie', async () => {
+        it('the new task shows up in its category filter', async () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             await waitFor(() => expect(result.current.totalCount).toBe(11));
             await act(async () => {
@@ -207,7 +206,7 @@ describe('useChecklist', () => {
     });
 
     describe('modal', () => {
-        it('openModal passe isModalOpen à true', () => {
+        it('openModal sets isModalOpen to true', () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             act(() => {
                 result.current.openModal();
@@ -215,7 +214,7 @@ describe('useChecklist', () => {
             expect(result.current.isModalOpen).toBe(true);
         });
 
-        it('closeModal passe isModalOpen à false', () => {
+        it('closeModal sets isModalOpen to false', () => {
             const { result } = renderHook(() => useChecklist('test-id'));
             act(() => {
                 result.current.openModal();

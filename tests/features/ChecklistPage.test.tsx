@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ChecklistPage from '@/features/checklist/pages/ChecklistPage';
-import { TASKS } from '@/features/checklist/data/tasks';
+import { TASKS } from '../fixtures/tasks';
 
 vi.mock('@/core/api/mobilities', () => ({
     getMobilities: vi.fn(),
@@ -23,6 +23,7 @@ vi.mock('@/core/api/checklist', () => ({
 
 import { getMobilities } from '@/core/api/mobilities';
 import { getTasks, createTask, completeTask } from '@/core/api/checklist';
+import { renderWithProviders } from "../utils/providers";
 
 const MOCK_MOBILITY = {
     id: 'test-mobility-id',
@@ -41,9 +42,13 @@ beforeEach(() => {
     vi.mocked(getTasks).mockResolvedValue({
         data: { data: TASKS.map((t) => ({ ...t })), message: 'ok' },
     } as any);
-    vi.mocked(completeTask).mockResolvedValue({
-        data: { data: TASKS[0], message: 'ok' },
-    } as any);
+    // Behaves like the API: toggles the stored task and returns its new version.
+    const serverTasks = TASKS.map((t) => ({ ...t }));
+    vi.mocked(completeTask).mockImplementation((id) => {
+        const task = serverTasks.find((t) => t.id === id)!;
+        task.isCompleted = !task.isCompleted;
+        return Promise.resolve({ data: { data: { ...task }, message: 'ok' } } as any);
+    });
     vi.mocked(createTask).mockImplementation((_mobilityId, data) =>
         Promise.resolve({
             data: {
@@ -55,7 +60,6 @@ beforeEach(() => {
                     deadline: data.deadline || undefined,
                     priority: data.priority,
                     isCompleted: false,
-                    isCustom: true,
                 },
                 message: 'ok',
             },
@@ -64,7 +68,7 @@ beforeEach(() => {
 });
 
 function renderChecklistPage() {
-    return render(
+    return renderWithProviders(
         <MemoryRouter>
             <ChecklistPage />
         </MemoryRouter>
@@ -72,18 +76,18 @@ function renderChecklistPage() {
 }
 
 describe('ChecklistPage', () => {
-    describe('rendu initial', () => {
-        it('affiche le titre "Checklist"', async () => {
+    describe('initial render', () => {
+        it('shows the "Checklist" title', async () => {
             renderChecklistPage();
             expect(await screen.findByText('Checklist')).toBeInTheDocument();
         });
 
-        it('affiche le compteur 0/11 tâches complétées', async () => {
+        it('shows the 0/11 completed tasks counter', async () => {
             renderChecklistPage();
             expect(await screen.findByText(/0\/11 tâches complétées/)).toBeInTheDocument();
         });
 
-        it('affiche toutes les tâches des 5 catégories', async () => {
+        it('shows every task of the 5 categories', async () => {
             renderChecklistPage();
             expect(await screen.findByText('Demande de visa')).toBeInTheDocument();
             expect(screen.getByText("Lettre d'acceptation université")).toBeInTheDocument();
@@ -94,7 +98,7 @@ describe('ChecklistPage', () => {
             expect(screen.getByText('Adaptateur électrique')).toBeInTheDocument();
         });
 
-        it('affiche les onglets de catégorie', async () => {
+        it('shows the category tabs', async () => {
             renderChecklistPage();
             // Wait for full data load before checking tabs (page enters loading state between getMobilities and getTasks)
             await screen.findByText(/0\/11 tâches complétées/);
@@ -106,7 +110,7 @@ describe('ChecklistPage', () => {
             expect(screen.getByText('Pratique')).toBeInTheDocument();
         });
 
-        it('affiche les badges de priorité', async () => {
+        it('shows the priority badges', async () => {
             renderChecklistPage();
             await screen.findByText(/0\/11 tâches complétées/);
             expect(screen.getAllByText('Haute').length).toBeGreaterThanOrEqual(1);
@@ -115,8 +119,8 @@ describe('ChecklistPage', () => {
         });
     });
 
-    describe('filtrage par catégorie', () => {
-        it('filtre sur la catégorie Admin', async () => {
+    describe('filtering by category', () => {
+        it('filters on the Admin category', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -129,7 +133,7 @@ describe('ChecklistPage', () => {
             expect(screen.queryByText('Adaptateur électrique')).not.toBeInTheDocument();
         });
 
-        it('filtre sur la catégorie Finance', async () => {
+        it('filters on the Finance category', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -141,7 +145,7 @@ describe('ChecklistPage', () => {
             expect(screen.queryByText('Demande de visa')).not.toBeInTheDocument();
         });
 
-        it('revient à tout afficher quand on clique sur "Toutes"', async () => {
+        it('shows everything again when clicking "Toutes"', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -153,13 +157,13 @@ describe('ChecklistPage', () => {
             expect(screen.getByText('Adaptateur électrique')).toBeInTheDocument();
         });
 
-        it('affiche un message quand la catégorie est vide', async () => {
-            // Cas couvert par le composant TaskList isolément
+        it('shows a message when the category is empty', async () => {
+            // Case covered by the TaskList component on its own
         });
     });
 
-    describe('interaction avec les tâches', () => {
-        it('cocher une tâche incrémente le compteur', async () => {
+    describe('task interactions', () => {
+        it('checking a task increments the counter', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -170,7 +174,7 @@ describe('ChecklistPage', () => {
             expect(screen.getByText(/1\/11 tâches complétées/)).toBeInTheDocument();
         });
 
-        it('décocher une tâche décrémente le compteur', async () => {
+        it('unchecking a task decrements the counter', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -182,7 +186,7 @@ describe('ChecklistPage', () => {
             expect(screen.getByText(/0\/11 tâches complétées/)).toBeInTheDocument();
         });
 
-        it('cliquer sur le titre déplie la description', async () => {
+        it('clicking the title expands the description', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -194,7 +198,7 @@ describe('ChecklistPage', () => {
             ).toBeInTheDocument();
         });
 
-        it('re-cliquer sur le titre replie la description', async () => {
+        it('clicking the title again collapses the description', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -207,7 +211,7 @@ describe('ChecklistPage', () => {
             ).not.toBeInTheDocument();
         });
 
-        it('la barre de progression avance quand des tâches sont cochées', async () => {
+        it('the progress bar moves forward when tasks are checked', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -221,8 +225,8 @@ describe('ChecklistPage', () => {
         });
     });
 
-    describe("modale d'ajout de tâche", () => {
-        it('ouvre la modale au clic sur le FAB', async () => {
+    describe('add task modal', () => {
+        it('opens the modal when the FAB is clicked', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -233,7 +237,7 @@ describe('ChecklistPage', () => {
             ).toBeInTheDocument();
         });
 
-        it('ferme la modale avec la touche Escape', async () => {
+        it('closes the modal with the Escape key', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -245,7 +249,7 @@ describe('ChecklistPage', () => {
             ).not.toBeInTheDocument();
         });
 
-        it('ferme la modale au clic sur le bouton Annuler', async () => {
+        it('closes the modal when Annuler is clicked', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -257,7 +261,7 @@ describe('ChecklistPage', () => {
             ).not.toBeInTheDocument();
         });
 
-        it('ajoute une nouvelle tâche via le formulaire', async () => {
+        it('adds a new task through the form', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 
@@ -274,7 +278,7 @@ describe('ChecklistPage', () => {
             ).not.toBeInTheDocument();
         });
 
-        it("n'ajoute pas de tâche si le titre est vide", async () => {
+        it('does not add a task when the title is empty', async () => {
             const user = userEvent.setup({ delay: null });
             renderChecklistPage();
 

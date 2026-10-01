@@ -1,88 +1,119 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
-import { describe, it, expect, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 
-// Mock the AuthContext completely
-const mockUser = {
-    firstName: "Joffrey",
-    lastName: "Joffrey",
-    email: "joffrey@exemple.com",
-    age: "24",
-    city: "Montpellier",
-    destinations: ["Espagne", "Italie"],
-    period: "S1 2025",
-    budget: "800",
-    avatar: null,
-    avatarType: "emoji",
-    cover: null,
-};
-
-vi.mock("@/contexts/AuthContext", () => ({
-    useAuth: () => ({
-        user: mockUser,
-        updateUser: vi.fn(),
-    })
+const auth = vi.hoisted(() => ({
+    user: {
+        id: "u1",
+        firstName: "Lucas",
+        lastName: "Martin",
+        email: "lucas@example.com",
+        phone: "0612345678",
+        avatar: "🚀",
+        avatarType: "emoji" as const,
+        cover: null,
+    },
+    updateUser: vi.fn(),
+    logout: vi.fn(),
 }));
 
+vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => auth }));
+vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
+vi.mock("@/core/api/users", () => ({ updateMe: vi.fn(), deleteMe: vi.fn() }));
+vi.mock("@/core/hooks/useActiveMobility", () => ({
+    useActiveMobility: () => ({
+        mobility: {
+            id: "m1",
+            type: "erasmus",
+            destinationId: "d1",
+            departureDate: "2027-01-15",
+            returnDate: null,
+            school: "Universitat de Barcelona",
+        },
+        destination: { id: "d1", city: "Barcelone", country: "Espagne" },
+        isLoading: false,
+    }),
+}));
+
+import { deleteMe, updateMe } from "@/core/api/users";
+
 function renderProfilePage() {
+    const queryClient = new QueryClient({ defaultOptions: { mutations: { retry: false } } });
     return render(
-        <MemoryRouter>
-            <ProfilePage />
-        </MemoryRouter>
+        <QueryClientProvider client={queryClient}>
+            <MemoryRouter>
+                <ProfilePage />
+            </MemoryRouter>
+        </QueryClientProvider>,
     );
 }
 
 describe("ProfilePage", () => {
-    it("renders user information correctly", async () => {
-        renderProfilePage();
-
-        // Check if default mock user data is rendered
-        expect(screen.getByText("Joffrey Joffrey")).toBeInTheDocument();
-        expect(screen.getByText("joffrey@exemple.com")).toBeInTheDocument();
-        expect(screen.getByText("24")).toBeInTheDocument();
-        expect(screen.getByText("Montpellier")).toBeInTheDocument();
+    beforeEach(() => {
+        vi.clearAllMocks();
     });
 
-    it("enters edit mode when 'Modifier le profil' is clicked", async () => {
+    it("shows the user and the real mobility", async () => {
+        renderProfilePage();
+
+        expect(screen.getByRole("heading", { name: "Lucas Martin" })).toBeInTheDocument();
+        expect(screen.getByText("lucas@example.com")).toBeInTheDocument();
+        expect(screen.getByText("0612345678")).toBeInTheDocument();
+        expect(await screen.findByText("Erasmus")).toBeInTheDocument();
+        expect(screen.getByText("Barcelone, Espagne")).toBeInTheDocument();
+        expect(screen.getByText("15 janvier 2027")).toBeInTheDocument();
+    });
+
+    it("saves name, phone and avatar through the API", async () => {
+        vi.mocked(updateMe).mockResolvedValue({
+            data: { data: { id: "u1", name: "Lucas Durand", email: "lucas@example.com", phone: "0700000000", avatarEmoji: "🌍", role: "student" } },
+        } as never);
         const user = userEvent.setup({ delay: null });
         renderProfilePage();
 
-        const editButton = screen.getByRole("button", { name: /modifier le profil/i });
-        await user.click(editButton);
-
-        // Inputs should appear
-        expect(screen.getAllByRole("textbox").length).toBeGreaterThan(0);
-
-        // The button should now say "Enregistrer"
-        expect(screen.getByRole("button", { name: /enregistrer/i })).toBeInTheDocument();
-    });
-
-    it("can edit user age and city", async () => {
-        const user = userEvent.setup({ delay: null });
-        renderProfilePage();
-
-        // Click edit
         await user.click(screen.getByRole("button", { name: /modifier le profil/i }));
-
-        // Find the inputs (since we use InfoItem, they don't have explicit accessible names unless linked by ID, so we grab by display value)
-        const ageInput = screen.getByDisplayValue("24");
-        const cityInput = screen.getByDisplayValue("Montpellier");
-
-        // Change values
-        await user.clear(ageInput);
-        await user.type(ageInput, "25");
-
-        await user.clear(cityInput);
-        await user.type(cityInput, "Paris");
-
-        // Save
+        await user.clear(screen.getByLabelText("Nom"));
+        await user.type(screen.getByLabelText("Nom"), "Durand");
+        await user.clear(screen.getByLabelText("Téléphone"));
+        await user.type(screen.getByLabelText("Téléphone"), "0700000000");
+        await user.click(screen.getByRole("radio", { name: "Avatar 🌍" }));
         await user.click(screen.getByRole("button", { name: /enregistrer/i }));
 
-        // The values should now be updated and inputs should be gone
-        expect(screen.getByText("25")).toBeInTheDocument();
-        expect(screen.getByText("Paris")).toBeInTheDocument();
-        expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+        await waitFor(() =>
+            expect(updateMe).toHaveBeenCalledWith({
+                firstName: "Lucas",
+                lastName: "Durand",
+                phone: "0700000000",
+                avatarEmoji: "🌍",
+            }),
+        );
+        await waitFor(() =>
+            expect(auth.updateUser).toHaveBeenCalledWith(expect.objectContaining({ lastName: "Durand", avatar: "🌍" })),
+        );
+    });
+
+    it("deletes the account after confirmation and logs out", async () => {
+        vi.spyOn(window, "confirm").mockReturnValue(true);
+        vi.mocked(deleteMe).mockResolvedValue({} as never);
+        const user = userEvent.setup({ delay: null });
+        renderProfilePage();
+
+        await user.click(screen.getByRole("button", { name: /supprimer mon compte/i }));
+
+        await waitFor(() => expect(auth.logout).toHaveBeenCalled());
+        expect(deleteMe).toHaveBeenCalled();
+    });
+
+    it("keeps the account when the confirmation is cancelled", async () => {
+        vi.spyOn(window, "confirm").mockReturnValue(false);
+        const user = userEvent.setup({ delay: null });
+        renderProfilePage();
+
+        await user.click(screen.getByRole("button", { name: /supprimer mon compte/i }));
+
+        expect(deleteMe).not.toHaveBeenCalled();
     });
 });

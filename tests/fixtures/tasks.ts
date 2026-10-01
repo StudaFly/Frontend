@@ -1,0 +1,100 @@
+import type { Task } from '@/features/checklist/types/task';
+
+/** Test data only (was the mocked checklist of the web app). Shaped like the API's TaskRead. */
+const RAW: Omit<Task, 'mobilityId' | 'deadline' | 'daysUntilDeadline'>[] = [
+    {
+        id: '1',
+        title: 'Demande de visa',
+        description: "Déposer le dossier de visa auprès du consulat compétent.",
+        category: 'admin',
+        priority: 1,
+        isCompleted: false,
+    },
+    {
+        id: '2',
+        title: "Lettre d'acceptation université",
+        description: "Obtenir la confirmation officielle de l'université d'accueil.",
+        category: 'admin',
+        priority: 1,
+        isCompleted: false,
+    },
+    {
+        id: '3',
+        title: 'Passeport valide +6 mois',
+        description: "Vérifier la date d'expiration de votre passeport.",
+        category: 'admin',
+        priority: 1,
+        isCompleted: false,
+    },
+    {
+        id: '4',
+        title: 'Carte bancaire internationale',
+        description: "Souscrire à une carte sans frais à l'étranger (ex. Wise, Revolut).",
+        category: 'finance',
+        priority: 2,
+        isCompleted: false,
+    },
+    {
+        id: '5',
+        title: 'Budget prévu sur 6 mois',
+        description: "Établir un budget mensuel en tenant compte du coût de la vie local.",
+        category: 'finance',
+        priority: 2,
+        isCompleted: false,
+    },
+    {
+        id: '6',
+        title: 'CEAM (Carte Euro Assurance Maladie)',
+        description: "Demander votre Carte Européenne d'Assurance Maladie (UE uniquement).",
+        category: 'health',
+        priority: 1,
+        isCompleted: false,
+    },
+    {
+        id: '7',
+        title: 'Stock médicaments essentiels',
+        description: "Constituer une réserve suffisante pour la durée du séjour.",
+        category: 'health',
+        priority: 2,
+        isCompleted: false,
+    },
+    {
+        id: '8',
+        title: 'Contrat de logement signé',
+        description: "Obtenir un contrat de bail ou confirmation de résidence universitaire.",
+        category: 'housing',
+        priority: 1,
+        isCompleted: false,
+    },
+    {
+        id: '9',
+        title: 'Inventaire du logement',
+        description: "Réaliser un inventaire contradictoire le jour de l'entrée dans le logement.",
+        category: 'housing',
+        priority: 3,
+        isCompleted: false,
+    },
+    {
+        id: '10',
+        title: 'SIM locale ou forfait international',
+        description: "Souscrire à un forfait mobile adapté à la destination.",
+        category: 'practical',
+        priority: 2,
+        isCompleted: false,
+    },
+    {
+        id: '11',
+        title: 'Adaptateur électrique',
+        description: "Vérifier les normes électriques locales et acheter l'adaptateur.",
+        category: 'practical',
+        priority: 3,
+        isCompleted: false,
+    },
+];
+
+export const TASKS: Task[] = RAW.map((task) => ({
+    ...task,
+    mobilityId: 'mob-1',
+    deadline: null,
+    daysUntilDeadline: null,
+}));

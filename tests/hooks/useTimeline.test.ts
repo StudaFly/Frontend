@@ -17,7 +17,8 @@ import { getTimeline } from '@/core/api/timeline';
 // after-arrival      : no deadline
 const DEPARTURE_DATE = '2025-09-01';
 
-const MOCK_TIMELINE_TASKS: TimelineTask[] = [
+// API-shaped fixtures (missing deadline → null, daysUntilDeadline computed by the backend)
+const RAW_TIMELINE_TASKS: (Omit<TimelineTask, 'deadline' | 'daysUntilDeadline'> & { deadline?: string })[] = [
     // six-months-before (3 events)
     { id: 'e1', mobilityId: 'test-id', title: 'Dépôt du dossier Erasmus / bourse', description: 'Desc', category: 'admin', deadline: '2025-01-15', isCompleted: false, priority: 1 },
     { id: 'e2', mobilityId: 'test-id', title: 'Recherche de logement', description: 'Desc', category: 'housing', deadline: '2025-01-20', isCompleted: false, priority: 1 },
@@ -38,6 +39,11 @@ const MOCK_TIMELINE_TASKS: TimelineTask[] = [
     { id: 'e14', mobilityId: 'test-id', title: 'Inventaire du logement', description: 'Desc', category: 'housing', isCompleted: false, priority: 3 },
     { id: 'e15', mobilityId: 'test-id', title: 'Découverte du quartier et du campus', description: 'Desc', category: 'practical', isCompleted: false, priority: 3 },
 ];
+const MOCK_TIMELINE_TASKS: TimelineTask[] = RAW_TIMELINE_TASKS.map((task) => ({
+    ...task,
+    deadline: task.deadline ?? null,
+    daysUntilDeadline: null,
+}));
 
 beforeEach(() => {
     vi.mocked(getTimeline).mockResolvedValue({
@@ -46,25 +52,25 @@ beforeEach(() => {
 });
 
 describe('useTimeline', () => {
-    describe('état initial', () => {
-        it('retourne 4 périodes', async () => {
+    describe('initial state', () => {
+        it('returns 4 periods', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.periods).toHaveLength(4));
         });
 
-        it('retourne 15 événements au total', async () => {
+        it('returns 15 events in total', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.totalEvents).toBe(15));
         });
 
-        it("ouvre uniquement la première période par défaut", async () => {
+        it('opens only the first period by default', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.totalEvents).toBe(15));
             expect(result.current.openPeriods.size).toBe(1);
             expect(result.current.openPeriods.has('six-months-before')).toBe(true);
         });
 
-        it('groupe correctement les événements par période', async () => {
+        it('groups events by period', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.totalEvents).toBe(15));
             const { eventsByPeriod } = result.current;
@@ -76,7 +82,7 @@ describe('useTimeline', () => {
     });
 
     describe('togglePeriod', () => {
-        it('ouvre une période fermée', async () => {
+        it('opens a closed period', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.totalEvents).toBe(15));
             act(() => {
@@ -85,7 +91,7 @@ describe('useTimeline', () => {
             expect(result.current.openPeriods.has('three-months-before')).toBe(true);
         });
 
-        it('ferme une période ouverte', async () => {
+        it('closes an open period', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.totalEvents).toBe(15));
             act(() => {
@@ -94,7 +100,7 @@ describe('useTimeline', () => {
             expect(result.current.openPeriods.has('six-months-before')).toBe(false);
         });
 
-        it('peut ouvrir plusieurs périodes indépendamment', async () => {
+        it('can open several periods independently', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.totalEvents).toBe(15));
             act(() => {
@@ -109,7 +115,7 @@ describe('useTimeline', () => {
     });
 
     describe('expandAll', () => {
-        it('ouvre toutes les 4 périodes', async () => {
+        it('opens all 4 periods', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.periods).toHaveLength(4));
             act(() => {
@@ -124,7 +130,7 @@ describe('useTimeline', () => {
     });
 
     describe('collapseAll', () => {
-        it('ferme toutes les périodes', async () => {
+        it('closes every period', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.periods).toHaveLength(4));
             act(() => {
@@ -134,7 +140,7 @@ describe('useTimeline', () => {
             expect(result.current.openPeriods.size).toBe(0);
         });
 
-        it("fonctionne même si aucune période n'est ouverte", async () => {
+        it('works even when no period is open', async () => {
             const { result } = renderHook(() => useTimeline('test-id', DEPARTURE_DATE));
             await waitFor(() => expect(result.current.periods).toHaveLength(4));
             act(() => {
