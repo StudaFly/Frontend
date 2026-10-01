@@ -5,6 +5,7 @@ import { TimelinePeriodSection } from '../components/TimelinePeriodSection';
 import { TimelineLegend } from '../components/TimelineLegend';
 import { ExpandControls } from '../components/ExpandControls';
 import { getMobilities, Mobility } from '@/core/api/mobilities';
+import { NoMobilityState } from '@/features/dashboard/components/NoMobilityState';
 
 export default function TimelinePage() {
     const [mobility, setMobility] = useState<Mobility | undefined>();
@@ -37,11 +38,7 @@ export default function TimelinePage() {
     const allExpanded = openPeriods.size === periods.length;
 
     if (mobilityError) {
-        return (
-            <div className="flex min-h-[calc(100vh-100px)] items-center justify-center bg-gray-50">
-                <p className="text-gray-500">Aucune mobilité configurée — utilise l'app mobile StudaFly pour commencer.</p>
-            </div>
-        );
+        return <NoMobilityState message="Configure ta mobilité pour générer ta timeline de préparation." />;
     }
 
     return (

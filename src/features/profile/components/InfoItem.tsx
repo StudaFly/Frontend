@@ -46,6 +46,7 @@ export function InfoItem({
                 {isEditing ? (
                     <input
                         type="text"
+                        aria-label={label}
                         className="mt-1 w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
                         placeholder={placeholder}
                         value={isArrayValue ? (value as string[]).join(", ") : (value as string)}

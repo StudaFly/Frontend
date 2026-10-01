@@ -1,14 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useChecklist } from '../hooks/useChecklist';
-import { CATEGORY_META } from '../data/tasks';
+import { useReference } from '@/core/hooks/useReference';
+import type { CategoryMeta } from '../types/task';
 import { ChecklistHeader } from '../components/ChecklistHeader';
 import { CategoryTabs } from '../components/CategoryTabs';
 import { TaskList } from '../components/TaskList';
 import { AddTaskFab } from '../components/AddTaskFab';
 import { AddTaskModal } from '../components/AddTaskModal';
 import { getMobilities } from '@/core/api/mobilities';
+import { NoMobilityState } from '@/features/dashboard/components/NoMobilityState';
 
 export default function ChecklistPage() {
+    const { taskCategories } = useReference();
+    const categories: CategoryMeta[] = [
+        { id: 'all', label: 'Toutes' },
+        ...taskCategories.map((c) => ({ id: c.key as CategoryMeta['id'], label: c.label })),
+    ];
     const [mobilityId, setMobilityId] = useState<string | undefined>();
     const [mobilityError, setMobilityError] = useState(false);
 
@@ -41,11 +48,7 @@ export default function ChecklistPage() {
     } = useChecklist(mobilityId);
 
     if (mobilityError) {
-        return (
-            <div className="flex min-h-[calc(100vh-100px)] items-center justify-center bg-gray-50">
-                <p className="text-gray-500">Aucune mobilité configurée — utilise l'app mobile StudaFly pour commencer.</p>
-            </div>
-        );
+        return <NoMobilityState message="Configure ta mobilité pour générer ta checklist personnalisée." />;
     }
 
     return (
@@ -62,7 +65,7 @@ export default function ChecklistPage() {
                 {!isLoading && !error && (
                     <div className="flex flex-col gap-5">
                         <CategoryTabs
-                            categories={CATEGORY_META}
+                            categories={categories}
                             activeCategory={activeCategory}
                             taskCountByCategory={taskCountByCategory}
                             onSelect={setActiveCategory}

@@ -12,7 +12,7 @@ export interface TimelineEvent {
     title: string;
     description: string;
     category: TimelineEventCategory;
-    icon: string; // clé dans ICON_MAP
+    icon: string; // key in ICON_MAP
     isOptional?: boolean;
     isCompleted?: boolean;
 }
@@ -22,7 +22,7 @@ export interface TimelinePeriod {
     label: string;
     shortLabel: string;
     description: string;
-    color: string;   // classe Tailwind pour la bordure
-    bgColor: string; // classe Tailwind pour le fond
-    dotColor: string; // classe Tailwind pour le point du connector
+    color: string;   // Tailwind class for the border
+    bgColor: string; // Tailwind class for the background
+    dotColor: string; // Tailwind class for the connector dot
 }
