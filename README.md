@@ -1,56 +1,56 @@
 # StudaFly Frontend
 
-> Interface web pour StudaFly - Prépare ton départ à l'étranger, sereinement.
+> Web app for StudaFly - Prepare your international mobility, serenely.
 
 ![CI](https://github.com/StudaFly/Frontend/actions/workflows/ci.yml/badge.svg)
 
 ## Quick Start
 
 ```bash
-# Installer les dépendances
+# Install dependencies
 pnpm install
 
-# Lancer le serveur de développement
+# Start the development server
 pnpm dev
 ```
 
 ## Scripts
 
-| Commande | Description |
+| Command | Description |
 |----------|-------------|
-| `pnpm dev` | Lance le serveur de dev (Vite) |
-| `pnpm build` | Build de production |
-| `pnpm lint` | Vérifie le code avec ESLint |
-| `pnpm typecheck` | Vérifie les types TypeScript |
-| `pnpm test` | Lance les tests unitaires (Vitest) |
-| `pnpm test:ui` | Lance les tests unitaires avec une UI dans le navigateur |
-| `pnpm test:coverage`| Lance les tests avec le rapport de couverture (V8) |
-| `npx playwright test` | Lance les tests End-to-End (E2E) |
+| `pnpm dev` | Starts the dev server (Vite) |
+| `pnpm build` | Production build |
+| `pnpm lint` | Checks the code with ESLint |
+| `pnpm typecheck` | Checks TypeScript types |
+| `pnpm test` | Runs the unit tests (Vitest) |
+| `pnpm test:ui` | Runs the unit tests with a browser UI |
+| `pnpm test:coverage`| Runs the tests with the coverage report (V8) |
+| `npx playwright test` | Runs the End-to-End (E2E) tests |
 
 ## Architecture (Feature-Driven Design)
 
-Le projet utilise une architecture pilotée par les fonctionnalités (Feature-Driven), calquée sur l'application mobile pour faciliter le partage de logique métier.
+The project uses a feature-driven architecture, mirroring the mobile app to make sharing business logic easier.
 
 ```text
 src/
-├── assets/          # Fichiers statiques (images, fonts, etc.)
-├── components/      # Composants UI (shared/ et ui/ pour shadcn)
+├── assets/          # Static files (images, fonts, etc.)
+├── components/      # UI components (shared/ and ui/ for shadcn)
 ├── core/            # Infrastructure (api/, providers/, utils/)
-├── features/        # Domaines métiers (auth, profile, etc...)
-│   └── [feature]/   # Chaque feature possède ses components, hooks, pages, services, store, types...
-└── router/          # Configuration de React Router et Layouts
+├── features/        # Business domains (auth, profile, etc.)
+│   └── [feature]/   # Each feature has its own components, hooks, pages, services, store, types...
+└── router/          # React Router configuration and layouts
 ```
 
 ## Tech Stack
 
 - **Framework:** React 18 (SPA) + Vite
-- **Langage:** TypeScript
+- **Language:** TypeScript
 - **Styling:** Tailwind CSS + shadcn/ui
 - **Routing:** React Router DOM (Lazy-loaded)
 - **State Management:** Zustand
 - **Data Fetching:** React Query / Axios
-- **Testing:** Vitest (Tests unitaires) + Playwright (Tests E2E)
-- **Déploiement:** PWA Ready
+- **Testing:** Vitest (unit tests) + Playwright (E2E tests)
+- **Deployment:** PWA Ready
 
 ## Code Owner
 
