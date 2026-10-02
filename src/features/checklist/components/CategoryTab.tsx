@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { CircleDot } from 'lucide-react';
 import { CATEGORY_ICON_MAP } from '../constants';
 import type { CategoryMeta, TaskCategory } from '../types/task';
@@ -11,9 +10,8 @@ interface CategoryTabProps {
 }
 
 export function CategoryTab({ cat, isActive, count, onSelect }: CategoryTabProps) {
-    const { t } = useTranslation();
     const Icon = CATEGORY_ICON_MAP[cat.id] ?? CircleDot;
-    const label = t(`checklist.categories.${cat.id}`, { defaultValue: cat.label });
+    const label = cat.label;
 
     return (
         <button

@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { register as apiRegister } from "@/core/api/auth";
+import { getApiErrorMessage } from "@/core/api/errors";
+import { updateMe } from "@/core/api/users";
+import { useReference } from "@/core/hooks/useReference";
 import { AuthSidePanel } from "../components/AuthSidePanel";
 import { AuthPageHeader } from "../components/AuthPageHeader";
 import { RegisterStepProgress } from "../components/RegisterStepProgress";
@@ -13,12 +16,11 @@ import { RegisterStep3 } from "../components/RegisterStep3";
 const SIDE_PANEL_IMAGE =
     "https://images.unsplash.com/photo-1761295231159-4eb997ccca2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080";
 
-const EMOJIS = ["👋", "😎", "🚀", "🌍", "✈️", "💡", "🎯", "🎓", "🎉", "🔥", "✨", "🌟", "🤓", "📚", "🎒"];
-
 type Step = 1 | 2 | 3;
 
 export default function RegisterPage() {
-    const { login } = useAuth();
+    const { startSession } = useAuth();
+    const { avatarEmojis } = useReference();
     const navigate = useNavigate();
     const [step, setStep] = useState<Step>(1);
     const [error, setError] = useState("");
@@ -34,7 +36,7 @@ export default function RegisterPage() {
 
     const [avatar, setAvatar] = useState<string | null>(null);
     const [avatarType, setAvatarType] = useState<"image" | "emoji">("emoji");
-    const [selectedEmoji, setSelectedEmoji] = useState<string>("👋");
+    const [selectedEmoji, setSelectedEmoji] = useState<string>("🎓");
 
     const updateForm = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -66,23 +68,18 @@ export default function RegisterPage() {
                 email: formData.email,
                 password: formData.password,
             }).then(({ data }) => {
-                localStorage.setItem("accessToken", data.data.accessToken);
-                localStorage.setItem("refreshToken", data.data.refreshToken);
-                login({
-                    firstName: formData.firstName,
-                    lastName: formData.lastName,
-                    email: formData.email,
-                    avatar: finalAvatar,
-                    avatarType: avatarType,
-                });
-                navigate("/");
+                startSession(data.data, { profile: { avatar: finalAvatar, avatarType } });
+                if (avatarType === "emoji") {
+                    // Shared with the mobile app; the uploaded picture stays local for now.
+                    updateMe({ avatarEmoji: selectedEmoji }).catch(() => undefined);
+                }
+                // Next step: describe the mobility to generate the parcours.
+                navigate("/mobility/new");
             }),
             {
                 loading: "Création de votre compte...",
                 success: `Bienvenue ${formData.firstName} ! Votre compte a été créé.`,
-                error: (err: unknown) =>
-                    (err as { response?: { data?: { message?: string } } })?.response?.data?.message ??
-                    "Erreur lors de la création du compte",
+                error: (err: unknown) => getApiErrorMessage(err, "Erreur lors de la création du compte"),
             }
         );
     };
@@ -103,7 +100,7 @@ export default function RegisterPage() {
     return (
         <div className="flex min-h-screen bg-background-light">
             <AuthSidePanel
-                title="Rejoignez 400 000+ étudiants européens"
+                title="Chaque année, plus de 400 000 étudiants européens partent à l'étranger"
                 subtitle="Transformez votre préparation de mobilité en un parcours structuré"
                 imageUrl={SIDE_PANEL_IMAGE}
                 imageAlt="Étudiants voyageant"
@@ -140,7 +137,7 @@ export default function RegisterPage() {
                             avatar={avatar}
                             avatarType={avatarType}
                             selectedEmoji={selectedEmoji}
-                            emojis={EMOJIS}
+                            emojis={avatarEmojis}
                             onAvatarUpload={handleAvatarUpload}
                             onSelectEmoji={handleSelectEmoji}
                             onBack={() => setStep(2)}

@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { useReference } from '@/core/hooks/useReference';
 import { PRIORITY_CONFIG } from '../constants';
 import type { TaskPriority } from '../types/task';
 
@@ -10,7 +10,7 @@ interface PrioritySelectorProps {
 const PRIORITY_VALUES: TaskPriority[] = [1, 2, 3];
 
 export function PrioritySelector({ value, onChange }: PrioritySelectorProps) {
-    const { t } = useTranslation();
+    const { priorityLabel } = useReference();
 
     return (
         <div className="flex gap-2">
@@ -29,7 +29,7 @@ export function PrioritySelector({ value, onChange }: PrioritySelectorProps) {
                                 : 'border-gray-200 text-gray-400 hover:border-gray-300'
                         }`}
                     >
-                        {t(config.labelKey)}
+                        {priorityLabel(p)}
                     </button>
                 );
             })}

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-import { getNavPath, NAV_ITEMS } from "./NavConstants";
+import { getNavPath, visibleNavItems } from "./NavConstants";
 
 interface MobileMenuProps {
     closeMobileMenu: () => void;
@@ -15,10 +15,7 @@ export function MobileMenu({ closeMobileMenu, handleLogout }: MobileMenuProps) {
     return (
         <div className="border-t border-slate-100 bg-white md:hidden">
             <div className="space-y-1 px-4 pb-4 pt-2">
-                {NAV_ITEMS.filter((item) => {
-                    if (!isAuthenticated && (item === "checklist" || item === "timeline")) return false;
-                    return true;
-                }).map((item) => (
+                {visibleNavItems(isAuthenticated).map((item) => (
                     <Link
                         key={item}
                         to={getNavPath(item)}

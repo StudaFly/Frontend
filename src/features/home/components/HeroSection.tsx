@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Users, Globe } from "lucide-react";
+import { ArrowRight, Globe, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { usePublicStats } from "@/core/hooks/usePublicStats";
 
 export function HeroSection() {
     const { t } = useTranslation();
+    const { data: stats } = usePublicStats();
 
     return (
         <section
@@ -39,16 +41,16 @@ export function HeroSection() {
                         </div>
                         <div className="flex flex-wrap gap-8 pt-4">
                             <div className="flex items-center gap-3">
-                                <Users className="text-secondary" size={24} />
+                                <MapPin className="text-secondary" size={24} />
                                 <div>
-                                    <p className="font-bold">{t("home.hero.stat_students_value")}</p>
-                                    <p className="text-sm text-gray-300">{t("home.hero.stat_students_label")}</p>
+                                    <p className="font-bold">{stats ? stats.destinations : "—"}</p>
+                                    <p className="text-sm text-gray-300">{t("home.hero.stat_destinations_label")}</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Globe className="text-secondary" size={24} />
                                 <div>
-                                    <p className="font-bold">{t("home.hero.stat_countries_value")}</p>
+                                    <p className="font-bold">{stats ? stats.countries : "—"}</p>
                                     <p className="text-sm text-gray-300">{t("home.hero.stat_countries_label")}</p>
                                 </div>
                             </div>

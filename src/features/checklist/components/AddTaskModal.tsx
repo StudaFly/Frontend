@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
-import { CATEGORY_META } from '../data/tasks';
+import { useReference } from '@/core/hooks/useReference';
 import { ModalFormField } from './ModalFormField';
 import { PrioritySelector } from './PrioritySelector';
 import type { NewTaskFormData } from '../types/task';
@@ -22,6 +22,7 @@ const EMPTY_FORM: NewTaskFormData = {
 
 export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
     const { t } = useTranslation();
+    const { taskCategories } = useReference();
     const [form, setForm] = useState<NewTaskFormData>(EMPTY_FORM);
 
     useEffect(() => {
@@ -92,9 +93,9 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
                             }
                             className="w-full rounded-xl border-2 border-transparent bg-gray-50 px-4 py-2.5 text-sm outline-none transition-colors focus:border-primary-dark"
                         >
-                            {CATEGORY_META.filter((c) => c.id !== 'all').map((cat) => (
-                                <option key={cat.id} value={cat.id}>
-                                    {t(`checklist.categories.${cat.id}`, { defaultValue: cat.label })}
+                            {taskCategories.map((cat) => (
+                                <option key={cat.key} value={cat.key}>
+                                    {cat.label}
                                 </option>
                             ))}
                         </select>

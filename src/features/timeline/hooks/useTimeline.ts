@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { getApiErrorMessage } from '@/core/api/errors';
 import { getTimeline, TimelineTask } from '@/core/api/timeline';
 import type { TimelineEventCategory, TimelineEvent, TimelinePeriod, TimelinePeriodId } from '../types/event';
 
@@ -49,7 +50,7 @@ const CATEGORY_ICON: Record<string, string> = {
     practical: 'Wrench',
 };
 
-function getPeriodId(deadline: string | undefined, departureDate: string | undefined): TimelinePeriodId {
+function getPeriodId(deadline: string | null | undefined, departureDate: string | undefined): TimelinePeriodId {
     if (!deadline || !departureDate) return 'after-arrival';
     const dep = new Date(departureDate).getTime();
     const dl = new Date(deadline).getTime();
@@ -92,7 +93,7 @@ export function useTimeline(mobilityId?: string, departureDate?: string): UseTim
                     setOpenPeriods(new Set([firstPeriod]));
                 }
             })
-            .catch((err) => setError(err.response?.data?.message ?? 'Erreur lors du chargement de la timeline'))
+            .catch((err) => setError(getApiErrorMessage(err, 'Erreur lors du chargement de la timeline')))
             .finally(() => setIsLoading(false));
     }, [mobilityId, departureDate]);
 

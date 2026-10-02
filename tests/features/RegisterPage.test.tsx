@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import { renderWithProviders } from "../utils/providers";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect } from "vitest";
@@ -6,7 +7,7 @@ import { AuthProvider } from "@/contexts/AuthProvider";
 import RegisterPage from "@/features/auth/pages/RegisterPage";
 
 function renderRegisterPage() {
-    return render(
+    return renderWithProviders(
         <AuthProvider>
             <MemoryRouter>
                 <RegisterPage />

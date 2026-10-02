@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { useReference } from '@/core/hooks/useReference';
 import type { TimelineEventCategory } from '../types/event';
 
 const CATEGORY_STYLE: Record<TimelineEventCategory, { bg: string; text: string }> = {
@@ -14,14 +14,14 @@ interface EventCategoryBadgeProps {
 }
 
 export function EventCategoryBadge({ category }: EventCategoryBadgeProps) {
-    const { t } = useTranslation();
+    const { categoryLabel } = useReference();
     const style = CATEGORY_STYLE[category];
 
     return (
         <span
             className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${style.bg} ${style.text}`}
         >
-            {t(`timeline.categories.${category}`)}
+            {categoryLabel(category)}
         </span>
     );
 }

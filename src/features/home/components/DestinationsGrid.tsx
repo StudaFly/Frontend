@@ -4,10 +4,12 @@ import { ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { getDestinations, Destination } from "@/core/api/destinations";
 import { DestinationCard } from "@/features/destinations/components/list/DestinationCard";
+import { usePublicStats } from "@/core/hooks/usePublicStats";
 
 export function DestinationsGrid() {
     const { t } = useTranslation();
     const [destinations, setDestinations] = useState<Destination[]>([]);
+    const { data: stats } = usePublicStats();
 
     useEffect(() => {
         getDestinations().then(({ data }) => setDestinations(data.data)).catch(() => {});
@@ -21,7 +23,7 @@ export function DestinationsGrid() {
                         {t("home.destinations.title")}
                     </h2>
                     <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                        {t("home.destinations.subtitle")}
+                        {stats ? t("home.destinations.subtitle", { countries: stats.countries, destinations: stats.destinations }) : "\u00a0"}
                     </p>
                 </div>
 

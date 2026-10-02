@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-import { NAV_ITEMS, getNavPath } from "./NavConstants";
+import { getNavPath, visibleNavItems } from "./NavConstants";
 
 export function DesktopNavLinks() {
     const { t } = useTranslation();
@@ -9,10 +9,7 @@ export function DesktopNavLinks() {
 
     return (
         <div className="hidden items-center gap-8 md:flex">
-            {NAV_ITEMS.filter((item) => {
-                if (!isAuthenticated && (item === "checklist" || item === "timeline")) return false;
-                return true;
-            }).map((item) => (
+            {visibleNavItems(isAuthenticated).map((item) => (
                 <Link
                     key={item}
                     to={getNavPath(item)}

@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { CATEGORY_META } from '../data/tasks';
+import { getApiErrorMessage } from '@/core/api/errors';
 import { getTasks, createTask, completeTask } from '@/core/api/checklist';
 import type { Task, TaskCategory, NewTaskFormData } from '../types/task';
 
@@ -33,7 +33,7 @@ export function useChecklist(mobilityId?: string): UseChecklistReturn {
         setError(null);
         getTasks(mobilityId)
             .then(({ data }) => setAllTasks(data.data))
-            .catch((err) => setError(err.response?.data?.message ?? 'Erreur lors du chargement des tâches'))
+            .catch((err) => setError(getApiErrorMessage(err, 'Erreur lors du chargement des tâches')))
             .finally(() => setIsLoading(false));
     }, [mobilityId]);
 
@@ -53,47 +53,34 @@ export function useChecklist(mobilityId?: string): UseChecklistReturn {
     const totalCount = allTasks.length;
 
     const taskCountByCategory = useMemo(() => {
-        const counts = {} as Record<TaskCategory | 'all', number>;
-        counts['all'] = allTasks.length;
-        for (const meta of CATEGORY_META) {
-            if (meta.id !== 'all') {
-                counts[meta.id] = allTasks.filter((t) => t.category === meta.id).length;
-            }
+        const counts = { all: allTasks.length } as Record<TaskCategory | 'all', number>;
+        for (const task of allTasks) {
+            counts[task.category] = (counts[task.category] ?? 0) + 1;
         }
         return counts;
     }, [allTasks]);
 
     const toggleTask = (id: string) => {
+        if (!mobilityId) return;
+        // Optimistic toggle, then the server's version of the task wins.
         setAllTasks((prev) =>
             prev.map((t) => (t.id === id ? { ...t, isCompleted: !t.isCompleted } : t)),
         );
-        if (mobilityId) {
-            completeTask(id).catch(() => {
+        completeTask(id)
+            .then(({ data: res }) => setAllTasks((prev) => prev.map((t) => (t.id === id ? res.data : t))))
+            .catch((err) => {
                 setAllTasks((prev) =>
                     prev.map((t) => (t.id === id ? { ...t, isCompleted: !t.isCompleted } : t)),
                 );
+                setError(getApiErrorMessage(err, 'Erreur lors de la mise à jour de la tâche'));
             });
-        }
     };
 
     const addTask = (data: NewTaskFormData) => {
-        if (mobilityId) {
-            createTask(mobilityId, data)
-                .then(({ data: res }) => setAllTasks((prev) => [...prev, res.data]))
-                .catch((err) => setError(err.response?.data?.message ?? 'Erreur lors de la création de la tâche'));
-        } else {
-            const newTask: Task = {
-                id: crypto.randomUUID(),
-                title: data.title,
-                description: data.description || undefined,
-                category: data.category,
-                deadline: data.deadline || undefined,
-                priority: data.priority,
-                isCompleted: false,
-                isCustom: true,
-            };
-            setAllTasks((prev) => [...prev, newTask]);
-        }
+        if (!mobilityId) return;
+        createTask(mobilityId, data)
+            .then(({ data: res }) => setAllTasks((prev) => [...prev, res.data]))
+            .catch((err) => setError(getApiErrorMessage(err, 'Erreur lors de la création de la tâche')));
     };
 
     const openModal = () => setIsModalOpen(true);

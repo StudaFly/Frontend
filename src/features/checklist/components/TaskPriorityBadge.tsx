@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { useReference } from '@/core/hooks/useReference';
 import { PRIORITY_CONFIG } from '../constants';
 import type { TaskPriority } from '../types/task';
 
@@ -7,14 +7,14 @@ interface TaskPriorityBadgeProps {
 }
 
 export function TaskPriorityBadge({ priority }: TaskPriorityBadgeProps) {
-    const { t } = useTranslation();
+    const { priorityLabel } = useReference();
     const config = PRIORITY_CONFIG[priority];
 
     return (
         <span
             className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${config.bg} ${config.text}`}
         >
-            {t(config.labelKey)}
+            {priorityLabel(priority)}
         </span>
     );
 }

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
 import { CATEGORY_ICON_MAP } from '../constants';
 import { TaskCheckbox } from './TaskCheckbox';
@@ -14,17 +13,13 @@ interface TaskItemProps {
 }
 
 export function TaskItem({ task, onToggle }: TaskItemProps) {
-    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
 
     const Icon = CATEGORY_ICON_MAP[task.category];
 
-    const title = t(`checklist.tasks.t_${task.id}.title`, { defaultValue: task.title });
-    const description = task.isCustom
-        ? (task.description ?? '')
-        : t(`checklist.tasks.t_${task.id}.description`, { defaultValue: task.description ?? '' });
-
-    const hasDescription = task.isCustom ? !!task.description : true;
+    const title = task.title;
+    const description = task.description ?? '';
+    const hasDescription = description.length > 0;
 
     const borderClass = task.isCompleted
         ? 'border-l-4 border-l-secondary'

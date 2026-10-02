@@ -1,13 +1,32 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, MapPin, Globe } from "lucide-react";
-import { getDestination, Destination } from "@/core/api/destinations";
+import { ArrowLeft, MapPin } from "lucide-react";
+import { getDestination, getDestinationBudget, getDestinationGuide, type DestinationDetail } from "@/core/api/destinations";
+import { DestinationFactsList } from "../components/detail/DestinationFactsList";
+import { useAuth } from "@/contexts/AuthContext";
+import { BudgetBreakdown } from "@/features/budget/components/BudgetBreakdown";
+import { GuideContent } from "@/features/guide/components/GuideContent";
 
 export default function DestinationDetailPage() {
     const { id } = useParams<{ id: string }>();
-    const [destination, setDestination] = useState<Destination | null>(null);
+    const [destination, setDestination] = useState<DestinationDetail | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { isAuthenticated } = useAuth();
+    const budget = useQuery({
+        queryKey: ["budget", id],
+        queryFn: async () => (await getDestinationBudget(id!)).data.data,
+        // The API says whether reference data exists: no call (and no 404) otherwise.
+        enabled: !!id && !!destination?.hasBudget,
+        retry: false,
+    });
+    const guide = useQuery({
+        queryKey: ["guide", id],
+        queryFn: async () => (await getDestinationGuide(id!)).data.data,
+        enabled: !!id && !!destination?.hasGuide,
+        retry: false,
+    });
 
     useEffect(() => {
         if (!id) return;
@@ -40,8 +59,14 @@ export default function DestinationDetailPage() {
     return (
         <div className="min-h-screen bg-background-light">
             {/* Hero */}
-            <div className="relative bg-gradient-to-br from-primary-dark to-primary-dark/80 py-20">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="relative overflow-hidden bg-gradient-to-br from-primary-dark to-primary-dark/80 py-20">
+                {destination.imageUrl ? (
+                    <>
+                        <img src={destination.imageUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                        <div className="absolute inset-0 bg-primary-dark/70" aria-hidden />
+                    </>
+                ) : null}
+                <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <Link
                         to="/destinations"
                         className="mb-6 inline-flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
@@ -64,27 +89,36 @@ export default function DestinationDetailPage() {
                     <div className="space-y-8 lg:col-span-2">
                         <div className="rounded-2xl bg-white p-8 shadow-md">
                             <h2 className="mb-4 text-2xl font-bold text-primary-dark">À propos</h2>
-                            <div className="flex items-center gap-3 text-gray-600">
-                                <Globe size={20} className="text-secondary" />
-                                <span>{destination.city}, {destination.country}</span>
-                            </div>
+                            {destination.summary ? <p className="text-gray-600">{destination.summary}</p> : null}
+                            {destination.facts ? <DestinationFactsList facts={destination.facts} /> : null}
                         </div>
 
-                        {/* Budget & guide coming soon */}
-                        <div className="rounded-2xl border-2 border-dashed border-gray-200 bg-white p-8 text-center">
-                            <p className="font-semibold text-gray-400">Guide de destination</p>
-                            <p className="mt-1 text-sm text-gray-300">Bientôt disponible</p>
-                        </div>
+                        <section className="rounded-2xl bg-white p-8 shadow-md">
+                            <h2 className="mb-4 text-2xl font-bold text-primary-dark">Guide de destination</h2>
+                            {guide.isFetching ? (
+                                <p className="text-gray-400">Chargement…</p>
+                            ) : guide.data ? (
+                                <GuideContent guide={guide.data} />
+                            ) : (
+                                <p className="text-gray-500">Pas encore de guide pour cette destination.</p>
+                            )}
+                        </section>
                     </div>
 
                     {/* Sidebar */}
                     <div className="space-y-6">
-                        <div className="rounded-2xl border-2 border-dashed border-gray-200 bg-white p-6 text-center">
-                            <p className="font-semibold text-gray-400">Estimation budget</p>
-                            <p className="mt-1 text-sm text-gray-300">Bientôt disponible</p>
-                        </div>
+                        <section className="rounded-2xl bg-white p-6 shadow-md">
+                            <h2 className="mb-4 text-xl font-bold text-primary-dark">Coût de la vie</h2>
+                            {budget.isFetching ? (
+                                <p className="text-gray-400">Chargement…</p>
+                            ) : budget.data ? (
+                                <BudgetBreakdown budget={budget.data} />
+                            ) : (
+                                <p className="text-gray-500">Pas encore d'estimation pour cette destination.</p>
+                            )}
+                        </section>
                         <Link
-                            to="/register"
+                            to={isAuthenticated ? "/mobility/new" : "/register"}
                             className="block w-full rounded-xl bg-secondary py-4 text-center font-bold text-primary-dark transition-colors hover:bg-secondary/80"
                         >
                             Commencer ma préparation →

@@ -6,7 +6,7 @@ import { Navbar } from "@/components/shared/Navbar";
 
 import { AuthProvider } from "@/contexts/AuthProvider";
 
-// Wrapper que tous les tests de ce fichier utilisent
+// Wrapper used by every test in this file
 function renderNavbar() {
     return render(
         <AuthProvider>

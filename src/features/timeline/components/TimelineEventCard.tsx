@@ -51,10 +51,7 @@ export function TimelineEventCard({ event, isLast, dotColor }: TimelineEventCard
     const { t } = useTranslation();
     const Icon = ICON_MAP[event.icon] ?? CircleDot;
 
-    const title = t(`timeline.events.${event.id}.title`, { defaultValue: event.title });
-    const description = t(`timeline.events.${event.id}.description`, {
-        defaultValue: event.description,
-    });
+    const { title, description } = event;
 
     return (
         <div className="flex gap-4">

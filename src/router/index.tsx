@@ -15,6 +15,10 @@ const TimelinePage = lazy(() => import("@/features/timeline/pages/TimelinePage")
 const DestinationsPage = lazy(() => import("@/features/destinations/pages/DestinationsPage"));
 const DestinationDetailPage = lazy(() => import("@/features/destinations/pages/DestinationDetailPage"));
 const AboutPage = lazy(() => import("@/features/about/pages/AboutPage"));
+const DashboardPage = lazy(() => import("@/features/dashboard/pages/DashboardPage"));
+const CreateMobilityPage = lazy(() => import("@/features/mobility/pages/CreateMobilityPage"));
+const BudgetPage = lazy(() => import("@/features/budget/pages/BudgetPage"));
+const GuidePage = lazy(() => import("@/features/guide/pages/GuidePage"));
 
 export const router = createBrowserRouter([
     {
@@ -39,8 +43,12 @@ export const router = createBrowserRouter([
             {
                 element: <ProtectedRoute />,
                 children: [
+                    { path: "/dashboard", element: withSuspense(<DashboardPage />) },
+                    { path: "/mobility/new", element: withSuspense(<CreateMobilityPage />) },
                     { path: "/checklist", element: withSuspense(<ChecklistPage />) },
                     { path: "/timeline", element: withSuspense(<TimelinePage />) },
+                    { path: "/budget", element: withSuspense(<BudgetPage />) },
+                    { path: "/guide", element: withSuspense(<GuidePage />) },
                     { path: "/profile", element: withSuspense(<ProfilePage />) },
                 ],
             },

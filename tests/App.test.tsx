@@ -1,16 +1,17 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import App from "../src/App";
+import { renderWithProviders } from "./utils/providers";
 
 describe("App", () => {
   it("renders without crashing and shows the Navbar logo", () => {
     // App uses RouterProvider internally — no wrapper needed
-    render(<App />);
+    renderWithProviders(<App />);
     expect(screen.getByAltText("StudaFly")).toBeInTheDocument();
   });
 
   it("renders navigation links on mount", () => {
-    render(<App />);
+    renderWithProviders(<App />);
     expect(screen.getByText("Accueil")).toBeInTheDocument();
     expect(screen.getByText("Destinations")).toBeInTheDocument();
     expect(screen.getByText("À propos")).toBeInTheDocument();

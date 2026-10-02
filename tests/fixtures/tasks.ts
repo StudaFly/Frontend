@@ -1,6 +1,7 @@
-import type { Task, CategoryMeta } from '../types/task';
+import type { Task } from '@/features/checklist/types/task';
 
-export const TASKS: Task[] = [
+/** Test data only (was the mocked checklist of the web app). Shaped like the API's TaskRead. */
+const RAW: Omit<Task, 'mobilityId' | 'deadline' | 'daysUntilDeadline'>[] = [
     {
         id: '1',
         title: 'Demande de visa',
@@ -91,11 +92,9 @@ export const TASKS: Task[] = [
     },
 ];
 
-export const CATEGORY_META: CategoryMeta[] = [
-    { id: 'all',       label: 'Toutes',   icon: 'LayoutGrid' },
-    { id: 'admin',     label: 'Admin',    icon: 'FileCheck'  },
-    { id: 'finance',   label: 'Finance',  icon: 'PiggyBank'  },
-    { id: 'health',    label: 'Santé',    icon: 'HeartPulse' },
-    { id: 'housing',   label: 'Logement', icon: 'Home'       },
-    { id: 'practical', label: 'Pratique', icon: 'Smartphone' },
-];
+export const TASKS: Task[] = RAW.map((task) => ({
+    ...task,
+    mobilityId: 'mob-1',
+    deadline: null,
+    daysUntilDeadline: null,
+}));

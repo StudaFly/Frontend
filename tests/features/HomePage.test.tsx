@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import HomePage from "@/features/home/pages/HomePage";
@@ -12,6 +12,7 @@ vi.mock("@/core/api/destinations", () => ({
 }));
 
 import { getDestinations } from "@/core/api/destinations";
+import { renderWithProviders } from "../utils/providers";
 
 const MOCK_DESTINATIONS = [
     { id: "espagne", name: "Espagne", country: "Espagne", city: "Madrid", description: "Desc" },
@@ -29,7 +30,7 @@ beforeEach(() => {
 });
 
 function renderHomePage() {
-    return render(
+    return renderWithProviders(
         <MemoryRouter>
             <HomePage />
         </MemoryRouter>
@@ -89,9 +90,13 @@ describe("HomePage", () => {
         expect(screen.getByText("Prêt à décoller ?")).toBeInTheDocument();
     });
 
-    it("renders the stats section", () => {
+    it("renders the real figures served by GET /stats", async () => {
         renderHomePage();
-        expect(screen.getByText("400K+")).toBeInTheDocument();
-        expect(screen.getByText("95%")).toBeInTheDocument();
+        // STATS fixture: 24 countries, 38 destinations, 30 steps, 12 students
+        expect(await screen.findByText("Pays couverts")).toBeInTheDocument();
+        expect((await screen.findAllByText("24")).length).toBeGreaterThan(0);
+        expect((await screen.findAllByText("38")).length).toBeGreaterThan(0);
+        expect(screen.getByText("30")).toBeInTheDocument();
+        expect(screen.queryByText("95%")).not.toBeInTheDocument();
     });
 });

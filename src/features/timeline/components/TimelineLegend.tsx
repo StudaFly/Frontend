@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { useReference } from '@/core/hooks/useReference';
 import { LegendItem } from './LegendItem';
 import type { TimelineEventCategory } from '../types/event';
 
@@ -12,6 +13,7 @@ const LEGEND_CATEGORIES: { id: TimelineEventCategory; color: string }[] = [
 
 export function TimelineLegend() {
     const { t } = useTranslation();
+    const { categoryLabel } = useReference();
 
     return (
         <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100">
@@ -23,7 +25,7 @@ export function TimelineLegend() {
                     <LegendItem
                         key={cat.id}
                         color={cat.color}
-                        label={t(`timeline.categories.${cat.id}`)}
+                        label={categoryLabel(cat.id)}
                     />
                 ))}
                 <div className="flex items-center gap-2">

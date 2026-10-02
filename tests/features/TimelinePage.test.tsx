@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -19,6 +19,7 @@ vi.mock('@/core/api/timeline', () => ({
 
 import { getMobilities } from '@/core/api/mobilities';
 import { getTimeline } from '@/core/api/timeline';
+import { renderWithProviders } from "../utils/providers";
 
 const MOCK_MOBILITY = {
     id: 'test-mobility-id',
@@ -35,7 +36,8 @@ const MOCK_MOBILITY = {
 // three-months-before: 90 < dep - deadline ≤ 180  → deadline ~2025-03-05..2025-06-03
 // one-month-before   : 0  < dep - deadline ≤ 90   → deadline ~2025-06-04..2025-08-31
 // after-arrival      : no deadline
-const MOCK_TIMELINE_TASKS: TimelineTask[] = [
+// API-shaped fixtures (missing deadline → null, daysUntilDeadline computed by the backend)
+const RAW_TIMELINE_TASKS: (Omit<TimelineTask, 'deadline' | 'daysUntilDeadline'> & { deadline?: string })[] = [
     // six-months-before (3 events)
     { id: 'e1', mobilityId: 'test-mobility-id', title: 'Dépôt du dossier Erasmus / bourse', description: 'Soumettre votre candidature.', category: 'admin', deadline: '2025-01-15', isCompleted: false, priority: 1 },
     { id: 'e2', mobilityId: 'test-mobility-id', title: 'Recherche de logement', description: 'Commencer les recherches.', category: 'housing', deadline: '2025-01-20', isCompleted: false, priority: 1 },
@@ -56,6 +58,11 @@ const MOCK_TIMELINE_TASKS: TimelineTask[] = [
     { id: 'e14', mobilityId: 'test-mobility-id', title: 'Inventaire du logement', description: "Réaliser l'état des lieux.", category: 'housing', isCompleted: false, priority: 3 },
     { id: 'e15', mobilityId: 'test-mobility-id', title: 'Découverte du quartier et du campus', description: 'Repérer les commerces.', category: 'practical', isCompleted: false, priority: 3 },
 ];
+const MOCK_TIMELINE_TASKS: TimelineTask[] = RAW_TIMELINE_TASKS.map((task) => ({
+    ...task,
+    deadline: task.deadline ?? null,
+    daysUntilDeadline: null,
+}));
 
 beforeEach(() => {
     vi.mocked(getMobilities).mockResolvedValue({
@@ -67,7 +74,7 @@ beforeEach(() => {
 });
 
 function renderTimelinePage() {
-    return render(
+    return renderWithProviders(
         <MemoryRouter>
             <TimelinePage />
         </MemoryRouter>
@@ -75,20 +82,20 @@ function renderTimelinePage() {
 }
 
 describe('TimelinePage', () => {
-    describe('rendu initial', () => {
-        it('affiche le titre "Timeline"', async () => {
+    describe('initial render', () => {
+        it('shows the "Timeline" title', async () => {
             renderTimelinePage();
             expect(await screen.findByText('Timeline')).toBeInTheDocument();
         });
 
-        it('affiche le total de 15 étapes dans le hero', async () => {
+        it('shows the total of 15 steps in the hero', async () => {
             renderTimelinePage();
             expect(
                 await screen.findByText(/15 étapes pour préparer sereinement votre mobilité/i),
             ).toBeInTheDocument();
         });
 
-        it('affiche les 4 sections de période', async () => {
+        it('shows the 4 period sections', async () => {
             renderTimelinePage();
             expect(await screen.findByText('6 mois avant le départ')).toBeInTheDocument();
             expect(screen.getByText('3 mois avant le départ')).toBeInTheDocument();
@@ -96,26 +103,26 @@ describe('TimelinePage', () => {
             expect(screen.getByText("Après l'arrivée")).toBeInTheDocument();
         });
 
-        it('affiche les contrôles expand : 1 / 4 périodes ouvertes', async () => {
+        it('shows the expand controls: 1 / 4 periods open', async () => {
             renderTimelinePage();
             expect(await screen.findByText('1 / 4 périodes ouvertes')).toBeInTheDocument();
         });
 
-        it('affiche le bouton "Tout développer"', async () => {
+        it('shows the "Tout développer" button', async () => {
             renderTimelinePage();
             expect(
                 await screen.findByRole('button', { name: /tout développer/i }),
             ).toBeInTheDocument();
         });
 
-        it('affiche les événements de la première période (ouverte par défaut)', async () => {
+        it('shows the events of the first period (open by default)', async () => {
             renderTimelinePage();
             expect(await screen.findByText('Dépôt du dossier Erasmus / bourse')).toBeInTheDocument();
             expect(screen.getByText('Recherche de logement')).toBeInTheDocument();
             expect(screen.getByText('Planification du budget global')).toBeInTheDocument();
         });
 
-        it("n'affiche pas les événements des périodes fermées", async () => {
+        it('does not show the events of closed periods', async () => {
             renderTimelinePage();
             await screen.findByText('1 / 4 périodes ouvertes');
             expect(screen.queryByText('Demande de visa')).not.toBeInTheDocument();
@@ -123,7 +130,7 @@ describe('TimelinePage', () => {
             expect(screen.queryByText("Inscription à l'université d'accueil")).not.toBeInTheDocument();
         });
 
-        it('affiche la légende', async () => {
+        it('shows the legend', async () => {
             renderTimelinePage();
             expect(await screen.findByText('Légende')).toBeInTheDocument();
             expect(screen.getByText('Étape facultative')).toBeInTheDocument();
@@ -131,7 +138,7 @@ describe('TimelinePage', () => {
     });
 
     describe('expand / collapse', () => {
-        it('clique sur "Tout développer" ouvre toutes les périodes', async () => {
+        it('clicking "Tout développer" opens every period', async () => {
             const user = userEvent.setup({ delay: null });
             renderTimelinePage();
 
@@ -143,7 +150,7 @@ describe('TimelinePage', () => {
             expect(screen.getByText("Inscription à l'université d'accueil")).toBeInTheDocument();
         });
 
-        it('le bouton devient "Tout réduire" après expand all', async () => {
+        it('the button becomes "Tout réduire" after expand all', async () => {
             const user = userEvent.setup({ delay: null });
             renderTimelinePage();
 
@@ -152,7 +159,7 @@ describe('TimelinePage', () => {
             expect(screen.getByRole('button', { name: /tout réduire/i })).toBeInTheDocument();
         });
 
-        it('"Tout réduire" ferme toutes les périodes', async () => {
+        it('"Tout réduire" closes every period', async () => {
             const user = userEvent.setup({ delay: null });
             renderTimelinePage();
 
@@ -163,7 +170,7 @@ describe('TimelinePage', () => {
             expect(screen.queryByText('Dépôt du dossier Erasmus / bourse')).not.toBeInTheDocument();
         });
 
-        it('le bouton redevient "Tout développer" après collapse all', async () => {
+        it('the button goes back to "Tout développer" after collapse all', async () => {
             const user = userEvent.setup({ delay: null });
             renderTimelinePage();
 
@@ -174,8 +181,8 @@ describe('TimelinePage', () => {
         });
     });
 
-    describe('toggle période individuelle', () => {
-        it('cliquer sur le header de la première période la ferme', async () => {
+    describe('single period toggle', () => {
+        it('clicking the first period header closes it', async () => {
             const user = userEvent.setup({ delay: null });
             renderTimelinePage();
 
@@ -184,7 +191,7 @@ describe('TimelinePage', () => {
             expect(screen.getByText('0 / 4 périodes ouvertes')).toBeInTheDocument();
         });
 
-        it("cliquer sur le header d'une période fermée l'ouvre", async () => {
+        it('clicking a closed period header opens it', async () => {
             const user = userEvent.setup({ delay: null });
             renderTimelinePage();
 
@@ -196,30 +203,31 @@ describe('TimelinePage', () => {
         });
     });
 
-    describe('badges catégorie et optionnel', () => {
-        it('affiche les badges de catégorie sur les événements visibles', async () => {
+    describe('category and optional badges', () => {
+        it('shows category badges on visible events', async () => {
             renderTimelinePage();
             await screen.findByText('1 / 4 périodes ouvertes');
-            expect(screen.getAllByText('Finance').length).toBeGreaterThanOrEqual(1);
+            // Labels come from GET /reference (async)
+            expect((await screen.findAllByText('Finance')).length).toBeGreaterThanOrEqual(1);
             expect(screen.getAllByText('Logement').length).toBeGreaterThanOrEqual(1);
         });
 
-        it('affiche les badges Optionnel sur les événements optionnels (après expand all)', async () => {
+        it('shows Optionnel badges on optional events (after expand all)', async () => {
             const user = userEvent.setup({ delay: null });
             renderTimelinePage();
 
             await user.click(await screen.findByRole('button', { name: /tout développer/i }));
 
-            // e10 et e15 sont optionnels (priority 3), plus le badge dans la légende = au moins 2
+            // e10 and e15 are optional (priority 3), plus the legend badge = at least 2
             const optionalBadges = screen.getAllByText('Optionnel');
             expect(optionalBadges.length).toBeGreaterThanOrEqual(2);
         });
     });
 
-    describe('compteurs de périodes', () => {
-        it("affiche le nombre d'étapes par période", async () => {
+    describe('period counters', () => {
+        it('shows the number of steps per period', async () => {
             renderTimelinePage();
-            // La première période est ouverte → son badge "3 étapes" est visible
+            // The first period is open → its "3 étapes" badge is visible
             expect(await screen.findByText('3 étapes')).toBeInTheDocument();
         });
     });

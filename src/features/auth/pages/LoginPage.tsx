@@ -4,6 +4,7 @@ import { Mail } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { login as apiLogin } from "@/core/api/auth";
+import { getApiErrorMessage } from "@/core/api/errors";
 import { AuthSidePanel } from "../components/AuthSidePanel";
 import { AuthDivider } from "../components/AuthDivider";
 import { SocialAuthButtons } from "../components/SocialAuthButtons";
@@ -16,7 +17,7 @@ const SIDE_PANEL_IMAGE =
 
 export default function LoginPage() {
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { startSession } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
@@ -27,16 +28,11 @@ export default function LoginPage() {
         setIsLoading(true);
         try {
             const { data } = await apiLogin({ email, password });
-            localStorage.setItem("accessToken", data.data.accessToken);
-            if (remember) localStorage.setItem("refreshToken", data.data.refreshToken);
-            const { name, email: userEmail } = data.data.user;
-            const [firstName, ...rest] = name.split(" ");
-            login({ firstName, lastName: rest.join(" "), email: userEmail, avatar: null, avatarType: "emoji" });
+            startSession(data.data, { remember });
             toast.success("Connexion réussie ! Bienvenue.");
-            navigate("/");
+            navigate("/dashboard");
         } catch (err: unknown) {
-            const message = (err as { response?: { data?: { message?: string } } })?.response?.data?.message ?? "Une erreur est survenue";
-            toast.error(message);
+            toast.error(getApiErrorMessage(err, "Email ou mot de passe incorrect"));
         } finally {
             setIsLoading(false);
         }
