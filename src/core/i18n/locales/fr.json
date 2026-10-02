@@ -1,0 +1,213 @@
+{
+    "navbar": {
+        "dashboard": "Tableau de bord",
+        "timeline": "Timeline",
+        "checklist": "Checklist",
+        "budget": "Budget",
+        "guide": "Guide",
+        "home": "Accueil",
+        "destinations": "Destinations",
+        "about": "À propos",
+        "login": "Connexion",
+        "signup": "S'inscrire"
+    },
+    "home": {
+        "stats": {
+            "countries_label": "Pays couverts",
+            "destinations_label": "Villes de destination",
+            "preparation_steps_label": "Étapes de préparation",
+            "students_label": "Étudiants inscrits"
+        },
+        "hero": {
+            "stat_destinations_label": "Villes",
+            "stat_countries_label": "Pays",
+            "title_before": "Préparez votre",
+            "title_highlight": "mobilité",
+            "title_after": "internationale en toute sérénité",
+            "subtitle": "StudaFly transforme la préparation de votre départ à l'étranger en un parcours structuré et personnalisé. Fini le stress, place à l'organisation !",
+            "cta_primary": "Commencer gratuitement",
+            "cta_secondary": "En savoir plus",
+            "hero_image_alt": "Étudiant voyageant à l'international"
+        },
+        "features": {
+            "title": "Toutes les fonctionnalités dont vous avez besoin",
+            "subtitle": "Un outil complet pour transformer votre préparation en une expérience fluide et sans stress",
+            "timeline_title": "Timeline personnalisée",
+            "timeline_desc": "Des deadlines automatiques adaptées à votre destination et date de départ. Ne ratez plus aucune étape importante.",
+            "checklist_title": "Checklist intelligente",
+            "checklist_desc": "Une liste de tâches personnalisée selon votre pays de destination et votre type de mobilité (Erasmus, stage, etc.).",
+            "budget_title": "Simulateur de budget",
+            "budget_desc": "Estimez votre budget avec précision grâce aux retours d'expérience d'anciens étudiants dans votre destination.",
+            "guide_title": "Guide destination",
+            "guide_desc": "Transports locaux, bons plans, logements... Toutes les infos pratiques pour bien démarrer votre séjour.",
+            "documents_title": "Espace documents",
+            "documents_desc": "Stockez tous vos documents importants de manière sécurisée et accessible même hors ligne.",
+            "notifications_title": "Notifications intelligentes",
+            "notifications_desc": "Recevez des rappels pour toutes les deadlines critiques. Restez toujours dans les temps."
+        },
+        "how_it_works": {
+            "title": "Comment ça marche ?",
+            "subtitle": "Trois étapes simples pour commencer votre aventure",
+            "step1_title": "Créez votre profil",
+            "step1_desc": "Renseignez votre destination, date de départ et type de mobilité en quelques clics.",
+            "step2_title": "Suivez votre timeline",
+            "step2_desc": "Recevez votre plan d'action personnalisé avec toutes les étapes clés de votre préparation.",
+            "step3_title": "Partez sereinement",
+            "step3_desc": "Profitez de votre expérience à l'étranger l'esprit tranquille, tout est sous contrôle !"
+        },
+        "destinations": {
+            "title": "Destinations populaires",
+            "subtitle": "{{countries}} pays et {{destinations}} villes couverts avec des informations détaillées",
+            "students_per_year": "étudiants/an",
+            "see_all": "Voir toutes les destinations"
+        },
+        "cta": {
+            "title": "Prêt à décoller ?",
+            "subtitle": "Rejoignez des milliers d'étudiants qui ont simplifié leur préparation avec StudaFly. Commencez gratuitement dès aujourd'hui !",
+            "button": "Créer mon compte gratuit",
+            "no_card": "Aucune carte bancaire requise • Configuration en 2 minutes"
+        }
+    },
+    "auth": {
+        "login": {
+            "success": "Connexion réussie ! Bienvenue.",
+            "title": "Bon retour !",
+            "subtitle": "Connectez-vous pour continuer votre préparation",
+            "email_label": "Email",
+            "email_placeholder": "votre.email@exemple.com",
+            "password_label": "Mot de passe",
+            "remember_me": "Se souvenir de moi",
+            "forgot_password": "Mot de passe oublié ?",
+            "button_loading": "Connexion...",
+            "button": "Se connecter",
+            "divider": "Ou continuer avec",
+            "no_account": "Pas encore de compte ?",
+            "create_account": "Créer un compte",
+            "side_title": "Reprenez votre parcours là où vous l'aviez laissé",
+            "side_subtitle": "Votre timeline personnalisée vous attend",
+            "side_alt": "Étudiant heureux"
+        },
+        "register": {
+            "password_mismatch": "Les mots de passe ne correspondent pas.",
+            "creating_account": "Création de votre compte...",
+            "success": "Bienvenue {{name}} ! Votre compte a été créé.",
+            "error": "Erreur lors de la création du compte",
+            "side_title": "Chaque année, plus de 400 000 étudiants européens partent à l'étranger",
+            "side_subtitle": "Transformez votre préparation de mobilité en un parcours structuré",
+            "side_alt": "Étudiants voyageant",
+            "title": "Créer un compte",
+            "subtitle": "Commencez votre préparation en quelques minutes",
+            "already_have_account": "Vous avez déjà un compte ?",
+            "login_link": "Se connecter",
+            "step1": {
+                "confirm_password_label": "Confirmer le mot de passe",
+                "accept_terms_1": "J'accepte les",
+                "terms_link": "conditions d'utilisation",
+                "accept_terms_2": "et la",
+                "privacy_link": "politique de confidentialité",
+                "continue_btn": "Continuer →",
+                "divider": "Ou s'inscrire avec"
+            },
+            "step2": {
+                "prompt": "Comment doit-on vous appeler ?",
+                "first_name_label": "Prénom",
+                "first_name_placeholder": "Jean",
+                "last_name_label": "Nom",
+                "last_name_placeholder": "Dupont",
+                "back_btn": "← Retour",
+                "continue_btn": "Continuer →"
+            },
+            "step3": {
+                "prompt": "Ajoutez une photo de profil ou choisissez un emoji pour personnaliser votre espace",
+                "avatar_alt": "Avatar",
+                "finish_btn": "Terminer l'inscription",
+                "skip_btn": "Passer cette étape"
+            }
+        }
+    },
+    "profile": {
+        "page": {
+            "student_status": "Étudiant(e) en préparation",
+            "save_btn": "Enregistrer",
+            "edit_btn": "Modifier le profil"
+        },
+        "personal_info": {
+            "title": "Informations personnelles",
+            "email": "Email",
+            "age": "Âge",
+            "city": "Ville actuelle"
+        },
+        "mobility_project": {
+            "title": "Projet de mobilité",
+            "destinations": "Destinations visées",
+            "destinations_placeholder": "Japon, Canada...",
+            "period": "Période souhaitée",
+            "budget": "Budget estimé"
+        },
+        "cover": {
+            "alt": "Cover",
+            "change_btn": "Changer la couverture"
+        }
+    },
+    "checklist": {
+        "header": {
+            "title_before": "Votre",
+            "title_highlight": "Checklist",
+            "subtitle": "{{completed}}/{{total}} tâches complétées"
+        },
+        "task": {
+            "mark_complete": "Marquer comme complété",
+            "mark_incomplete": "Marquer comme non complété"
+        },
+        "empty": {
+            "title": "Aucune tâche dans cette catégorie",
+            "subtitle": "Ajoutez une tâche avec le bouton +"
+        },
+        "fab": {
+            "aria_label": "Ajouter une tâche"
+        },
+        "modal": {
+            "title": "Ajouter une tâche",
+            "title_label": "Titre",
+            "title_placeholder": "Ex : Ouvrir un compte bancaire local",
+            "category_label": "Catégorie",
+            "priority_label": "Priorité",
+            "deadline_label": "Échéance",
+            "optional": "(optionnel)",
+            "description_label": "Description",
+            "description_placeholder": "Précisions ou notes...",
+            "cancel_btn": "Annuler",
+            "add_btn": "Ajouter",
+            "close_aria": "Fermer"
+        }
+    },
+    "timeline": {
+        "header": {
+            "title_before": "Votre",
+            "title_highlight": "Timeline",
+            "subtitle": "{{count}} étapes pour préparer sereinement votre mobilité"
+        },
+        "controls": {
+            "periods_open": "{{open}} / {{total}} périodes ouvertes",
+            "expand_all": "Tout développer",
+            "collapse_all": "Tout réduire"
+        },
+        "period": {
+            "step_count_one": "{{count}} étape",
+            "step_count_other": "{{count}} étapes"
+        },
+        "event": {
+            "optional": "Optionnel"
+        },
+        "legend": {
+            "title": "Légende",
+            "optional_label": "Étape facultative"
+        },
+        "periods": {
+            "six-months-before":   { "label": "6 mois avant le départ",  "shortLabel": "J-6 mois",  "description": "Poser les bases administratives et financières" },
+            "three-months-before": { "label": "3 mois avant le départ",  "shortLabel": "J-3 mois",  "description": "Concrétiser le logement et les démarches santé" },
+            "one-month-before":    { "label": "1 mois avant le départ",  "shortLabel": "J-1 mois",  "description": "Finaliser les préparatifs pratiques" },
+            "after-arrival":       { "label": "Après l'arrivée",          "shortLabel": "À l'arrivée", "description": "Vous y êtes ! Les démarches du premier mois" }
+        }
+    }
+}

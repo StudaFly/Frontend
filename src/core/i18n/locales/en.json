@@ -1,0 +1,213 @@
+{
+    "navbar": {
+        "dashboard": "Dashboard",
+        "timeline": "Timeline",
+        "checklist": "Checklist",
+        "budget": "Budget",
+        "guide": "Guide",
+        "home": "Home",
+        "destinations": "Destinations",
+        "about": "About",
+        "login": "Login",
+        "signup": "Sign Up"
+    },
+    "home": {
+        "stats": {
+            "countries_label": "Countries covered",
+            "destinations_label": "Destination cities",
+            "preparation_steps_label": "Preparation steps",
+            "students_label": "Registered students"
+        },
+        "hero": {
+            "stat_destinations_label": "Cities",
+            "stat_countries_label": "Countries",
+            "title_before": "Prepare your",
+            "title_highlight": "international mobility",
+            "title_after": "with complete peace of mind",
+            "subtitle": "StudaFly transforms your study abroad preparation into a structured and personalised journey. No more stress, just organisation!",
+            "cta_primary": "Start for free",
+            "cta_secondary": "Learn more",
+            "hero_image_alt": "Student travelling internationally"
+        },
+        "features": {
+            "title": "All the features you need",
+            "subtitle": "A complete tool to turn your preparation into a smooth, stress-free experience",
+            "timeline_title": "Personalised Timeline",
+            "timeline_desc": "Automatic deadlines tailored to your destination and departure date. Never miss an important step again.",
+            "checklist_title": "Smart Checklist",
+            "checklist_desc": "A personalised task list adapted to your destination country and mobility type (Erasmus, internship, etc.).",
+            "budget_title": "Budget Simulator",
+            "budget_desc": "Estimate your budget accurately using feedback from former students at your destination.",
+            "guide_title": "Destination Guide",
+            "guide_desc": "Local transport, tips, accommodation... All the practical info to get your stay off to a great start.",
+            "documents_title": "Document Space",
+            "documents_desc": "Store all your important documents securely, accessible even offline.",
+            "notifications_title": "Smart Notifications",
+            "notifications_desc": "Receive reminders for all critical deadlines. Always stay on track."
+        },
+        "how_it_works": {
+            "title": "How does it work?",
+            "subtitle": "Three simple steps to start your adventure",
+            "step1_title": "Create your profile",
+            "step1_desc": "Enter your destination, departure date and mobility type in just a few clicks.",
+            "step2_title": "Follow your timeline",
+            "step2_desc": "Receive your personalised action plan with all the key steps of your preparation.",
+            "step3_title": "Leave with peace of mind",
+            "step3_desc": "Enjoy your experience abroad with complete peace of mind — everything is under control!"
+        },
+        "destinations": {
+            "title": "Popular Destinations",
+            "subtitle": "{{countries}} countries and {{destinations}} cities covered with detailed information",
+            "students_per_year": "students/year",
+            "see_all": "See all destinations"
+        },
+        "cta": {
+            "title": "Ready for takeoff?",
+            "subtitle": "Join thousands of students who have simplified their preparation with StudaFly. Start for free today!",
+            "button": "Create my free account",
+            "no_card": "No credit card required • Set up in 2 minutes"
+        }
+    },
+    "auth": {
+        "login": {
+            "success": "Login successful! Welcome.",
+            "title": "Welcome back!",
+            "subtitle": "Log in to continue your preparation",
+            "email_label": "Email",
+            "email_placeholder": "your.email@example.com",
+            "password_label": "Password",
+            "remember_me": "Remember me",
+            "forgot_password": "Forgot password?",
+            "button_loading": "Logging in...",
+            "button": "Log in",
+            "divider": "Or continue with",
+            "no_account": "Don't have an account yet?",
+            "create_account": "Create an account",
+            "side_title": "Pick up where you left off",
+            "side_subtitle": "Your personalized timeline is waiting for you",
+            "side_alt": "Happy student"
+        },
+        "register": {
+            "password_mismatch": "Passwords do not match.",
+            "creating_account": "Creating your account...",
+            "success": "Welcome {{name}}! Your account has been created.",
+            "error": "Error creating account",
+            "side_title": "Every year, over 400,000 European students go abroad",
+            "side_subtitle": "Transform your mobility preparation into a structured journey",
+            "side_alt": "Traveling students",
+            "title": "Create an account",
+            "subtitle": "Start your preparation in minutes",
+            "already_have_account": "Already have an account?",
+            "login_link": "Log in",
+            "step1": {
+                "confirm_password_label": "Confirm password",
+                "accept_terms_1": "I accept the",
+                "terms_link": "terms of use",
+                "accept_terms_2": "and",
+                "privacy_link": "privacy policy",
+                "continue_btn": "Continue →",
+                "divider": "Or sign up with"
+            },
+            "step2": {
+                "prompt": "What should we call you?",
+                "first_name_label": "First name",
+                "first_name_placeholder": "John",
+                "last_name_label": "Last name",
+                "last_name_placeholder": "Doe",
+                "back_btn": "← Back",
+                "continue_btn": "Continue →"
+            },
+            "step3": {
+                "prompt": "Add a profile picture or choose an emoji to personalize your space",
+                "avatar_alt": "Avatar",
+                "finish_btn": "Complete registration",
+                "skip_btn": "Skip this step"
+            }
+        }
+    },
+    "profile": {
+        "page": {
+            "student_status": "Student in preparation",
+            "save_btn": "Save",
+            "edit_btn": "Edit profile"
+        },
+        "personal_info": {
+            "title": "Personal Information",
+            "email": "Email",
+            "age": "Age",
+            "city": "Current city"
+        },
+        "mobility_project": {
+            "title": "Mobility Project",
+            "destinations": "Target destinations",
+            "destinations_placeholder": "Japan, Canada...",
+            "period": "Desired period",
+            "budget": "Estimated budget"
+        },
+        "cover": {
+            "alt": "Cover",
+            "change_btn": "Change cover"
+        }
+    },
+    "checklist": {
+        "header": {
+            "title_before": "Your",
+            "title_highlight": "Checklist",
+            "subtitle": "{{completed}}/{{total}} tasks completed"
+        },
+        "task": {
+            "mark_complete": "Mark as completed",
+            "mark_incomplete": "Mark as incomplete"
+        },
+        "empty": {
+            "title": "No tasks in this category",
+            "subtitle": "Add a task with the + button"
+        },
+        "fab": {
+            "aria_label": "Add a task"
+        },
+        "modal": {
+            "title": "Add a task",
+            "title_label": "Title",
+            "title_placeholder": "E.g. Open a local bank account",
+            "category_label": "Category",
+            "priority_label": "Priority",
+            "deadline_label": "Deadline",
+            "optional": "(optional)",
+            "description_label": "Description",
+            "description_placeholder": "Details or notes...",
+            "cancel_btn": "Cancel",
+            "add_btn": "Add",
+            "close_aria": "Close"
+        }
+    },
+    "timeline": {
+        "header": {
+            "title_before": "Your",
+            "title_highlight": "Timeline",
+            "subtitle": "{{count}} steps to prepare your mobility with peace of mind"
+        },
+        "controls": {
+            "periods_open": "{{open}} / {{total}} periods open",
+            "expand_all": "Expand all",
+            "collapse_all": "Collapse all"
+        },
+        "period": {
+            "step_count_one": "{{count}} step",
+            "step_count_other": "{{count}} steps"
+        },
+        "event": {
+            "optional": "Optional"
+        },
+        "legend": {
+            "title": "Legend",
+            "optional_label": "Optional step"
+        },
+        "periods": {
+            "six-months-before":   { "label": "6 months before departure", "shortLabel": "D-6 months", "description": "Lay the administrative and financial foundations" },
+            "three-months-before": { "label": "3 months before departure", "shortLabel": "D-3 months", "description": "Finalise housing and health formalities" },
+            "one-month-before":    { "label": "1 month before departure",  "shortLabel": "D-1 month",  "description": "Wrap up practical preparations" },
+            "after-arrival":       { "label": "After arrival",             "shortLabel": "On arrival", "description": "You're there! First-month formalities" }
+        }
+    }
+}

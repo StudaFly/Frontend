@@ -1,37 +1,56 @@
 # StudaFly Frontend
 
-> Interface web pour StudaFly - Prépare ton départ à l'étranger, sereinement.
+> Web app for StudaFly - Prepare your international mobility, serenely.
 
 ![CI](https://github.com/StudaFly/Frontend/actions/workflows/ci.yml/badge.svg)
 
 ## Quick Start
 
 ```bash
-# Installer les dépendances
+# Install dependencies
 pnpm install
 
-# Lancer en dev
+# Start the development server
 pnpm dev
 ```
 
 ## Scripts
 
-| Commande | Description |
+| Command | Description |
 |----------|-------------|
-| `pnpm dev` | Lance le serveur de dev |
-| `pnpm build` | Build de production |
-| `pnpm lint` | Vérifie le code avec ESLint |
-| `pnpm typecheck` | Vérifie les types TypeScript |
-| `pnpm test` | Lance les tests |
-| `pnpm test:coverage` | Tests avec couverture |
+| `pnpm dev` | Starts the dev server (Vite) |
+| `pnpm build` | Production build |
+| `pnpm lint` | Checks the code with ESLint |
+| `pnpm typecheck` | Checks TypeScript types |
+| `pnpm test` | Runs the unit tests (Vitest) |
+| `pnpm test:ui` | Runs the unit tests with a browser UI |
+| `pnpm test:coverage`| Runs the tests with the coverage report (V8) |
+| `npx playwright test` | Runs the End-to-End (E2E) tests |
 
-## Stack
+## Architecture (Feature-Driven Design)
 
-- React 18
-- TypeScript
-- Vite
-- TailwindCSS
-- Vitest + Testing Library
+The project uses a feature-driven architecture, mirroring the mobile app to make sharing business logic easier.
+
+```text
+src/
+├── assets/          # Static files (images, fonts, etc.)
+├── components/      # UI components (shared/ and ui/ for shadcn)
+├── core/            # Infrastructure (api/, providers/, utils/)
+├── features/        # Business domains (auth, profile, etc.)
+│   └── [feature]/   # Each feature has its own components, hooks, pages, services, store, types...
+└── router/          # React Router configuration and layouts
+```
+
+## Tech Stack
+
+- **Framework:** React 18 (SPA) + Vite
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + shadcn/ui
+- **Routing:** React Router DOM (Lazy-loaded)
+- **State Management:** Zustand
+- **Data Fetching:** React Query / Axios
+- **Testing:** Vitest (unit tests) + Playwright (E2E tests)
+- **Deployment:** PWA Ready
 
 ## Code Owner
 
