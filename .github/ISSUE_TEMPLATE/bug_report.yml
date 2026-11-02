@@ -1,42 +1,56 @@
-name: Bug Report
-description: Signaler un bug
-title: "[Bug]: "
-labels: ["bug"]
+name: "Bug Report"
+description: "Report a UI, UX, or state issue on the web application"
+title: "[BUG]: "
+labels: ["bug", "frontend"]
 body:
   - type: textarea
     id: description
     attributes:
-      label: Description du bug
-      placeholder: "Quand je fais X, il se passe Y au lieu de Z..."
+      label: "Bug Description"
+      placeholder: "Brief summary of the issue on the web dashboard..."
     validations:
       required: true
 
   - type: textarea
     id: reproduction
     attributes:
-      label: Étapes pour reproduire
+      label: "Steps to Reproduce"
       placeholder: |
-        1. Aller sur '...'
-        2. Cliquer sur '...'
-        3. Observer l'erreur
+        1. Navigate to '/dashboard/checklist'
+        2. Click on 'Complete Task'
+        3. Observe UI state not updating
     validations:
       required: true
+
+  - type: input
+    id: browser_device
+    attributes:
+      label: "Browser & OS"
+      placeholder: "e.g., Chrome 120 on macOS / Firefox on Windows"
+    validations:
+      required: false
 
   - type: textarea
     id: expected
     attributes:
-      label: Comportement attendu
+      label: "Expected Behavior"
     validations:
       required: true
 
-  - type: dropdown
-    id: priority
+  - type: textarea
+    id: screenshot
     attributes:
-      label: Priorité
+      label: "Screenshots / Console Errors"
+      description: "Drag and drop screenshots or paste browser console logs."
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "Severity"
       options:
-        - Critical
-        - High
-        - Medium
-        - Low
+        - "P0 - Critical (Page Crash / Blocker)"
+        - "P1 - High (Major UI breakdown)"
+        - "P2 - Medium (Minor layout / state issue)"
+        - "P3 - Low (Cosmetic / Typography)"
     validations:
       required: true

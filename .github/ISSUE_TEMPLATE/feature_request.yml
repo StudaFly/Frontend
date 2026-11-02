@@ -1,31 +1,38 @@
-name: Feature Request
-description: Proposer une nouvelle fonctionnalité
-title: "[Feature]: "
-labels: ["feature"]
+name: "Feature Request"
+description: "Propose a new web page, UI component, or interaction"
+title: "[FEAT]: "
+labels: ["feature", "frontend"]
 body:
   - type: textarea
     id: problem
     attributes:
-      label: Problème à résoudre
-      placeholder: "En tant qu'utilisateur, je suis frustré quand..."
+      label: "User Need / Context"
+      placeholder: "As a student, I want to filter my checklist by category (housing, visa) so that..."
     validations:
       required: true
 
   - type: textarea
     id: solution
     attributes:
-      label: Solution proposée
+      label: "Proposed UI/UX Solution"
+      placeholder: "Add filter chips at the top of the checklist component..."
     validations:
       required: true
+
+  - type: textarea
+    id: figma_link
+    attributes:
+      label: "Figma Mockup Link (if available) or screenshot"
+      placeholder: "https://www.figma.com/file/..."
 
   - type: dropdown
     id: priority
     attributes:
-      label: Priorité MoSCoW
+      label: "Priority (MoSCoW)"
       options:
-        - Must Have (MVP)
-        - Should Have (v1.0)
-        - Could Have (v2.0+)
-        - Won't Have
+        - "Must Have (MVP)"
+        - "Should Have"
+        - "Could Have"
+        - "Won't Have"
     validations:
       required: true
