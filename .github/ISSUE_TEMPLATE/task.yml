@@ -1,36 +1,35 @@
-name: Task
-description: Tâche technique
-title: "[Task]: "
-labels: ["task"]
+name: "Technical Task & Maintenance"
+description: "UI refactoring, Zustand state optimization, Tailwind styling, or accessibility"
+title: "[TASK]: "
+labels: ["technical", "frontend"]
 body:
   - type: dropdown
-    id: type
+    id: task_category
     attributes:
-      label: Type de tâche
+      label: "Task Category"
       options:
-        - Refactoring
-        - Dette technique
-        - Configuration
-        - Dépendances
-        - CI/CD
-        - Documentation
-        - Tests
+        - "Component Refactoring (shadcn / React)"
+        - "State Management (Zustand / API integration)"
+        - "Accessibility (a11y) & Responsiveness"
+        - "Build / Vite / Tailwind Configuration"
+        - "Testing (Jest / React Testing Library / Playwright)"
     validations:
       required: true
 
   - type: textarea
     id: description
     attributes:
-      label: Description
+      label: "Task Description"
     validations:
       required: true
 
   - type: textarea
-    id: acceptance
+    id: acceptance_criteria
     attributes:
-      label: Critères de complétion
+      label: "Acceptance Criteria"
       placeholder: |
-        - [ ] Les tests passent
-        - [ ] La CI est verte
+        - [ ] Component is fully responsive (Mobile/Tablet/Desktop)
+        - [ ] Keyboard accessible
+        - [ ] Tests pass
     validations:
       required: true
