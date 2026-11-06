@@ -45,6 +45,7 @@ const AdminOrganizationDetailPage = lazy(() => import("@/features/admin/pages/Ad
 const AdminContractsPage = lazy(() => import("@/features/admin/pages/AdminContractsPage"));
 const AdminPurchasesPage = lazy(() => import("@/features/admin/pages/AdminPurchasesPage"));
 const AdminAuditPage = lazy(() => import("@/features/admin/pages/AdminAuditPage"));
+const NotificationsPage = lazy(() => import("@/features/notifications/pages/NotificationsPage"));
 
 export const router = createBrowserRouter([
     {
@@ -77,6 +78,7 @@ export const router = createBrowserRouter([
                     { path: "/budget", element: withSuspense(<BudgetPage />) },
                     { path: "/guide", element: withSuspense(<GuidePage />) },
                     { path: "/profile", element: withSuspense(<ProfilePage />) },
+                    { path: "/notifications", element: withSuspense(<NotificationsPage />) },
                 ],
             },
             {
@@ -99,6 +101,7 @@ export const router = createBrowserRouter([
                     { path: "/org/alerts", element: withSuspense(<OrgAlertsPage />) },
                     { path: "/org/stats", element: withSuspense(<OrgStatsPage />) },
                     { path: "/org/invitations", element: withSuspense(<OrgInvitationsPage />) },
+                    { path: "/org/notifications", element: withSuspense(<NotificationsPage />) },
                     {
                         element: <ProtectedRoute accountTypes={["org_staff"]} orgRoles={["manager"]} />,
                         children: [
