@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { accountSpace, getNavPath, isStudent, visibleNavItems } from "./NavConstants";
+import { MobileNotificationsLink } from "@/features/notifications/components/MobileNotificationsLink";
 
 interface MobileMenuProps {
     closeMobileMenu: () => void;
@@ -35,6 +36,7 @@ export function MobileMenu({ closeMobileMenu, handleLogout }: MobileMenuProps) {
                                 </p>
                                 <p className="text-sm text-gray-500">{user.email}</p>
                             </div>
+                            {isStudent(user) && <MobileNotificationsLink onClick={closeMobileMenu} />}
                             <Link
                                 to={accountSpace(user).path}
                                 onClick={closeMobileMenu}

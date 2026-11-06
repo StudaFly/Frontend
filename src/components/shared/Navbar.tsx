@@ -7,6 +7,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { DesktopNavLinks } from "./DesktopNavLinks";
 import { UserDropdown } from "./UserDropdown";
 import { MobileMenu } from "./MobileMenu";
+import { NotificationBell } from "@/features/notifications";
+import { isStudent } from "./NavConstants";
 
 export function Navbar() {
     const { t } = useTranslation();
@@ -51,13 +53,16 @@ export function Navbar() {
                 {/* Actions — desktop */}
                 <div className="hidden items-center gap-6 md:flex">
                     {isAuthenticated && user ? (
-                        <div className="relative" ref={dropdownRef}>
-                            <UserDropdown
-                                isDropdownOpen={isDropdownOpen}
-                                setIsDropdownOpen={setIsDropdownOpen}
-                                onLogout={handleLogout}
-                            />
-                        </div>
+                        <>
+                            {isStudent(user) && <NotificationBell />}
+                            <div className="relative" ref={dropdownRef}>
+                                <UserDropdown
+                                    isDropdownOpen={isDropdownOpen}
+                                    setIsDropdownOpen={setIsDropdownOpen}
+                                    onLogout={handleLogout}
+                                />
+                            </div>
+                        </>
                     ) : (
                         <>
                             <Link to="/login" className="font-sans text-sm font-medium text-primary-dark hover:underline hover:underline-offset-4">

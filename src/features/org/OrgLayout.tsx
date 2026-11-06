@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { orgApi } from "@/core/api/org";
 import { ORG_ROLE_LABELS, ZONE_LABELS } from "@/core/labels";
 import { countryName, useOrg } from "./hooks";
+import { NotificationBell } from "@/features/notifications";
 
 interface NavItem {
     to: string;
@@ -87,7 +88,10 @@ export function OrgLayout() {
             <div className="flex-1">
                 <header className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-200 bg-white px-6 py-3 text-sm">
                     <span className="text-gray-600">{user?.firstName} {user?.lastName} · {user?.email}</span>
-                    {perimeter && <span className="rounded-full bg-secondary/30 px-3 py-1 font-semibold text-primary-dark">Mon périmètre : {perimeter}</span>}
+                    <div className="flex items-center gap-3">
+                        {perimeter && <span className="rounded-full bg-secondary/30 px-3 py-1 font-semibold text-primary-dark">Mon périmètre : {perimeter}</span>}
+                        <NotificationBell allPath="/org/notifications" />
+                    </div>
                 </header>
                 {contract.data && contract.data.state !== "current" && contract.data.state !== "none" && (
                     <div className="flex items-center gap-2 bg-amber-100 px-6 py-3 text-sm font-semibold text-amber-900" role="status">
