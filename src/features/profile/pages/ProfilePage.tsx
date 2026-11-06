@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { Edit2, Trash2 } from "lucide-react";
+import { Download, Edit2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth, type User } from "@/contexts/AuthContext";
 import { toSessionUser } from "@/contexts/sessionUser";
 import { getApiErrorMessage } from "@/core/api/errors";
-import { deleteMe, updateMe } from "@/core/api/users";
+import { deleteMe, exportMe, updateMe } from "@/core/api/users";
 import { useActiveMobility } from "@/core/hooks/useActiveMobility";
 import { useReference } from "@/core/hooks/useReference";
 import { ProfileCover } from "../components/ProfileCover";
 import { ProfileAvatar } from "../components/ProfileAvatar";
 import { PersonalInfoCard } from "../components/PersonalInfoCard";
 import { MobilityProjectCard } from "../components/MobilityProjectCard";
+import { MyOrganizationCard } from "../components/MyOrganizationCard";
 
 export default function ProfilePage() {
     const navigate = useNavigate();
@@ -43,7 +44,7 @@ export default function ProfilePage() {
         mutationFn: deleteMe,
         onSuccess: () => {
             logout();
-            toast.success("Ton compte a été supprimé.");
+            toast.success("Ta demande est enregistrée : ton compte sera supprimé dans 30 jours.");
             navigate("/");
         },
         onError: (err) => toast.error(getApiErrorMessage(err, "Impossible de supprimer le compte")),
@@ -62,7 +63,7 @@ export default function ProfilePage() {
     const confirmDelete = () => {
         if (
             window.confirm(
-                "Supprimer définitivement ton compte ? Ta mobilité et toutes tes tâches seront effacées. Cette action est irréversible.",
+                "Supprimer ton compte ? Tu seras déconnecté·e tout de suite et tes données (mobilité, tâches, documents) seront effacées définitivement dans 30 jours.",
             )
         ) {
             removeAccount.mutate();
@@ -70,6 +71,20 @@ export default function ProfilePage() {
     };
 
     const shown = isEditing ? draft : user;
+
+    const downloadExport = async () => {
+        try {
+            const { data } = await exportMe();
+            const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "studafly-export.json";
+            link.click();
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            toast.error(getApiErrorMessage(err, "Impossible d'exporter tes données"));
+        }
+    };
 
     return (
         <div className="min-h-[calc(100vh-100px)] bg-gray-50 pb-12">
@@ -180,15 +195,26 @@ export default function ProfilePage() {
                     <MobilityProjectCard mobility={mobility} destination={destination} isLoading={isMobilityLoading} />
                 </div>
 
+                <div className="mt-6">
+                    <MyOrganizationCard />
+                </div>
+
                 <section className="mt-10 rounded-2xl border border-red-200 bg-white p-6">
                     <h2 className="font-heading text-lg font-bold text-red-700">Zone de danger</h2>
                     <p className="mt-1 text-sm text-gray-600">
-                        La suppression du compte efface toutes tes données (RGPD). Elle est définitive.
+                        Tu peux télécharger toutes tes données (RGPD). La suppression du compte te déconnecte tout de suite ; tes données sont effacées définitivement 30 jours plus tard.
                     </p>
+                    <button
+                        onClick={downloadExport}
+                        className="mt-4 mr-3 inline-flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 font-semibold text-primary-dark hover:bg-gray-50"
+                    >
+                        <Download className="h-4 w-4" aria-hidden />
+                        Exporter mes données
+                    </button>
                     <button
                         onClick={confirmDelete}
                         disabled={removeAccount.isPending}
-                        className="mt-4 flex items-center gap-2 rounded-lg border border-red-300 px-4 py-2 font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50"
+                        className="mt-4 inline-flex items-center gap-2 rounded-lg border border-red-300 px-4 py-2 font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50"
                     >
                         <Trash2 className="h-4 w-4" aria-hidden />
                         Supprimer mon compte

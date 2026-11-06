@@ -6,6 +6,10 @@ export interface AuthPayload {
     user: ApiUser;
     accessToken: string;
     refreshToken: string;
+    /** Platform admins: the code step is still required before /admin. */
+    mfaRequired?: boolean;
+    /** True right after an OAuth sign-up: the user still has to create a mobility. */
+    isNewUser?: boolean;
 }
 
 export type AuthResponse = ApiResponse<AuthPayload>;
@@ -21,18 +25,28 @@ export const logout = (explicitToken?: string) =>
         ? apiClient.post('/auth/logout', undefined, { headers: { Authorization: `Bearer ${explicitToken}` } })
         : apiClient.post('/auth/logout');
 
-// Not implemented by the backend yet (501): kept for the upcoming screens.
 export const forgotPassword = (payload: { email: string }) =>
     apiClient.post('/auth/forgot-password', payload);
 
 export const resetPassword = (payload: { token: string; newPassword: string }) =>
     apiClient.post('/auth/reset-password', payload);
 
-export const oauthGoogle = (payload: { token: string }) =>
+/** Web: authorization code from the GIS popup. Mobile apps send an `idToken` instead. */
+export const oauthGoogle = (payload: { code: string } | { idToken: string }) =>
     apiClient.post<AuthResponse>('/auth/oauth/google', payload);
 
+// Not implemented by the backend yet (501).
 export const oauthMicrosoft = (payload: { token: string }) =>
     apiClient.post<AuthResponse>('/auth/oauth/microsoft', payload);
 
 export const oauthApple = (payload: { token: string }) =>
     apiClient.post<AuthResponse>('/auth/oauth/apple', payload);
+
+export const mfaSetup = () =>
+    apiClient.post<ApiResponse<{ secret: string; otpauthUri: string }>>('/auth/mfa/setup');
+
+export const mfaActivate = (code: string) =>
+    apiClient.post<ApiResponse<AuthPayload & { backupCodes: string[] }>>('/auth/mfa/activate', { code });
+
+export const mfaVerify = (code: string) =>
+    apiClient.post<AuthResponse>('/auth/mfa/verify', { code });

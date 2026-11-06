@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { accountSpace } from "./NavConstants";
 
 interface UserDropdownProps {
     isDropdownOpen: boolean;
@@ -41,12 +42,12 @@ export function UserDropdown({ isDropdownOpen, setIsDropdownOpen, onLogout }: Us
                         <p className="truncate text-gray-500">{user.email}</p>
                     </div>
                     <Link
-                        to="/profile"
+                        to={accountSpace(user).path}
                         onClick={() => setIsDropdownOpen(false)}
                         className="flex px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                         <User className="mr-2 h-4 w-4" />
-                        Mon profil
+                        {accountSpace(user).label}
                     </Link>
                     <button
                         onClick={onLogout}

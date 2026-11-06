@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-import { getNavPath, visibleNavItems } from "./NavConstants";
+import { accountSpace, getNavPath, isStudent, visibleNavItems } from "./NavConstants";
+import { MobileNotificationsLink } from "@/features/notifications/components/MobileNotificationsLink";
 
 interface MobileMenuProps {
     closeMobileMenu: () => void;
@@ -15,7 +16,7 @@ export function MobileMenu({ closeMobileMenu, handleLogout }: MobileMenuProps) {
     return (
         <div className="border-t border-slate-100 bg-white md:hidden">
             <div className="space-y-1 px-4 pb-4 pt-2">
-                {visibleNavItems(isAuthenticated).map((item) => (
+                {visibleNavItems(isAuthenticated && isStudent(user)).map((item) => (
                     <Link
                         key={item}
                         to={getNavPath(item)}
@@ -35,12 +36,13 @@ export function MobileMenu({ closeMobileMenu, handleLogout }: MobileMenuProps) {
                                 </p>
                                 <p className="text-sm text-gray-500">{user.email}</p>
                             </div>
+                            {isStudent(user) && <MobileNotificationsLink onClick={closeMobileMenu} />}
                             <Link
-                                to="/profile"
+                                to={accountSpace(user).path}
                                 onClick={closeMobileMenu}
                                 className="block w-full rounded-md border border-slate-200 px-3 py-2 text-center font-sans text-base font-medium text-primary-dark hover:bg-slate-50"
                             >
-                                Mon profil
+                                {accountSpace(user).label}
                             </Link>
                             <button
                                 onClick={handleLogout}

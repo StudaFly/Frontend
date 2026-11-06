@@ -209,5 +209,19 @@
             "one-month-before":    { "label": "1 month before departure",  "shortLabel": "D-1 month",  "description": "Wrap up practical preparations" },
             "after-arrival":       { "label": "After arrival",             "shortLabel": "On arrival", "description": "You're there! First-month formalities" }
         }
+    },
+    "notifications": {
+        "title": "Notifications",
+        "unread": "Unread",
+        "delete": "Delete",
+        "mark_all_read": "Mark all as read",
+        "see_all": "See all notifications",
+        "loading": "Loading…",
+        "error": "Could not load notifications.",
+        "empty": "No notifications yet.",
+        "empty_unread": "All caught up!",
+        "filter_all": "All",
+        "filter_unread": "Unread ({{count}})",
+        "bell_label_unread": "Notifications ({{count}} unread)"
     }
 }
