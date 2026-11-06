@@ -8,6 +8,8 @@ export interface AuthPayload {
     refreshToken: string;
     /** Platform admins: the code step is still required before /admin. */
     mfaRequired?: boolean;
+    /** True right after an OAuth sign-up: the user still has to create a mobility. */
+    isNewUser?: boolean;
 }
 
 export type AuthResponse = ApiResponse<AuthPayload>;
@@ -29,9 +31,11 @@ export const forgotPassword = (payload: { email: string }) =>
 export const resetPassword = (payload: { token: string; newPassword: string }) =>
     apiClient.post('/auth/reset-password', payload);
 
-export const oauthGoogle = (payload: { token: string }) =>
+/** Web: authorization code from the GIS popup. Mobile apps send an `idToken` instead. */
+export const oauthGoogle = (payload: { code: string } | { idToken: string }) =>
     apiClient.post<AuthResponse>('/auth/oauth/google', payload);
 
+// Not implemented by the backend yet (501).
 export const oauthMicrosoft = (payload: { token: string }) =>
     apiClient.post<AuthResponse>('/auth/oauth/microsoft', payload);
 
