@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Mail } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSessionStore } from "@/core/auth/sessionStore";
 import { login as apiLogin } from "@/core/api/auth";
 import { getApiErrorMessage } from "@/core/api/errors";
+import { homePath, safeRedirect } from "@/core/auth/home";
 import { AuthSidePanel } from "../components/AuthSidePanel";
 import { AuthDivider } from "../components/AuthDivider";
 import { SocialAuthButtons } from "../components/SocialAuthButtons";
@@ -17,6 +19,8 @@ const SIDE_PANEL_IMAGE =
 
 export default function LoginPage() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const redirect = safeRedirect(searchParams.get("redirect"));
     const { startSession } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -30,7 +34,9 @@ export default function LoginPage() {
             const { data } = await apiLogin({ email, password });
             startSession(data.data, { remember });
             toast.success("Connexion réussie ! Bienvenue.");
-            navigate("/dashboard");
+            const user = useSessionStore.getState().user;
+            const home = homePath(user, !data.data.mfaRequired);
+            navigate(data.data.mfaRequired ? "/admin/mfa" : (redirect ?? home));
         } catch (err: unknown) {
             toast.error(getApiErrorMessage(err, "Email ou mot de passe incorrect"));
         } finally {
@@ -98,7 +104,7 @@ export default function LoginPage() {
 
                     <p className="mt-8 text-center text-gray-600">
                         Pas encore de compte ?{" "}
-                        <Link to="/register" className="font-semibold text-secondary transition-colors hover:text-secondary/80">
+                        <Link to={redirect ? `/register?redirect=${encodeURIComponent(redirect)}` : "/register"} className="font-semibold text-secondary transition-colors hover:text-secondary/80">
                             Créer un compte
                         </Link>
                     </p>

@@ -22,7 +22,7 @@ const auth = vi.hoisted(() => ({
 
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => auth }));
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
-vi.mock("@/core/api/users", () => ({ updateMe: vi.fn(), deleteMe: vi.fn() }));
+vi.mock("@/core/api/users", () => ({ updateMe: vi.fn(), deleteMe: vi.fn(), exportMe: vi.fn(), leaveOrganization: vi.fn() }));
 vi.mock("@/core/hooks/useActiveMobility", () => ({
     useActiveMobility: () => ({
         mobility: {

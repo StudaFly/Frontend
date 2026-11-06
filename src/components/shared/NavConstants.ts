@@ -15,3 +15,13 @@ export function visibleNavItems(isAuthenticated: boolean): NavItem[] {
         isAuthenticated ? !PUBLIC_ONLY_NAV_ITEMS.includes(item) : !PRIVATE_NAV_ITEMS.includes(item),
     );
 }
+
+export function isStudent(user: { accountType?: string } | null): boolean {
+    return !user?.accountType || user.accountType === "student";
+}
+
+export function accountSpace(user: { accountType?: string } | null): { path: string; label: string } {
+    if (user?.accountType === "org_staff") return { path: "/org", label: "Espace établissement" };
+    if (user?.accountType === "platform_admin") return { path: "/admin", label: "Administration" };
+    return { path: "/profile", label: "Mon profil" };
+}
