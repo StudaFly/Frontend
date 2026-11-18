@@ -6,6 +6,8 @@ export interface AuthPayload {
     user: ApiUser;
     accessToken: string;
     refreshToken: string;
+    /** True when the account was just created (OAuth sign-up). */
+    isNewUser?: boolean;
 }
 
 export type AuthResponse = ApiResponse<AuthPayload>;
@@ -28,7 +30,8 @@ export const forgotPassword = (payload: { email: string }) =>
 export const resetPassword = (payload: { token: string; newPassword: string }) =>
     apiClient.post('/auth/reset-password', payload);
 
-export const oauthGoogle = (payload: { token: string }) =>
+/** Web: authorization code from the Google Identity Services popup. */
+export const oauthGoogle = (payload: { code: string }) =>
     apiClient.post<AuthResponse>('/auth/oauth/google', payload);
 
 export const oauthMicrosoft = (payload: { token: string }) =>
