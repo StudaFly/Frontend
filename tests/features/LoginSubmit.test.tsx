@@ -19,6 +19,8 @@ function renderLogin() {
                 <Routes>
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/dashboard" element={<p>home</p>} />
+                    <Route path="/org" element={<p>org space</p>} />
+                    <Route path="/admin/mfa" element={<p>mfa step</p>} />
                 </Routes>
             </MemoryRouter>
         </AuthProvider>
@@ -76,5 +78,26 @@ describe("LoginPage submit", () => {
 
         await waitFor(() => expect(toast.error).toHaveBeenCalledWith("Invalid email or password"));
         expect(tokenStorage.hasSession()).toBe(false);
+    });
+
+    it.each([
+        ["org_staff", false, "org space"],
+        ["platform_admin", true, "mfa step"],
+    ] as const)("sends a %s to their own space after login", async (accountType, mfaRequired, landing) => {
+        vi.mocked(apiLogin).mockResolvedValue({
+            data: {
+                data: {
+                    accessToken: "a",
+                    refreshToken: "r",
+                    mfaRequired,
+                    user: { id: "u1", email: "lucas@example.com", name: "Lucas Martin", role: "student", accountType },
+                },
+            },
+        } as never);
+        renderLogin();
+
+        await submit(false);
+
+        await waitFor(() => expect(screen.getByText(landing)).toBeInTheDocument());
     });
 });

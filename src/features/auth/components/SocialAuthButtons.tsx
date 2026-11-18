@@ -1,10 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useAuth } from "@/contexts/AuthContext";
-import { oauthGoogle } from "@/core/api/auth";
-import { getApiErrorMessage } from "@/core/api/errors";
-import { requestGoogleAuthCode } from "@/core/auth/googleIdentity";
+import { useGoogleSignIn } from "../hooks/useGoogleSignIn";
 
 function GoogleIcon() {
     return (
@@ -42,33 +37,14 @@ const SOCIAL_BUTTON_CLASS =
 const COMING_SOON_MESSAGE = "Cette méthode de connexion arrive bientôt.";
 
 export function SocialAuthButtons() {
-    const navigate = useNavigate();
-    const { startSession } = useAuth();
-    const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-
-    const handleGoogle = async () => {
-        setIsGoogleLoading(true);
-        try {
-            const code = await requestGoogleAuthCode();
-            if (!code) return; // popup closed by the user
-            const { data } = await oauthGoogle({ code });
-            startSession(data.data);
-            toast.success("Connexion réussie ! Bienvenue.");
-            navigate(data.data.isNewUser ? "/mobility/new" : "/dashboard");
-        } catch (err: unknown) {
-            const fallback = err instanceof Error && err.message ? err.message : "La connexion avec Google a échoué.";
-            toast.error(getApiErrorMessage(err, fallback));
-        } finally {
-            setIsGoogleLoading(false);
-        }
-    };
+    const { signInWithGoogle, isLoading: isGoogleLoading } = useGoogleSignIn();
 
     return (
         <div className="grid grid-cols-3 gap-3">
             <button
                 type="button"
                 className={SOCIAL_BUTTON_CLASS}
-                onClick={handleGoogle}
+                onClick={signInWithGoogle}
                 disabled={isGoogleLoading}
                 aria-busy={isGoogleLoading}
             >

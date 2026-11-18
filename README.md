@@ -27,6 +27,18 @@ pnpm dev
 | `pnpm test:coverage`| Runs the tests with the coverage report (V8) |
 | `npx playwright test` | Runs the End-to-End (E2E) tests |
 
+## Spaces
+
+The session (Zustand store behind `useAuth()`) routes each account to its own space after login:
+
+- `student` → `/dashboard` (profile › "Mon établissement": join a school with its code, leave it, export data);
+- `org_staff` → `/org` (students scoped by the advisor perimeter; team, perimeters, settings, contract and
+  journal for managers);
+- `platform_admin` → `/admin/mfa` then `/admin` (users, organizations, contracts, purchases, audit log).
+
+`/invitations/:token` shows the consent screen before accepting a school invitation. Guards are UI only:
+the API checks every request.
+
 ## Architecture (Feature-Driven Design)
 
 The project uses a feature-driven architecture, mirroring the mobile app to make sharing business logic easier.

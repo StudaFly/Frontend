@@ -209,5 +209,19 @@
             "one-month-before":    { "label": "1 mois avant le départ",  "shortLabel": "J-1 mois",  "description": "Finaliser les préparatifs pratiques" },
             "after-arrival":       { "label": "Après l'arrivée",          "shortLabel": "À l'arrivée", "description": "Vous y êtes ! Les démarches du premier mois" }
         }
+    },
+    "notifications": {
+        "title": "Notifications",
+        "unread": "Non lue",
+        "delete": "Supprimer",
+        "mark_all_read": "Tout marquer comme lu",
+        "see_all": "Voir toutes les notifications",
+        "loading": "Chargement…",
+        "error": "Impossible de charger les notifications.",
+        "empty": "Aucune notification pour l'instant.",
+        "empty_unread": "Tout est lu, bravo !",
+        "filter_all": "Toutes",
+        "filter_unread": "Non lues ({{count}})",
+        "bell_label_unread": "Notifications ({{count}} non lues)"
     }
 }

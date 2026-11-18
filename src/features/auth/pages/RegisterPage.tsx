@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
+import { safeRedirect } from "@/core/auth/home";
 import { register as apiRegister } from "@/core/api/auth";
 import { getApiErrorMessage } from "@/core/api/errors";
 import { updateMe } from "@/core/api/users";
@@ -22,6 +23,8 @@ export default function RegisterPage() {
     const { startSession } = useAuth();
     const { avatarEmojis } = useReference();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const redirect = safeRedirect(searchParams.get("redirect"));
     const [step, setStep] = useState<Step>(1);
     const [error, setError] = useState("");
 
@@ -74,7 +77,7 @@ export default function RegisterPage() {
                     updateMe({ avatarEmoji: selectedEmoji }).catch(() => undefined);
                 }
                 // Next step: describe the mobility to generate the parcours.
-                navigate("/mobility/new");
+                navigate(redirect ?? "/mobility/new");
             }),
             {
                 loading: "Création de votre compte...",
@@ -147,7 +150,7 @@ export default function RegisterPage() {
 
                     <p className="mt-8 text-center text-gray-600">
                         Vous avez déjà un compte ?{" "}
-                        <Link to="/login" className="font-semibold text-secondary transition-colors hover:text-secondary/80">
+                        <Link to={redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : "/login"} className="font-semibold text-secondary transition-colors hover:text-secondary/80">
                             Se connecter
                         </Link>
                     </p>

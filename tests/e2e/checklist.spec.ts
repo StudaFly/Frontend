@@ -46,5 +46,5 @@ test.describe('Checklist', () => {
 test('redirects to the login page without a session', async ({ page }) => {
     await mockApi(page);
     await page.goto('/checklist');
-    await expect(page).toHaveURL(/\/login$/);
+    await expect(page).toHaveURL(/\/login\?redirect=%2Fchecklist$/);
 });
