@@ -1,6 +1,7 @@
 import apiClient from './client';
 import type { ApiResponse } from './types';
 import type { ApiUser } from './users';
+import type { AppleCredential } from '../auth/appleIdentity';
 
 export interface AuthPayload {
     user: ApiUser;
@@ -39,7 +40,8 @@ export const oauthGoogle = (payload: { code: string } | { idToken: string }) =>
 export const oauthMicrosoft = (payload: { token: string }) =>
     apiClient.post<AuthResponse>('/auth/oauth/microsoft', payload);
 
-export const oauthApple = (payload: { token: string }) =>
+/** Sign in with Apple JS popup: identity token, authorization code and the raw nonce. */
+export const oauthApple = (payload: AppleCredential) =>
     apiClient.post<AuthResponse>('/auth/oauth/apple', payload);
 
 export const mfaSetup = () =>

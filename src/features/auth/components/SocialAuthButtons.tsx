@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { useAppleSignIn } from "../hooks/useAppleSignIn";
 import { useGoogleSignIn } from "../hooks/useGoogleSignIn";
 
 function GoogleIcon() {
@@ -38,6 +39,7 @@ const COMING_SOON_MESSAGE = "Cette méthode de connexion arrive bientôt.";
 
 export function SocialAuthButtons() {
     const { signInWithGoogle, isLoading: isGoogleLoading } = useGoogleSignIn();
+    const { signInWithApple, isLoading: isAppleLoading } = useAppleSignIn();
 
     return (
         <div className="grid grid-cols-3 gap-3">
@@ -51,7 +53,13 @@ export function SocialAuthButtons() {
                 <GoogleIcon />
                 Google
             </button>
-            <button type="button" className={SOCIAL_BUTTON_CLASS} onClick={() => toast.info(COMING_SOON_MESSAGE)}>
+            <button
+                type="button"
+                className={SOCIAL_BUTTON_CLASS}
+                onClick={signInWithApple}
+                disabled={isAppleLoading}
+                aria-busy={isAppleLoading}
+            >
                 <AppleIcon />
                 Apple
             </button>
